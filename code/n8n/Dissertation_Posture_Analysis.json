@@ -1,0 +1,273 @@
+{
+  "name": "Dissertation_Posture_Analysis",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        2960,
+        96
+      ],
+      "id": "f5b2606e-0373-409e-9f8e-6a65dbf4bde8",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "resource": "object",
+        "bucketName": {
+          "__rl": true,
+          "value": "images",
+          "mode": "list",
+          "cachedResultName": "images"
+        },
+        "options": {
+          "recursive": true
+        }
+      },
+      "type": "@winth03/n8n-nodes-minio.minIo",
+      "typeVersion": 1,
+      "position": [
+        3168,
+        96
+      ],
+      "id": "5d4734b0-535b-49fa-86be-6e88a0f4d4a1",
+      "name": "List objects from images",
+      "credentials": {
+        "minIoApi": {
+          "id": "0IkMnB3NtTHUPTT7",
+          "name": "MinIO account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const inputItems = $input.all();\nconst out = [];\n\nconst sanitize = (value) => String(value)\n  .split('/')\n  .filter(Boolean)\n  .map((segment) => segment.replace(/[^a-zA-Z0-9._-]/g, '_'))\n  .join('/');\n\nconst pickName = (obj) => {\n  if (!obj) return null;\n  if (typeof obj === 'string') return obj;\n  return obj.name || obj.objectName || obj.key || obj.path || null;\n};\n\nfor (const item of inputItems) {\n  const directName = pickName(item?.json?.object) || pickName(item?.json);\n  if (directName) {\n    out.push({\n      json: {\n        ...item.json,\n        source_object_name: directName,\n        object: {\n          ...(item.json?.object || {}),\n          name: directName,\n        },\n        object_name: sanitize(directName),\n      },\n      binary: item.binary,\n    });\n    continue;\n  }\n\n  const listCandidates = [\n    item?.json?.objects,\n    item?.json?.data,\n    item?.json?.items,\n    item?.json?.list,\n    item?.json?.contents,\n    ...(item?.json ? Object.values(item.json).filter(Array.isArray) : []),\n  ];\n\n  let expanded = false;\n  for (const arr of listCandidates) {\n    if (!Array.isArray(arr) || arr.length === 0) continue;\n\n    for (const obj of arr) {\n      const objectName = pickName(obj);\n      if (!objectName) continue;\n\n      out.push({\n        json: {\n          ...item.json,\n          source_object_name: objectName,\n          object: {\n            ...(typeof obj === 'object' ? obj : {}),\n            name: objectName,\n          },\n          object_name: sanitize(objectName),\n        },\n        binary: item.binary,\n      });\n    }\n\n    expanded = true;\n    break;\n  }\n\n  if (!expanded) {\n    // Keep visibility of unrecognized payloads instead of silently dropping data.\n    out.push(item);\n  }\n}\n\nreturn out;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        3376,
+        96
+      ],
+      "id": "b440124d-a5fe-4d9d-8141-b4aff15bfb56",
+      "name": "Expand listed objects"
+    },
+    {
+      "parameters": {
+        "resource": "object",
+        "operation": "get",
+        "bucketName": {
+          "__rl": true,
+          "value": "images",
+          "mode": "list",
+          "cachedResultName": "images"
+        },
+        "objectName": {
+          "__rl": true,
+          "value": "={{$json.source_object_name || $json.object?.name || $json.name || $json.key || $json.path}}",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "@winth03/n8n-nodes-minio.minIo",
+      "typeVersion": 1,
+      "position": [
+        3808,
+        96
+      ],
+      "id": "2e6838ec-4e5d-4b46-babd-9b54e17cde0e",
+      "name": "Download object",
+      "credentials": {
+        "minIoApi": {
+          "id": "0IkMnB3NtTHUPTT7",
+          "name": "MinIO account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nreturn items.map((item, index) => {\n  const existingKey = item.json?.object_name;\n  const sourcePath = existingKey || item.json?.source_object_name || item.json?.object?.name || item.json?.name || item.binary?.data?.fileName || `object_${Date.now()}_${index}.jpg`;\n\n  const safeKey = String(sourcePath)\n    .split('/')\n    .filter(Boolean)\n    .map((segment) => segment.replace(/[^a-zA-Z0-9._-]/g, '_'))\n    .join('/');\n\n  const fallbackKey = `processed/object_${Date.now()}_${index}.jpg`;\n\n  item.json = {\n    ...item.json,\n    object_name: safeKey || fallbackKey,\n  };\n\n  return item;\n});"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        4016,
+        96
+      ],
+      "id": "40663dcd-ddc0-4746-a7f3-113f6ee23bb3",
+      "name": "Prepare file paths"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://python-api:8000/posture/image",
+        "sendBody": true,
+        "contentType": "multipart-form-data",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "parameterType": "formBinaryData",
+              "name": "file",
+              "inputDataFieldName": "data"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        4224,
+        96
+      ],
+      "id": "e55be060-e3bd-45f3-8c9e-86b6afd36f73",
+      "name": "Run posture http"
+    },
+    {
+      "parameters": {
+        "resource": "object",
+        "operation": "put",
+        "bucketName": {
+          "__rl": true,
+          "value": "upload",
+          "mode": "list",
+          "cachedResultName": "upload"
+        },
+        "options": {
+          "objectName": "={{ $('Prepare file paths').item.json.object_name }}"
+        }
+      },
+      "type": "@winth03/n8n-nodes-minio.minIo",
+      "typeVersion": 1,
+      "position": [
+        4432,
+        96
+      ],
+      "id": "c8296d9a-dade-4736-b060-282015ca29d0",
+      "name": "Upload to upload bucket",
+      "credentials": {
+        "minIoApi": {
+          "id": "0IkMnB3NtTHUPTT7",
+          "name": "MinIO account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        3584,
+        96
+      ],
+      "id": "bb11f4c2-0cc1-4a62-a674-8ceefe6d371b",
+      "name": "Loop Over Items"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "List objects from images",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "List objects from images": {
+      "main": [
+        [
+          {
+            "node": "Expand listed objects",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Expand listed objects": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download object": {
+      "main": [
+        [
+          {
+            "node": "Prepare file paths",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare file paths": {
+      "main": [
+        [
+          {
+            "node": "Run posture http",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Run posture http": {
+      "main": [
+        [
+          {
+            "node": "Upload to upload bucket",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Download object",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Upload to upload bucket": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "bb4a224f-9fe5-47c4-8f78-b44c765cf338",
+  "meta": {
+    "instanceId": "b832e040fbedd7101b68e90640eccba5035d956c4725d62674206e00319162cf"
+  },
+  "id": "7IT5Yddbzv0eMVMq",
+  "tags": []
+}

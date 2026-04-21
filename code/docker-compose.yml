@@ -1,0 +1,43 @@
+services:
+  streamlit:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    platform: linux/amd64
+    image: dissertation-movement-analysis:streamlit
+    working_dir: /workspace/project
+    volumes:
+      - ../:/workspace/project
+      - ../data:/workspace/data
+    environment:
+      PYTHONPATH: /workspace/project/code
+      POSTURE_API_BASE_URL: ${POSTURE_API_BASE_URL:-http://host.docker.internal:8000}
+      POSTURE_API_FALLBACK_URLS: ${POSTURE_API_FALLBACK_URLS:-http://localhost:8000,http://127.0.0.1:8000}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    stdin_open: true
+    tty: true
+    ports:
+      - "8502:8502"
+
+  tflite-lab:
+    build:
+      context: .
+      dockerfile: Dockerfile_mediapipe
+    restart: unless-stopped
+    platform: linux/amd64
+    image: dissertation-movement-analysis:tflite
+    working_dir: /workspace/project
+    volumes:
+      - ../:/workspace/project
+      - ../data:/workspace/data
+    environment:
+      PYTHONPATH: /workspace/project/code
+      JUPYTER_PASSWORD: ${JUPYTER_PASSWORD:-}
+    env_file:
+      - .env
+    stdin_open: true
+    tty: true
+    ports:
+      - "8888:8888"
