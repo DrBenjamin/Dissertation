@@ -8,6 +8,8 @@ author:
     - University of Edinburgh, MSc in Data Science for Health and Social Care
     - "Email: s2616861@sms.ed.ac.uk"
     - "Website: https://drbenjamin.github.io"
+filters:
+  - code/scripts/adjustTime.lua
 abstract: |
   This dissertation explores the application of AI-based posture recognition using Convolutional Neural Networks (CNNs) to detect and analyse habitual patterns of human movement and posture. The work focuses on transfer learning with TensorFlow Lite and Google MediaPipe for identifying head-neck-torso imbalances.
 format:
@@ -54,6 +56,8 @@ execute:
   enabled: true
   echo: false
 ---
+
+\clearpage
 
 # MSc in Data Science for Health and Social Care
 
