@@ -240,3 +240,9 @@ Lore Ypsum placeholder text: This chapter will summarise the final contributions
 
 ::: {#refs}
 :::
+
+## Other Formats
+
+### Other Papers
+
+- [Bachelor Thesis PDF](docs/Bachelor%20Thesis/Bachelor.Thesis.pdf)
