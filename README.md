@@ -125,7 +125,15 @@ It uses a [Kaggle image dataset](https://www.kaggle.com/datasets/melsmm/posture-
   - `apa.csl`
 <!-- markdownlint-enable MD051 -->
 
-## Build (Jenkins & Docker)
+## Build dissertation artefacts
+
+The dissertation artefacts can be built using Quarto. The generated PDF will be available at `Dissertation.pdf` after the build.
+
+```bash
+quarto render Dissertation.qmd --to pdf
+```
+
+## Build developing environments (Jenkins & Docker)
 
 The repository ships with a Docker setup tailored for TensorFlow Lite Model Maker and the surrounding tooling. Set a password for the bundled Jupyter server by exporting `JUPYTER_PASSWORD` or defining it in a `.env` file next to `code/docker-compose.yml` before launching the containers. The container will abort startup if the variable is empty. Use Docker Compose to build and launch the lab environment locally (or rely on the Jenkins build that is automatically triggered on pushes to the repository):
 
