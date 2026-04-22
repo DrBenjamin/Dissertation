@@ -256,15 +256,6 @@ Planned enhancements (not yet implemented): video support, CSV export of all lan
 
 All references and resources used in the project are listed below.
 
-### Data Source (Images)
-
-The validation and test data for this competition will consist of 150,000 photographs, collected from flickr and other search engines, hand labeled with the presence or absence of 1000 object categories. The 1000 object categories contain both internal nodes and leaf nodes of ImageNet, but do not overlap with each other. A random subset of 50,000 of the images with labels will be released as validation data included in the development kit along with a list of the 1000 categories. The remaining images will be used for evaluation and will be released without labels at test time.
-
-The training data, the subset of ImageNet containing the 1000 categories and 1.2 million images, will be packaged for easy downloading. The validation and test data for this competition are not contained in the ImageNet training data (we will remove any duplicates): https://image-net.org/challenges/LSVRC/2012/
-
-**Download the data:**
-https://image-net.org/download-images.php
-
 ### Mediapipe-model-maker
 
 [MediaPipe Model Maker – Getting Started](https://ai.google.dev/edge/mediapipe/solutions/model_maker#get_started)
