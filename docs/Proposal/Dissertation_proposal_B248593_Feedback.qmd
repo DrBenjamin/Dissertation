@@ -1,0 +1,31 @@
+---
+title: "Detecting Movement Imbalances using a custom TensorFlow Lite Model utilizing Google MediaPipe framework"
+subtitle: "MSc Data Science for Health and Social Care - Research Proposal Feedback"
+author: "B248593"
+date: "November 18, 2025"
+format:
+  pdf:
+    toc: true
+    number-sections: true
+    geometry: margin=1in
+---
+
+# Dissertation Proposal Feedback
+
+The Feedback for my Dissertation Proposal.
+
+## Feedback
+
+**Short literature review:** Excellent
+
+**Research questions and objectives:** Excellent Clear research question and achievable objectives.
+
+**Data collection / analysis:** Excellent Excellent description of the data source and planned analyses, including a lot of detail of the analytical approaches.
+
+**Project management plan:** Very Good Very good plan. If I were to suggest an improvement, I'd include specific time allocation for submitting a draft to supervisors, and updating the dissertation based on feedback.
+
+**Management of risks to project:** Very Good The risks have been reasonably well-considered, but given their potential to derail the project, I'd like to see a bit more detail about the mitigation strategy. For example, on the technical complexity front, how much of the prep work has already been completed by the student, and do they now feel able to work with these specialist tools?
+
+**Ethical considerations:** Very Good I understand that there are no ethical concerns with the project itself or the planned data use. However, it would still be good to see a reflection of how a project on this topic could potentially have ethical implications (including positive ones - e.g. improving generalisability of the models for non-White populations).
+
+**References:** Excellent

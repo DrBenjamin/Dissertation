@@ -1,0 +1,70 @@
+Copyright 2024 LinkedIn Corporation
+All Rights Reserved.
+
+Licensed under the LinkedIn Learning Exercise File License (the "License").
+See LICENSE in the project root for license information.
+
+ATTRIBUTIONS:
+
+seaborn  
+https://github.com/mwaskom/seaborn  
+License: MIT  
+https://opensource.org/licenses/MIT  
+-------------------  
+tensorflow  
+https://github.com/tensorflow/tensorflow  
+License: Apache 2.0  
+http://www.apache.org/licenses/  
+-------------------  
+jinja2  
+https://github.com/pallets/jinja  
+License: BSD-3-Clause  
+https://opensource.org/licenses/BSD-3-Clause  
+-------------------  
+requests  
+https://github.com/psf/requests  
+License: Apache 2.0  
+http://www.apache.org/licenses/  
+-------------------  
+pandas  
+https://github.com/pandas-dev/pandas  
+License: BSD-3-Clause  
+https://opensource.org/licenses/BSD-3-Clause  
+-------------------  
+shap  
+https://github.com/slundberg/shap  
+License: Apache 2.0  
+http://www.apache.org/licenses/  
+-------------------  
+scikit-learn  
+https://github.com/scikit-learn/scikit-learn  
+License: BSD-3-Clause  
+https://opensource.org/licenses/BSD-3-Clause  
+-------------------  
+tensorflow-datasets  
+https://github.com/tensorflow/datasets  
+License: Apache 2.0  
+http://www.apache.org/licenses/  
+-------------------  
+matplotlib  
+https://github.com/matplotlib/matplotlib  
+License: PSF  
+https://opensource.org/licenses/MIT  
+-------------------  
+actions/checkout  
+https://github.com/actions/checkout  
+License: MIT  
+https://opensource.org/licenses/MIT  
+-------------------  
+actions/copy-to-branches  
+https://github.com/planetoftheweb/copy-to-branches  
+License: MIT  
+https://opensource.org/licenses/MIT  
+-------------------  
+
+Please note, this project may automatically load third party code from external 
+repositories (for example, NPM modules, Composer packages, or other dependencies). 
+If so, such third party code may be subject to other license terms than as set 
+forth above. In addition, such third party code may also depend on and load 
+multiple tiers of dependencies. Please review the applicable licenses of the 
+additional dependencies.

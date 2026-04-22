@@ -1,0 +1,36 @@
+---
+title: "First Assessed Reflective Blog"
+subtitle: "HEIN11053 - Dissertation (Data Science for Health and Social Care)"
+author: "B248593"
+date: "November 18, 2025"
+format:
+  pdf:
+    toc: false
+    number-sections: false
+---
+
+**Word count:** 487
+
+## What?
+
+At the outset of my dissertation on detecting movement imbalances with transfer learning, I had to reconcile two impulses: a concept-led interest in approaches like the Alexander Technique and a data-science-led focus on measurable, generalizable posture features. Early supervision meetings with John Wilson and Prof. Dr. Ahmar Shah clarified that my contribution should prioritize robust ML methodology and clear evaluation over domain-specific doctrine. That reframing was reassuring—I could still honor the clinical motivation while centering reproducible modeling choices.
+
+A major practical hurdle was curating suitable training data for posture recognition. I initially experimented with programmatic class retrieval from ImageNet (21K and 1K variants) to surface human-activity images. Therefore, I built automations to inventory and filter candidates. On Dr. Shah’s recommendation, I surveyed specialized sources (e.g., Kaggle) and found a compact, high-quality dataset with YOLO-format keypoint annotations that better matched my aims as all shots where high quality and from the same angle. Letting go of the large ImageNet plan felt difficult as I already invested soome time in exploring it.
+
+In parallel, I explored the MediaPipe ecosystem and TFLite tooling to scope realistic model pathways. Getting hands-on with MediaPipe Tasks and notebooks reduced uncertainty to use it for transfer learning. John Wilson also encouraged me to sharpen language in the proposal to ensure a clearly defined aim of the research.
+
+## So What?
+
+Two complementary supervisory styles, with my own way of approaching the project are shaping it. Dr. Shah’s academic rigor keeps me honest about data quality, annotation fidelity, and the downstream implications for model evaluation. John Wilson’s editorial and planning focus helps me communicate precisely, commit to timelines, and resist fuzzy terminology.
+
+Personally, I learned that my initial attachment to ImageNet was rooted in effort already spent (sunk costs) rather than fit for purpose. Accepting that—and pivoting—reduced overall project risk. I also noticed that hands-on experimentation with MediaPipe/TFLite directly improved my proposal writing. Once I had a concrete baseline in mind, the narrative shifted from abstract intent to actionable steps. Finally, formalizing time management (calendar events, milestone tasks, and using versioning across code and documents) has lowered cognitive load and made iteration less stressful.
+
+## Now What?
+
+To keep the project professional, rigorous, and on schedule, I will:
+
+1. Lock the initial dataset (specialized Kaggle keypoints) and document explicit inclusion/exclusion criteria.
+2. Set up basic MediaPipe pose keypoints and feed them into a lightweight transfer learning algorithm (e.g., EfficientNet-Lite or MobileNet-V2). Followed by TFLite export for efficient inference.
+3. Define the evaluation early with clear dataset splits, repeatable seeds, and metrics aligned to the problem, including classification accuracy, precision/recall for imbalanced classes, and angle-based posture-error where relevant.
+4. Continue structured time management via calendar events and reminders for recurring tasks for literature research, coding, and writing.
+5. Keep the clinical motivation explicit and visible by ensuring that every modeling decision is based on interpretability and potential value for health and social services.

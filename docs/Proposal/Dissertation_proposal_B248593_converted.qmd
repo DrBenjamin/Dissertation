@@ -1,0 +1,128 @@
+---
+title: "Detecting Movement Imbalances using a custom TensorFlow Lite Model utilizing Google MediaPipe framework"
+subtitle: "MSc Data Science for Health and Social Care - Research Proposal"
+author: "B248593"
+date: "October 27, 2025"
+format:
+  pdf:
+    toc: true
+    number-sections: true
+    geometry: margin=1in
+bibliography: ../../literature/bibliography.bib
+---
+
+## Examination Number
+
+**B248593**
+
+## Supervisor Details
+
+| **Field**                     | **Details**                                                                                                                                                                                               |
+|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| **Supervisors**               | John Wilson, Dr. Syed Ahmar Shah                                                                                                                                                                          |
+| **Place of work**             | University of Edinburgh                                                                                                                                                                                   |
+| **Post held**                 | University of Edinburgh, Peter Guthrie Tait Road, Edinburgh, EH9 3FD                                                                                                                                      |
+| **Email addresses**           | jwilso3\@ed.ac.uk, Ahmar.Shah\@ed.ac.uk                                                                                                                                                                  |
+| **Qualifications**            | Mr. Wilson: Teaching Fellow at College of Medicine and Veterinary Medicine in the course Data Science in Health and Social Care<br>Dr. Shah: Director of Innovation and Academic, Senior Research Fellow in the Usher Institute |
+| **Experience of supervision** | John Wilson and (Syed) Ahmar Shah, supervised multiple postgraduate students. Ladder one currently co-supervises 3 PhD students. 2 PhD students have already completed with him, for whom he was the primary supervisor. |
+
+# Proposed Research Title
+
+Detecting Movement Imbalances using a custom TensorFlow Lite Model utilizing Google MediaPipe framework.
+
+# Short Literature Review
+
+Human posture and coordination are central to both health and performance. Impairments such as muscular tension, poor motor control, or postural imbalance contribute significantly to discomfort, injury, and reduced physical performance in daily and professional life [1]. Advanced motor skills rely on precise kinesthetic differentiation, including fine motor control, proprioceptive sensitivity, accurate force regulation, coordinated timing, and the economy of movement. These elements form the basis of effective movement in sports, rehabilitation, and everyday function [2]. Recent research highlights that chronic low back pain and other movement system impairments are closely associated with sustained postural deviations and maladaptive movement patterns that often develop gradually and may not be apparent during isolated clinical assessments [3], [4].
+
+Traditional manual assessments of posture and coordination have relied on subjective evaluation, clinical observation, expensive equipment or extensive practitioner expertise. While valuable, these approaches are limited due to the need of a professional or in their capacity to capture habitual patterns of movement and posture imbalances in a reliable and reproducible way [5]. Recent advances in computer vision and artificial intelligence provide opportunities to bridge these limitations. Convolutional Neural Networks (CNNs) have demonstrated high accuracy in identifying patterns within image and video data, and are increasingly applied in gait analysis, posture detection, and motion tracking [6].
+
+The Google Mediapipe framework brings a lightweight approach that can be run in the browser or on mobile devices utilizing a statistical 3D human shape modeling pipeline offered as a trainable and modular deep learning framework. It can accurately represent the full body details to detect pose and posture [7], [8]. But recent validation studies comparing MediaPipe with gold-standard motion capture systems reveal measurable discrepancies in landmark accuracy, particularly for subtle postural features, highlighting the need for domain-specific refinement for clinical use. More broadly, current pose estimation models remain limited by sensitivity to noise or 2D–3D estimation gaps, reducing their reliability for detecting the subtle asymmetries critical to movement imbalance analysis [9], [10]. Also, fairness and representativeness in pose estimation systems should be considered. Current Pose Estimation Models (PEMs) exhibit performance disparities across demographic groups [10], with reduced accuracy for underrepresented populations in training datasets. Furthermore, available datasets often focus on males and light-skinned subjects in age groups 19–50 and under-represent females, old people and people with darker skin tones with the possibility to lead to systematic errors in movement analysis.
+
+This project uses transfer learning [9] to adapt the pre-trained Google Mediapipe CNN model, which was originally trained on an extensive ImageNet dataset, to the new Kaggle dataset with more relevant and higher-quality images for posture imbalance detection. By utilizing pre-learned feature representations, the model can achieve faster convergence and improved accuracy even with a comparatively smaller or domain-specific dataset. Consequently, while MediaPipe Pose serves as a robust foundation for pose detection, it does not inherently capture the fine-grained symmetry metrics, sagittal and coronal balance indicators, or compensatory movement patterns that are essential for clinical postural and movement analysis. AI-based markerless systems represent an important step towards closing the gap between theoretical research and practical implementation in remote clinical assessment [11], [12].
+
+Therefore, the aim of this work will be to fine-tune an existing model that is ready to be used in clinical contexts.
+
+# Research Questions and Objectives
+
+## Research Question
+
+How can transfer learning on a pre-existing TensorFlow Lite model for image classification be used to detect and analyze posture and movement imbalances?
+
+## Aim
+
+Finetuning and evaluation of a machine learning model for posture and movement quality assessment that detects and interprets imbalances in the head, neck and upper body parts to make it suitable for clinical context.
+
+## Objectives
+
+1.  To finetune an existing image classification model (Google MediaPipe) for detecting posture and movement imbalances in clinical contexts.
+2.  To evaluate the performance of the finetuned image classification model.
+3.  To detect and analyze indicators of upper body imbalances, including the alignment angles of the head, neck and torso, as well as asymmetries in muscle contours.
+
+# Data Collection/Analysis
+
+This study will use secondary image data from the openly available 'Posture Keypoints Detection - Photos & Labels' image dataset on Kaggle – a data science platform and online community. The dataset is provided under the 2.0 version of the Apache License which was approved by the Apache Software Foundation (ASF) in 2004. No new data will be collected from human participants.
+
+The dataset consists of 300 (250 for training and 50 for validation) high-resolution images in static side view with image resolutions of up to 1.6 MP, which will provide sufficient spatial detail for precise recognition of posture and movement. The images are accompanied by annotations to key points in the YOLO pose format, a standardized labeling structure that specifies the pixel coordinates of essential anatomical landmarks [12]. The data will be used to train and fine-tune a custom TensorFlow Lite model in combination with existing Google MediaPipe framework. The analysis will involve applying deep learning methods to train the existing Open-Source Google models further, to detect and classify postural and movement imbalance patterns. Model performance will be evaluated using the standard metric accuracy compared against the available Google models.
+
+This approach directly supports the research question by matching the image resources of the dataset with AI-based pose estimation tools to assess posture and movement imbalances. This secondary data research, which uses quantitative and computational methods, aims to provide objective, quantifiable insights into posture analysis and develop an improved machine learning model to identify imbalances like the anterior head translation. These human-coordination parameters were typically judged by professionals like Physiotherapist or Sports scientists.
+
+# Project Management Timetable
+
+| **Months**           | **Activities**                                                                                                                        | **Completion**     |
+|----------------------|---------------------------------------------------------------------------------------------------------------------------------------|--------------------|
+| September & October  | Proposal, including initial meetings with supervisors, decision on image dataset and CNN framework                                    | 27th of October    |
+| October-December     | Ethics & Blog entries writing                                                                                                         | End of the year    |
+| January              | Development of transfer learning pipeline for CNN retraining                                                                          | End of January 2026|
+| February             | Data preparation & cleaning, implement, pose annotations                                                                              | End of February 2026|
+| March                | Retraining of the model and performance testing                                                                                       | End of March 2026  |
+| April-June           | Dissertation thesis writing, completion of the studies and documentation of the development project for Open-Source usage             | Mid of June        |
+
+# Management of Risks to Project
+
+A **high-likelihood risk** is the technical complexity of training a MediaPipe CNN model. To mitigate this, the researcher will consult available documentation, tutorials, and community resources (e.g. GitHub issues, Google MediaPipe documentation) and seek support from supervisors where appropriate and chose the right dataset of ready to use images for that purpose.
+
+A further **high-likelihood risk** is the time-intensity nature of developing the deep learning models, data preparation, documentation, and meeting academic deadlines (including ethics approval, proposal submission and writing). This will be managed through structured time planning (e.g. time-boxing techniques and weekly progress reviews) to ensure steady advancement and prevent bottlenecks.
+
+A **medium-likelihood risk** concerns the possible lack of sufficiently relevant and high-quality image data within the Open-Source / Open-Data repositories for training PEMs. Should this arise, the scope of included images could be broadened, or if possible, preprocessing strategies will be applied to improve the dataset's suitability.
+
+Overall, these risks are recognized in advance, giving a greater chance to adapt. Also, strategies are in place to reduce their impact and ensure project completion within the required timeframe.
+
+# Ethical Considerations
+
+This study will exclusively use freely publicly available secondary image data. No new data will be collected from human participants for this project.
+
+The dataset is made available under the Apache 2.0 License on Kaggle. Researchers agree to comply with the Apache 2.0 terms, including providing appropriate attribution, preserving license notices, and respecting any third-party copyright obligations. It allows commercial use, modification, and redistribution of the dataset, if users include the appropriate attribution, retain the original license text and notices, which supports the intended commercial use of the created model for an eHealth App.
+
+No attempt will be made to identify individuals from the dataset, and no personally identifiable information is included. The project will adhere to the University of Edinburgh's data governance and ethical research standards as no direct interaction with participants occurs. Therefore, the use of this dataset qualifies as secondary data research.
+
+# References
+
+[1] S. Kubalek-Schröder and F. Dehler, "Funktionsabhängige Beschwerdebilder des Bewegungssystems," Funktionsabhängige Beschwerdebilder des Bewegungssystems, 2013, doi: 10.1007/978-3-642-35151-8.
+
+[2] Zaucker P., "Ballkoordination bei Schülern mit unterschiedlicher Sporterfahrung," 2010.
+
+[3] S. Sahrmann, D. C. Azevedo, and L. Van Dillen, "Diagnosis and treatment of movement system impairment syndromes," Braz J Phys Ther, vol. 21, no. 6, p. 391, Nov. 2017, doi: 10.1016/J.BJPT.2017.08.001.
+
+[4] L. Ge, M. J. Pereira, C. W. Yap, and B. H. Heng, "Chronic low back pain and its impact on physical function, mental health, and health-related quality of life: a cross-sectional study in Singapore," Sci Rep, vol. 12, no. 1, Dec. 2022, doi: 10.1038/S41598-022-24703-7.
+
+[5] P. C. Badhe and V. Kulkarni, "A Review on Posture Assessment," https://www.iosrjournals.org/iosr-jspe/papers/Vol-5Issue5/Version-1/B05050815.pdf. Accessed: Sep. 29, 2025. [Online]. Available: https://www.researchgate.net/publication/328981577_A_Review_on_Posture_Assessment
+
+[6] X. Jiang, Z. Hu, S. Wang, and Y. Zhang, "A Survey on Artificial Intelligence in Posture Recognition," Computer Modeling in Engineering & Sciences, vol. 137, pp. 35–82, Apr. 2023, doi: 10.32604/cmes.2023.027676.
+
+[7] H. Xu, E. G. Bazavan, A. Zanfir, W. T. Freeman, R. Sukthankar, and C. Sminchisescu, "GHUM GHUML: Generative 3D human shape and articulated pose models," Proceedings of the IEEE Computer Society Conference on Computer Vision and Pattern Recognition, pp. 6183–6192, 2020, doi: 10.1109/CVPR42600.2020.00622.
+
+[8] V. Bazarevsky, I. Grishchenko, K. Raveendran, T. Zhu, F. Zhang, and M. Grundmann, "BlazePose: On-device Real-time Body Pose tracking," Jun. 2020, Accessed: Sep. 19, 2025. [Online]. Available: https://arxiv.org/pdf/2006.10204
+
+[9] K. C. Kakuta, T. Kikawa, Y. Kumagai, J. Gupta, S. Pathak, and G. Kumar, "Deep Learning (CNN) and Transfer Learning: A Review," J Phys Conf Ser, vol. 2273, no. 1, p. 012029, May 2022, doi: 10.1088/1742-6596/2273/1/012029.
+
+[10] J. M. Lachance, W. Thong, N. Shruti, and A. Xiang, "A Case Study in Fairness Evaluation: Current Limitations and Challenges for Human Pose Estimation," 2023.
+
+[11] V. Wagh, M. W. Scott, and S. N. Kraeutner, "Quantifying Similarities Between MediaPipe and a Known Standard to Address Issues in Tracking 2D Upper Limb Trajectories: Proof of Concept Study.," JMIR Form Res, vol. 8, no. 1, p. e56682, Dec. 2024, doi: 10.2196/56682.
+
+[12] Ultralytics Inc., "Pose Estimation - Ultralytics YOLO Docs." Accessed: Oct. 21, 2025. [Online]. Available: https://docs.ultralytics.com/tasks/pose/
+
+# Confirmation of Supervisor's Approval
+
+I confirm that my supervisor(s) have seen and approved this research proposal and have completed the supervisor's appraisal form below.
+
+**YES**
