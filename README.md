@@ -55,13 +55,9 @@ It uses a [Kaggle image dataset](https://www.kaggle.com/datasets/melsmm/posture-
 |       └── models/
 |           ├── best.pt
 |           └── yolo11s-pose.pt
-├── data/
-│   ├── ImageNet/
-│   ├── images/
-│   ├── images_flowers/
-│   ├── models/
-│   └── video/
 ├── docs/
+│   ├── Bachelor Thesis/
+│   │   └── Bachelor.Thesis.pdf
 │   ├── Ethics/
 │   │   ├── Data Management Flow Chart.docx
 │   │   ├── Gross_UMREG_Ethical_Considerations_Form_Export.pdf
@@ -81,12 +77,12 @@ It uses a [Kaggle image dataset](https://www.kaggle.com/datasets/melsmm/posture-
 │       ├── B248593_Blog_1.qmd
 │       ├── Reflective_Blog.qmd
 │       └── Reflective_Writing.pdf
-│   ├── mediapipe_to_yolo_annotation_guide.md
 │   ├── MSc_DSHSC_Supervision_research_meeting_diary_template.docx
-│   └── pose_format_comparison.md
+│   └── ...
 └── literature/
     ├── apa.csl
-    └── bibliography.bib
+    ├── bibliography.bib
+    └── ...
 ```
 
 <!-- markdownlint-disable MD051 -->
@@ -118,25 +114,18 @@ It uses a [Kaggle image dataset](https://www.kaggle.com/datasets/melsmm/posture-
     - `custom_tflite_pose.py`: helper functions for loading and running inference with a custom TensorFlow Lite model for pose classification
     - `custom_tflite_image_classifier.py`: helper functions for loading and running inference with a custom TensorFlow Lite model for image classification
     - `mediapipe_api.py`: n8n API wrapper functions for MediaPipe Pose
-- Data (folder): [data](data/)
-  - Subfolder `video` contains sample input and output videos for posture analysis.
-  - Subfolder `Yoga` contains sample yoga pose images.
-  - Subfolder `Silhouettes` contains sample silhouette images for posture recognition.
-  - Subfolder `posture` contains the Kaggle posture dataset with keypoint annotations.
-  - Subfolder `ImageNet` contains some of the raw image data from the ImageNet21k dataset.
-  - Subfolder `images` contains sample images for pose detection.
-  - Subfolder `models` contains the trained TensorFlow Lite models and metadata.
-    - Subfolder `models/` contains different models.
-      - `yolo11n.pt`: YOLO series of real-time object detectors model.
-      - `model.tflite`: TensorFlow Lite model for image classification self-trained with MediaPipe Model Maker.
-      - `model_int8.tflite`: Quantized TensorFlow Lite model for image classification self-trained with MediaPipe Model Maker.
-      - Subfolder `pose landmarker` contains the MediaPipe Pose Landmarker `.task` files for different complexity variants.
+- Documents (folder): [docs](docs/)
+  - Proposal documents: [Proposal](docs/Proposal/)
+  - Reflective Blog documents: [Reflective Blog](docs/Reflective Blog/)
+  - Ethics documents: [Ethics](docs/Ethics/)
+  - Supervision meeting diary template: [MSc_DSHSC_Supervision_research_meeting_diary_template.docx](docs/MSc_DSHSC_Supervision_research_meeting_diary_template.docx)
+  - Bachelor thesis of a Serious Game in Health project: [Bachelor Thesis](docs/Bachelor Thesis/Bachelor.Thesis.pdf)
 - Literature (folder): [literature](literature/)
   - `bibliography.bib`
   - `apa.csl`
 <!-- markdownlint-enable MD051 -->
 
-## Build
+## Build (Jenkins & Docker)
 
 The repository ships with a Docker setup tailored for TensorFlow Lite Model Maker and the surrounding tooling. Set a password for the bundled Jupyter server by exporting `JUPYTER_PASSWORD` or defining it in a `.env` file next to `code/docker-compose.yml` before launching the containers. The container will abort startup if the variable is empty. Use Docker Compose to build and launch the lab environment locally (or rely on the Jenkins build that is automatically triggered on pushes to the repository):
 
