@@ -1,5 +1,5 @@
 ---
-title: "Dissertation Research Project"
+title: "Dissertation Project"
 subtitle: "Data Science for Health and Social Care (M. Sc.)"
 author:
   name: "© Benjamin Gross"
@@ -9,7 +9,7 @@ author:
     - "Email: s2616861@sms.ed.ac.uk"
     - "Website: https://drbenjamin.github.io"
 abstract: |
-  This dissertation explores the application of AI-based posture recognition using Convolutional Neural Networks (CNNs) to detect and analyse habitual patterns of human movement and posture. The work focuses on transfer learning with TensorFlow Lite and Google MediaPipe for identifying head-neck-torso imbalances and evaluating methodological feasibility for clinically relevant assessment.
+  This dissertation explores the application of AI-based posture recognition using Convolutional Neural Networks (CNNs) to detect and analyse habitual patterns of human movement and posture. The work focuses on transfer learning with TensorFlow Lite and Google MediaPipe for identifying head-neck-torso imbalances.
 format:
   html:
     embed-resources: true
@@ -57,7 +57,7 @@ execute:
 
 # MSc in Data Science for Health and Social Care
 
-## Examination Number: B248593
+Examination Number: B248593
 
 ## Dissertation Title
 
