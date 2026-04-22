@@ -11,6 +11,14 @@ author:
 abstract: |
   This dissertation explores the application of AI-based posture recognition using Convolutional Neural Networks (CNNs) to detect and analyse habitual patterns of human movement and posture. The work focuses on transfer learning with TensorFlow Lite and Google MediaPipe for identifying head-neck-torso imbalances and evaluating methodological feasibility for clinically relevant assessment.
 format:
+  html:
+    embed-resources: true
+    theme: cerulean
+    toc: true
+    toc-expand: 5
+    toc-depth: 5
+    number-sections: false
+    number-depth: 5
   pdf:
     keep-tex: false
     include-in-header:
