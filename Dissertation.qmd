@@ -62,6 +62,8 @@ execute:
 # MSc in Data Science for Health and Social Care
 
 Examination Number: B248593
+First reviewer: Dr. Ahmar Shah
+Second reviewer: John Wilson
 
 ## Dissertation Title
 
@@ -244,7 +246,3 @@ Lore Ypsum placeholder text: This chapter will summarise the final contributions
 
 ::: {#refs}
 :::
-
-# Other Papers
-
-- [Bachelor Thesis PDF](docs/Bachelor%20Thesis/Bachelor.Thesis.pdf)
