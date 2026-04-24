@@ -73,7 +73,7 @@ Detecting Movement Imbalances using custom TensorFlow Lite Models utilizing the 
 
 # 1. Introduction
 
-Healthcare is increasingly recognizing the importance of movement quality and postural balance in preventing injury, managing chronic conditions, and optimizing physical performance [@Whittaker2017]. However, @Wijekulasuriya found in there extensive actual meta analysis that traditional methods for assessing posture and movement often rely on subjective clinical observations, limiting their accessibility and consistency. Advances in artificial intelligence (AI) and computer vision offer promising avenues for developing objective, scalable tools to analyze human movement patterns. This dissertation explores the application of Convolutional Neural Networks (CNNs) within the Google MediaPipe framework to detect and analyze habitual patterns of imbalance in head-neck-torso alignment, with a focus on transfer learning to adapt pre-trained models for clinical relevance.
+Healthcare is increasingly recognizing the importance of movement quality and postural balance in preventing injury, managing chronic conditions, and optimizing physical performance [@Whittaker2017]. However, @Wijekulasuriya2025 found in an extensive actual meta analysis that traditional methods for assessing posture and movement often rely on subjective clinical observations, limiting their accessibility and consistency. Advances in artificial intelligence (AI) and computer vision offer promising avenues for developing such objective tools that are scalable. This dissertation explores the development of Convolutional Neural Networks (CNNs) through transfer learning within the Google MediaPipe framework to detect and analyze head-neck-torso alignment.
 
 ## 1.1 Background and rationale
 
