@@ -130,7 +130,14 @@ It uses a [Kaggle image dataset](https://www.kaggle.com/datasets/melsmm/posture-
 The dissertation artefacts can be built using Quarto. The generated PDF will be available at `Dissertation.pdf` after the build.
 
 ```bash
+# Rendering to PDf
 quarto render Dissertation.qmd --to pdf
+
+# Rendering to HTML
+quarto render Dissertation.qmd --to html
+
+# Rendering to Word
+quarto render Dissertation.qmd --to docx
 ```
 
 ## Build developing environments (Jenkins & Docker)

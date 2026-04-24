@@ -61,17 +61,19 @@ execute:
 
 # MSc in Data Science for Health and Social Care
 
-Examination Number: B248593
-First reviewer: Dr. Ahmar Shah
-Second reviewer: John Wilson
+**Examination Number:** B248593
+
+**First reviewer:** Dr. Ahmar Shah
+
+**Second reviewer:** John Wilson
 
 ## Dissertation Title
 
-Detecting Movement Imbalances using a custom TensorFlow Lite Model utilizing Google MediaPipe framework.
+Detecting Movement Imbalances using custom TensorFlow Lite Models utilizing the Google MediaPipe framework.
 
 # 1. Introduction
 
-Healthcare is increasingly recognizing the importance of movement quality and postural balance in preventing injury, managing chronic conditions, and optimizing physical performance. However, traditional methods for assessing posture and movement often rely on subjective clinical observation or expensive motion capture systems, limiting their accessibility and consistency. Advances in artificial intelligence (AI) and computer vision offer promising avenues for developing objective, scalable tools to analyze human movement patterns. This dissertation explores the application of Convolutional Neural Networks (CNNs) within the Google MediaPipe framework to detect and analyze habitual patterns of imbalance in head-neck-torso alignment, with a focus on transfer learning to adapt pre-trained models for clinical relevance.
+Healthcare is increasingly recognizing the importance of movement quality and postural balance in preventing injury, managing chronic conditions, and optimizing physical performance [@Whittaker2017]. However, traditional methods for assessing posture and movement often rely on subjective clinical observation or expensive motion capture systems, limiting their accessibility and consistency. Advances in artificial intelligence (AI) and computer vision offer promising avenues for developing objective, scalable tools to analyze human movement patterns. This dissertation explores the application of Convolutional Neural Networks (CNNs) within the Google MediaPipe framework to detect and analyze habitual patterns of imbalance in head-neck-torso alignment, with a focus on transfer learning to adapt pre-trained models for clinical relevance.
 
 ## 1.1 Background and rationale
 
