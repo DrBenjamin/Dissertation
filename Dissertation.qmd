@@ -101,13 +101,29 @@ Finetuning and evaluation of a deep learning model for posture and movement qual
 
 ## 1.3 Dissertation structure
 
-Lore Ypsum placeholder text: This section will briefly explain the purpose and content of each chapter in the final dissertation.
+The present work is structured as follows:
+
+Chapter 2 provides a comprehensive literature review of the current state of AI-based posture and movement analysis, with a focus on the capabilities and limitations of existing pose estimation frameworks such as Google MediaPipe.
+
+Chapter 3 outlines the methodology, including the study design, data sources, variable definitions, model development approach, and performance evaluation strategy.
+
+Chapter 4 details the implementation of the training and inference pipelines.
+
+Chapter 5 presents the results of model performance and error analysis.
+
+Chapter 6 discusses the findings in relation to existing literature, strengths and limitations, and clinical implications.
+
+Chapter 7 addresses ethical considerations, information governance, and data management.
+
+Chapter 8 outlines the expected impact and dissemination plans, while
+
+Chapter 9 concludes with a summary of contributions and future work directions.
 
 \clearpage
 
 # 2. Literature Review
 
-However, recent validation studies comparing MediaPipe with gold-standard motion capture systems reveal measurable discrepancies in landmark accuracy, particularly for subtle postural features, highlighting the need for domain-specific refinement for clinical use \[9\]. More broadly, current pose estimation models remain limited by sensitivity to noise and 2D–3D estimation gaps, reducing their reliability for detecting the subtle asymmetries critical to movement imbalance analysis [@Kakuta2022 and @Lachance2023]. Fairness and representativeness in pose estimation systems are also important concerns: current Pose Estimation Models (PEMs) exhibit performance disparities across demographic groups, with reduced accuracy for underrepresented populations in training datasets \[10\]. Available datasets often focus on males and light-skinned subjects in age groups 19–50 and under-represent females, older adults, and people with darker skin tones, creating the possibility of systematic errors in movement analysis.
+Recent validation studies comparing MediaPipe with gold-standard motion capture systems reveal measurable discrepancies in landmark accuracy, particularly for subtle postural features, highlighting the need for domain-specific refinement for clinical use \[[@Kakuta2022]\]. More broadly, current pose estimation models remain limited by sensitivity to noise and 2D–3D estimation gaps, reducing their reliability for detecting the subtle asymmetries critical to movement imbalance analysis [@Kakuta2022 and @Lachance2023]. Fairness and representativeness in pose estimation systems are also important concerns: current Pose Estimation Models (PEMs) exhibit performance disparities across demographic groups, with reduced accuracy for underrepresented populations in training datasets [@Lachance2023]. Available datasets often focus on males and light-skinned subjects in age groups 19–50 and under-represent females, older adults, and people with darker skin tones, creating the possibility of systematic errors in movement analysis.
 
 Consequently, while MediaPipe Pose serves as a robust foundation for pose detection, it does not inherently capture the fine-grained symmetry metrics, sagittal and coronal balance indicators, or compensatory movement patterns that are essential for clinical postural and movement analysis. AI-based markerless systems nonetheless represent an important step towards closing the gap between theoretical research and practical implementation in remote clinical assessment [@Wagh2024 and @UltralyticsInc2025].
 
