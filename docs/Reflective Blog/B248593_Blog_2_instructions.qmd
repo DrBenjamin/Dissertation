@@ -1,0 +1,140 @@
+---
+title: "Reflective Blog 2"
+subtitle: "HEIN11053 - Dissertation (Data Science for Health and Social Care) - Reflective Blog 2"
+author: "B248593"
+date: "May 18, 2026"
+format:
+  pdf:
+    toc: false
+    number-sections: false
+---
+
+## Summative Assessment (5%)
+
+This is the second of two assessed reflective blogs. The two reflective blogs will be 500 words each, and count 5% of your total mark each (so 10% in total). The first blog is due on **24th November 2025 (1pm UK time)** and the second blog is due on **18th May 2026 (1pm UK time)**.
+
+Write a short reflective blog (up to 500 words) reflecting on a learning experience from your dissertation. Your reflection should describe the context of the learning experience, and evaluate and analyze it to extract key points of learning. You should finish your reflection with an action plan explaining how you will apply the learning from your reflection to the remainder of your dissertation year. Please use the **What? So what? Now what?** reflective framework to structure your reflection.
+
+::: {.callout-warning}
+Your reflective blog should be unique to you and your experience. It must focus on your dissertation experience and suggest actionable steps which you can apply in the remainder of your dissertation year.
+:::
+
+You should read the University of Edinburgh's [What? So what? Now what? reflective framework guidance](https://reflection.ed.ac.uk/reflectors-toolkit/reflecting-on-experience/what-sowhat-now-what) before you start writing. You may also find the guidance on [setting effective goals](https://reflection.ed.ac.uk/reflectors-toolkit/goals-objectives-habits) (i.e. your action plan) useful.
+
+## Assignment Tips
+
+-   Narrow down the focus of your reflection to a specific learning experience. This will allow you to analyse the experience in more depth than if you try to describe many experiences.
+-   Remember that your description of the learning experience should give the reader the bare minimum amount of information that they need to understand your situation. Be as concise as you can.
+-   Avoid generic statements: a good reflective report is unique to you and your experience.
+-   Your action plan should follow on from the learning experience discussed in the previous section of your reflection.
+-   Your action plan should be forward-looking (i.e., something you haven't already done) and give concrete details of what you intend to do and how.
+
+## Marking Criteria
+
+The reflective blogs will be assessed as follows:
+
+### 1) What? - Description and Emotions [30%]
+
+Concise account of the dissertation learning experience where the student places emotions in context and may even question or challenge selected events.
+
+### 2) So What? - Evaluation and Analysis [40%]
+
+The reflective account should go beyond description, analyzing WHY things happened. This might include:
+
+-   exploring emotional response (going beyond identification, asking questions for further insight)
+-   questioning own assumptions, values, and beliefs
+-   considering the perspectives of others (e.g. your peers, supervisors, the literature)
+-   comparing to previous knowledge and experience.
+
+### 3) Now What? - Action Plan [30%]
+
+The student demonstrates critical thinking of acquired knowledge and concepts and uses them to set effective goals. Lessons learned for the remainder of the dissertation year are considered including actionable steps to achieve implementation.
+
+## Submission Instructions
+
+There is a separate Turnitin box for each of the two assessed reflective blogs. Please submit a Word document titled `B123456_Blog1.docx` including:
+
+-   Exam number
+-   The words: "First assessed reflective blog" or "Second assessed reflective blog"
+-   The words: HEIN11053 - Dissertation (Data Science for Health and Social Care)
+-   Word count
+
+## Reflective writing workshop: slides
+
+During this session, we introduced reflective writing and particularly the format of the reflective blog, and we looked at examples from the Reflective Toolkit to discuss improvements based on the helpful questions. All information will be found above, and please use the discussion boards if you have any question.
+
+-   Write a short reflective blog (up to 500 words) reflecting on a learning experience from your dissertation.
+-   Your reflection should describe the context of the learning experience and evaluate and analyse it to extract key points of learning.
+-   You should finish your reflection with an action plan explaining how you will apply the learning from your reflection to the remainder of your dissertation year.
+-   Please use the **What? So what? Now what?** reflective framework to structure your reflection.
+
+### Types of reflection
+
+-   You have already encountered reflection during your MSc
+-   **Reflection-in-action**
+    -   Debugging, pair programming
+-   **Reflection-on-action**
+    -   3 stars and a wish, reflective report (Intro to Data Science)
+
+### Levels of reflection
+
+**Habitual action \< thoughtful action \< reflection \< critical reflection**
+
+-   **Habitual action**: automatic, routine: little conscious deliberation
+-   **Thoughtful action**: explaining what and why using knowledge
+-   **Reflection**: reviewing an experience to understand what happened and why, identify learning and changes for next time
+-   **Critical reflection**: examines and challenges underlying assumptions, considers multiple perspectives, evidence of learning / transformation
+
+### Written reflection
+
+-   Written reflections help you slow down and identify essential aspects of your thought process.
+-   Reflecting immediately after an experience allows you to capture your immediate reaction. This can then be used to inform later reflections, as the distance helps put your situation into context.
+-   Reflecting on a situation allows you to make an action plan for the next time you encounter a similar situation.
+-   Practice!
+
+### The Reflection Toolkit
+
+-   **What? So what? Now what?**
+    -   <https://reflection.ed.ac.uk/reflectors-toolkit/reflecting-on-experience/what-sowhat-now-what>
+-   **Creating goals and objectives**
+    -   <https://reflection.ed.ac.uk/reflectors-toolkit/goals-objectives-habits>
+
+### What? So what? Now what? (Driscoll, 1994)
+
+-   **'What?'** helps you describe the situation you want to learn from. You should identify the facts and feelings of the situation.
+-   **'So What?'** allows you to extract the meaning of 'What?'. Moreover, you should question what knowledge you and others had in the situation, and what knowledge or theories that could help you make sense of the situation.
+-   **'Now what?'** allows you to create an action plan for the future based on the previous questions. Demonstrate the impact of this experience.
+
+## Setting goals
+
+-   **Importance** -- ensuring your goal is actually important to you
+-   **Specificity** -- making your goal specific
+-   **Realistic** -- making your goal realistic
+-   **Planning** -- building a robust plan to achieve your goal
+-   **Obstacles** -- identifying and planning for these
+-   **Deadline/Timing** -- making it realistic and appropriate
+
+### Example: What?
+
+I just got an essay back with a mark I'm not happy with. I wrote it in one day, but I read it thoroughly before handing it in. I was hoping to get a B, and have previously been able to do so. I'm fairly disappointed in myself and starting to feel stressed about the overall mark for the course.
+
+One of my friends had offered to give feedback on it, however I said that I didn't have time to get it to them before the deadline.
+
+### Example: So what?
+
+My experience tells me that I hadn't given myself enough time to work on my essay. I'm basing this on the fact that I had the opportunity to get feedback from my friend which would have been really useful, but I didn't have the time to both finish the essay and get the feedback. Moreover, I was stressed when writing it so I didn't really spend enough time thinking about the content - my head was just filled with 'how will I get this essay done in time'.
+
+In general, I think that I leave things until the very end, which means I don't have time to do them properly. I end up being disappointed in myself. I think I need to give myself more structure, to save myself time and allow time to receive and act upon feedback from others.
+
+### Example: Now what?
+
+I realise that I have to develop a better structure for working and time management. When I do my essays this means ensuring I get them finished with enough time for others to review and offer feedback.
+
+Once an essay question is released, I will immediately write a deadline 4 days earlier in my planner/calendar. I will also plan times when I have to work on it and set a reminder on my phone. I will then make plans with friends to read it through and commit to having it reviewed by my new deadline so I can revise any issues identified. This will keep me accountable for the new deadline.
+
+I think this will help me start essays earlier and hopefully have less stress when writing them.
+
+### Practice: Reflective blog (5 min)
+
+-   This example was 356 words. There is room to improve it, so what could we add?
+-   Look at the Reflective Toolkit page and use the helpful questions to improve your answer.

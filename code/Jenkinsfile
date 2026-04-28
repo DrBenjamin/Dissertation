@@ -1,0 +1,103 @@
+pipeline {
+  agent any
+
+  parameters {
+    booleanParam(name: 'DEPLOY', defaultValue: true, description: 'Deploy with docker compose after build?')
+    booleanParam(name: 'PULL_BASE_IMAGES', defaultValue: false, description: 'Force pulling base images during compose build? (slower)')
+  }
+
+  environment {
+    BUILD_WS = "${env.WORKSPACE}@build-${env.BUILD_NUMBER}"
+    COMPOSE_FILE = "code/docker-compose.yml"
+    COMPOSE_PROJECT_NAME = "dissertation"
+  }
+
+  options {
+    skipDefaultCheckout(true)
+    timeout(time: 300, unit: 'MINUTES')
+    buildDiscarder(logRotator(numToKeepStr: '10'))
+  }
+
+  stages {
+    stage('Checkout') {
+      steps {
+        dir("${env.BUILD_WS}") {
+          deleteDir()
+          checkout scm
+          sh '''
+            echo "Branch: ${BRANCH_NAME}"
+            echo "Commit: $(git rev-parse --short HEAD)"
+            test -f "${COMPOSE_FILE}"
+          '''
+        }
+      }
+    }
+
+    stage('Docker Info') {
+      steps {
+        dir("${env.BUILD_WS}") {
+          sh '''
+            docker --version
+            docker compose version
+          '''
+        }
+      }
+    }
+
+    stage('Build (docker compose)') {
+      steps {
+        dir("${env.BUILD_WS}") {
+          timeout(time: 240, unit: 'MINUTES') {
+          sh '''
+            export DOCKER_BUILDKIT=1
+            export COMPOSE_DOCKER_CLI_BUILD=1
+
+            BUILD_FLAGS=""
+            if [ "${PULL_BASE_IMAGES}" = "true" ]; then
+              BUILD_FLAGS="--pull"
+            fi
+
+            docker compose -p "${COMPOSE_PROJECT_NAME}" -f "${COMPOSE_FILE}" build ${BUILD_FLAGS}
+          '''
+          }
+        }
+      }
+    }
+
+    stage('Deploy (docker compose)') {
+      when {
+        expression { return params.DEPLOY }
+      }
+      steps {
+        dir("${env.BUILD_WS}") {
+          // Use Jenkins credential to populate JUPYTER_PASSWORD for docker compose
+          withCredentials([string(credentialsId: 'JUPYTER_PASSWORD', variable: 'JUPYTER_PASSWORD')]) {
+            sh '''
+              # Write a minimal env file so compose picks up the password
+              echo "JUPYTER_PASSWORD=${JUPYTER_PASSWORD}" > code/.env
+              docker compose -p "${COMPOSE_PROJECT_NAME}" -f "${COMPOSE_FILE}" down --remove-orphans || true
+              docker compose -p "${COMPOSE_PROJECT_NAME}" -f "${COMPOSE_FILE}" up -d --no-build
+              docker compose -p "${COMPOSE_PROJECT_NAME}" -f "${COMPOSE_FILE}" ps
+            '''
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      dir("${env.BUILD_WS}") {
+        sh '''
+          docker compose -p "${COMPOSE_PROJECT_NAME}" -f "${COMPOSE_FILE}" ps || true
+        '''
+      }
+    }
+    success {
+      echo 'Build/deploy pipeline completed successfully.'
+    }
+    failure {
+      echo 'Pipeline failed. Check Docker and compose logs in Jenkins output.'
+    }
+  }
+}

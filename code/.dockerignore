@@ -1,0 +1,15 @@
+__pycache__/
+.ipynb_checkpoints/
+*.pyc
+*.pyo
+*.pyd
+*.swp
+.env
+.env.*
+.vscode/
+.DS_Store
+.git/
+raw_data/
+processed_data/
+models/
+video/

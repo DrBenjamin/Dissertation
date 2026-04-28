@@ -1,0 +1,34 @@
+---
+title: "Reflective Blog posts"
+subtitle: "HEIN11053 - Dissertation (Data Science for Health and Social Care)"
+author: "B248593"
+date: "November 24, 2025"
+format:
+  docx:
+    toc: false
+    number-sections: false
+  html:
+    toc: true
+    toc-depth: 3
+    number-sections: false
+    theme: default
+---
+
+
+## Blog
+
+All blog posts for the reflective writing component of the dissertation module are collected in this document. Each blog post reflects on different stages of the dissertation project, including planning, data collection, analysis, and writing.
+
+### Sep/Oct 2025
+
+I started the dissertation project with orienting through material I already conducted research on, including the Alexander Technique and its relationship to posture and movement. Early discussing with my two supervisors, John Wilson and Prof. Dr. Ahmar Shah lead to the decision to focus more on the ML/deep learning aspect and less on concepts like the Alexander Technique. We discussed that a broader approach to movement imbalance detection would be more suitable for a MSc dissertation project in Data Science for Health and Social Care, so it could be running or other activities with a standardized assessment of posture and movement.
+
+Further I decided on the secondary data which is the ImageNet-1K dataset. It is a large-scale collection of natural images originally sourced through search engines and image-sharing platforms. It contains over one million labeled images across 1,000 categories, some of which depict humans in everyday contexts.
+
+In the meanwhile I started exploring and using Google's MediaPipe framework. I got familiar with the different models and capabilites and started coding in Python.
+
+### Oct/Nov 2025
+
+I continued working on the Proposal and improved the literature review section significantly and gave a good reason for the research. In the meanwhile I found high quality data on Kaggle. It consist much less images thant ImageNet-21K which I was investigating before, but the images are more relevant for the task of posture and movement imbalance detection. There is one more meeting to refine the Proposal before submission and I am working on the last draft now.
+
+For my time management I created calendar events and tasks (also displayed in my calendar app) to keep track of deadlines. I also created a GitHub repository to version control my code and documents to be able to roll back certain versions if needed.

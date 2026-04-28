@@ -1,0 +1,73 @@
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# Virtual environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Jupyter Notebook
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+
+# VSCode
+.vscode/
+*.code-workspace
+
+# Personal/sensitive documents
+!README.pdf
+!LICENSE.pdf
+!B248593_AppliedResDesign_Proposal_2024_2025.docx
+!Confirmation Extension  398947905.pdf
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+
+# Lock files
+.~lock.*
+*/.~lock.*
+
+/.quarto/
+data/*
+**/*.DS_Store*
+
+/.luarc.json

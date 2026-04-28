@@ -1,0 +1,12 @@
+streamlit
+watchdog
+pandas
+mediapipe==0.10.33
+opencv-python
+fastapi
+uvicorn
+matplotlib
+ultralytics
+ipykernel
+minio
+requests

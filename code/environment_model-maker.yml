@@ -1,0 +1,16 @@
+name: dissertation-3.10
+channels:
+  - conda-forge
+dependencies:
+  - python=3.10
+  - pip
+  - pip:
+    # Using a known-resolvable Model Maker version for macOS arm64.
+    - -r requirements_model-maker.txt
+    - setuptools==70.3.0
+    - wheel
+    - mediapipe==0.10.21
+    - mediapipe-model-maker==0.2.1.3
+    - tensorflow==2.15.1
+    - tensorflow-hub==0.16.1
+    - protobuf>=4.25.3,<5
