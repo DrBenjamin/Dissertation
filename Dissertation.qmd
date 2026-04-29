@@ -77,7 +77,7 @@ Healthcare is increasingly recognizing the importance of movement quality and po
 
 ## 1.1 Background and rationale
 
-Human posture and coordination are central to both health and performance. Impairments such as muscular tension, poor motor control, or postural imbalance contribute significantly to discomfort, injury, and reduced physical performance in daily and professional life [@Kubalek-Schrder2013]. Advanced motor skills rely on precise kinesthetic differentiation, including fine motor control, proprioceptive sensitivity, accurate force regulation, coordinated timing, and the economy of movement. These elements form the basis of effective movement in sports, rehabilitation, and everyday function [@ZauckerP2010]. Recent research highlights that chronic low back pain and other movement system impairments are closely associated with sustained postural deviations and maladaptive movement patterns that often develop gradually and may not be apparent during isolated clinical assessments [@Sahrmann2017; @Ge2022].
+Human posture and coordination are central to both health and performance. Impairments such as muscular tension, poor motor control, or postural imbalance contribute significantly to discomfort, injury, and reduced physical performance in daily and professional life [@Kubalek-Schrder2013]. Advanced motor skills rely on precise kinaesthetic differentiation, including fine motor control, proprioceptive sensitivity, accurate force regulation, coordinated timing, and the economy of movement. These elements form the basis of effective movement in sports, rehabilitation, and everyday function [@ZauckerP2010]. Recent research highlights that chronic low back pain and other movement system impairments are closely associated with sustained postural deviations and maladaptive movement patterns that often develop gradually and may not be apparent during isolated clinical assessments [@Sahrmann2017; @Ge2022].
 
 Traditional approaches to assessing posture and coordination rely on subjective evaluations, clinical observation, expensive motion analysis systems, or extensive practitioner expertise. While commercial software for posture assessment exists, these solutions often require professional oversight and remain limited in their ability to capture subtle or habitual patterns of imbalance consistently [@Badhe2018]. This highlights a clear gap between the qualitative nature of clinical assessments and the potential for more objective, data-driven methods enabled by modern machine learning techniques.
 
@@ -87,13 +87,13 @@ As a physiotherapist with focus on movement quality, I found these gaps were not
 
 ## 1.2 Research question, aim, and objectives
 
-Research question\
+**Research question**\
 How can transfer learning on a pre-existing TensorFlow Lite model for pose estimation and image classification be used to detect and analyze posture and movement imbalances?
 
-Aim\
+**Aim**\
 Finetuning and evaluation of a deep learning model for posture and movement quality assessment that detects and interprets imbalances in the head, neck torso and to make it suitable for the clinical context.
 
-Objectives
+**Objectives**
 
 1.  To finetune an pre-trained Google MediaPipe image classification model for posture and movement imbalance detection.
 2.  To evaluate the performance of the finetuned classification model.
@@ -123,7 +123,7 @@ Chapter 9 concludes with a summary of contributions and future work directions.
 
 # 2. Literature Review
 
-Recent validation studies comparing MediaPipe with gold-standard motion capture systems reveal measurable discrepancies in landmark accuracy, particularly for subtle postural features, highlighting the need for domain-specific refinement for clinical use [@Kakuta2022]. More broadly, current pose estimation models remain limited by sensitivity to noise and 2D–3D estimation gaps, reducing their reliability for detecting the subtle asymmetries critical to movement imbalance analysis [@Kakuta2022; @Lachance2023]. Fairness and representativeness in pose estimation systems are also important concerns: current Pose Estimation Models (PEMs) exhibit performance disparities across demographic groups, with reduced accuracy for underrepresented populations in training datasets [@Lachance2023]. Available datasets often focus on males and light-skinned subjects in age groups 19–50 and under-represent females, older adults, and people with darker skin tones, creating the possibility of systematic errors in movement analysis.
+Recent validation studies comparing MediaPipe with gold-standard motion capture systems reveal measurable discrepancies in landmark accuracy, particularly for subtle postural features, highlighting the need for domain-specific refinement for clinical use [@Kakuta2022]. More broadly, current pose estimation models remain limited by sensitivity to noise and 2D–3D estimation gaps, reducing their reliability for detecting the subtle asymmetries critical to movement imbalance analysis [@Kakuta2022; @Lachance2023]. Fairness and representativeness in pose estimation systems are also important concerns: current Pose Estimation Models (PEMs) exhibit performance disparities across demographic groups, with reduced accuracy for under-represented populations in training datasets [@Lachance2023]. Available datasets often focus on males and light-skinned subjects in age groups 19–50 and under-represent females, older adults, and people with darker skin tones, creating the possibility of systematic errors in movement analysis.
 
 Consequently, while MediaPipe Pose serves as a robust foundation for pose detection, it does not inherently capture the fine-grained symmetry metrics, sagittal and coronal balance indicators, or compensatory movement patterns that are essential for clinical postural and movement analysis. AI-based markerless systems nonetheless represent an important step towards closing the gap between theoretical research and practical implementation in remote clinical assessment [@Wagh2024; @UltralyticsInc2025].
 
@@ -153,25 +153,25 @@ Unlike large-scale, general-purpose image datasets, this Kaggle dataset is speci
 
 Primary outcomes
 
--   Head-neck-torso alignment: Angular relationships and relative positioning of the head, cervical spine, and torso.
--   Postural coordination: Upper-body skeletal alignment patterns derived from keypoints and CNN feature maps.
--   Movement imbalance indicators: Detection of asymmetries, misalignments, or inefficient posture as inferred from pose landmarks.
+- Head-neck-torso alignment: Angular relationships and relative positioning of the head, cervical spine, and torso.
+- Postural coordination: Upper-body skeletal alignment patterns derived from keypoints and CNN feature maps.
+- Movement imbalance indicators: Detection of asymmetries, misalignments, or inefficient posture as inferred from pose landmarks.
 
 Exposures/independent variables
 
--   Image category/context: Static posture images in standardized side view.
--   Camera/view angle: Minor variation in pose estimation accuracy depending on exact lateral positioning.
+- Image category/context: Static posture images in standardized side view.
+- Camera/view angle: Minor variation in pose estimation accuracy depending on exact lateral positioning.
 
 Covariates/control features
 
--   Image characteristics: Resolution, background, and lighting, which may influence model performance.
--   Posture variation: Degree of anterior head translation, kyphosis, and other sagittal-plane deviations.
+- Image characteristics: Resolution, background, and lighting, which may influence model performance.
+- Posture variation: Degree of anterior head translation, kyphosis, and other sagittal-plane deviations.
 
 Extracted features
 
--   Skeletal keypoints: Annotated landmarks in YOLO pose format and MediaPipe Pose outputs.
--   Kinematic proxies: Angular relationships between key joints and segments.
--   Postural imbalance markers: Anterior head translation, sagittal imbalance, and deviations from expected alignment patterns.
+- Skeletal keypoints: Annotated landmarks in YOLO pose format and MediaPipe Pose outputs.
+- Kinematic proxies: Angular relationships between key joints and segments.
+- Postural imbalance markers: Anterior head translation, sagittal imbalance, and deviations from expected alignment patterns.
 
 All selected images from the Kaggle dataset will undergo preprocessing prior to model training, including resizing, normalization, and verification of annotation integrity. Where appropriate, data augmentation (e.g., small rotations, cropping, brightness adjustments) will be applied to improve generalization while preserving clinically meaningful posture characteristics.
 
@@ -198,29 +198,29 @@ This chapter documents the systems, pipelines and automation used to prepare the
 
 ## 4.1 Research setup
 
--   Hardware and runtime: local development was performed on a macOS workstation for editing and lightweight test runs; heavier training runs were executed on a cloud VM.
+- Hardware and runtime: local development was performed on a macOS workstation for editing and lightweight test runs; heavier training runs were executed on a cloud VM.
 
--   **Representative software stack:**
+- **Representative software stack:**
 
-    -   Python 3.10 for mediapipe model maker, Python 3.13 for inference of the TFLite model
-    -   TensorFlow 2.x with TFLite support
-    -   MediaPipe (python bindings or containerised MediaPipe runtime)
-    -   OpenCV, NumPy, pandas, scikit-learn, Matplotlib
-    -   Jupyter notebook
-    -   Quarto (for rendering `Dissertation.qmd`)
-    -   Docker & Docker Compose
-    -   Jenkins (CI server)
-    -   n8n (automation/workflows)
-    -   GitHub Actions (dissertation artifact build)
+  - Python 3.10 for MediaPipe model maker, Python 3.13 for inference of the TFLite model
+  - TensorFlow 2.x with TFLite support
+  - MediaPipe (python bindings or containerised MediaPipe runtime)
+  - OpenCV, NumPy, pandas, scikit-learn, Matplotlib
+  - Jupyter notebook
+  - Quarto (for rendering `Dissertation.qmd`)
+  - Docker & Docker Compose
+  - Jenkins (CI server)
+  - n8n (automation/workflows)
+  - GitHub Actions (dissertation artifact build)
 
--   **Environment manifests used in this project (congested by Dockerfiles):**
+- **Environment manifests used in this project (congested by Dockerfiles):**
 
-    -   `code/environment.yml`
-    -   `code/environment_model-maker.yml`
-    -   `code/requirements.txt`
-    -   `code/requirements_model-maker.txt`
+  - `code/environment.yml`
+  - `code/environment_model-maker.yml`
+  - `code/requirements.txt`
+  - `code/requirements_model-maker.txt`
 
--   **Example reproducible local environment:**
+- **Example reproducible local environment:**
 
 ``` bash
 conda env create -f code/environment.yml
@@ -265,7 +265,7 @@ python scripts/custom_tflite_image_classifier.py --model data/models/<run>/model
 
 \- `code/Dockerfile` — training and utilities image.
 
--   `code/Dockerfile_mediapipe`
+- `code/Dockerfile_mediapipe`
 
 MediaPipe runtime used for keypoint extraction and overlay rendering. Multi-service development is defined in:
 
@@ -289,7 +289,7 @@ docker compose -f code/docker-compose.yml up --build
 
 **CI/CD:** GitHub Actions for Quarto artifacts
 
-\- A GitHub Actions workflow (run manully) renders the dissertation via Quarto:
+\- A GitHub Actions workflow (run manually) renders the dissertation via Quarto:
 
 \- Checkout repository. - Install Quarto and LaTeX (for PDF rendering).
 
@@ -323,20 +323,20 @@ These results are from four model builds with Keras and TensorFlow, and evaluate
 
 ## 5.1 Dataset and preprocessing outcomes
 
-The dataset and splits used across all runs were consistent. The training set contained 1,890 images distributed across three classes, and both the validation and test splits contained 199 images each. To achieve this number from 300 original Cimages, augmentation was applied. First, a subset of duplicated 300 images with body landmarks as overlay were added. This was achieved by an existing MediaPipe Pose model which was adding these annotations. Second, the images were duplicated several times and processed via random image editing utilizing the OpenCV framework. For instance, the color-theme or background color were changed, images were cropped or tilted. For each augmented image, 2 changes were applied. The final class counts were as follows:
+The dataset and splits used across all runs were consistent. The training set contained 1,890 images distributed across three classes, and both the validation and test splits contained 199 images each. To achieve this number from 300 original images, augmentation was applied. First, a subset of duplicated 300 images with body landmarks as overlay were added. This was achieved by an existing MediaPipe Pose model which was adding these annotations. Second, the images were duplicated several times and processed via random image editing utilizing the OpenCV framework. For instance, the colour-theme or background colour were changed, images were cropped or tilted. For each augmented image, 2 changes were applied. The final class counts were as follows:
 
--   Train split (total = 1890):
-    -   normal posture: 630
-    -   slumped posture: 651
-    -   tensed posture: 609
--   Validation split (total = 199):
-    -   normal posture: 69
-    -   slumped posture: 69
-    -   tensed posture: 61
--   Test split (total = 199):
-    -   normal posture: 63
-    -   slumped posture: 62
-    -   tensed posture: 74
+- Train split (total = 1890):
+  - normal posture: 630
+  - slumped posture: 651
+  - tensed posture: 609
+- Validation split (total = 199):
+  - normal posture: 69
+  - slumped posture: 69
+  - tensed posture: 61
+- Test split (total = 199):
+  - normal posture: 63
+  - slumped posture: 62
+  - tensed posture: 74
 
 Preprocessing was applied consistently for all runs (same processed image data set) to maintain comparability between architectures.
 
@@ -368,9 +368,9 @@ Model evaluate(internal performance metric) loss/accuracy on dataset_obj: 0.6382
 
 Per-class support:
 
--   normal posture: 63
--   slumped posture: 62
--   tensed posture: 74
+- normal posture: 63
+- slumped posture: 62
+- tensed posture: 74
 
 Balanced accuracy (macro recall): 0.3263
 
@@ -411,9 +411,9 @@ Model evaluate(internal performance metric) loss/accuracy on dataset_obj: 0.6450
 
 Per-class support:
 
--   normal posture: 63
--   slumped posture: 62
--   tensed posture: 74
+- normal posture: 63
+- slumped posture: 62
+- tensed posture: 74
 
 Balanced accuracy (macro recall): 0.3979
 
@@ -454,9 +454,9 @@ Model evaluate(internal performance metric) loss/accuracy on dataset_obj: 0.7035
 
 Per-class support:
 
--   normal posture: 63
--   slumped posture: 62
--   tensed posture: 74
+- normal posture: 63
+- slumped posture: 62
+- tensed posture: 74
 
 Balanced accuracy (macro recall): 0.4167
 
@@ -497,9 +497,9 @@ Model evaluate(internal performance metric) loss/accuracy on dataset_obj: 0.7365
 
 Per-class support:
 
--   normal posture: 63
--   slumped posture: 62
--   tensed posture: 74
+- normal posture: 63
+- slumped posture: 62
+- tensed posture: 74
 
 Balanced accuracy (macro recall): 0.3111
 
@@ -520,21 +520,21 @@ Balanced accuracy (macro recall): 0.3111
 
 Across all experiments a consistent pattern of misclassification is apparent. The models show relatively high recall for the `slumped posture` class but lower precision, indicating a tendency to predict `slumped` for a wide range of inputs. `Normal posture` is frequently misclassified (low recall in several runs), and `tensed posture` predictions vary by architecture: deeper Lite variants tended to improve overall discrimination.
 
--   Best overall accuracy and balanced recall were achieved by EfficientNet-Lite4 (accuracy 0.4121, balanced accuracy 0.4167).
--   EfficientNet-Lite2 performed second best (accuracy 0.3920, balanced accuracy 0.3979).
--   EfficientNet-Lite0 and MobileNet-V2 produced lower overall accuracy (0.3216 and 0.3065 respectively) and lower balanced accuracy.
+- Best overall accuracy and balanced recall were achieved by EfficientNet-Lite4 (accuracy 0.4121, balanced accuracy 0.4167).
+- EfficientNet-Lite2 performed second best (accuracy 0.3920, balanced accuracy 0.3979).
+- EfficientNet-Lite0 and MobileNet-V2 produced lower overall accuracy (0.3216 and 0.3065 respectively) and lower balanced accuracy.
 
 Common failure modes observed in confusion matrices:
 
--   Confusion between `normal` and `slumped`: many `normal` examples are predicted as `slumped`, suggesting the model is sensitive to subtle postural variations or that the dataset contains ambiguous examples near class boundaries.
--   Over-prediction of `slumped`: reflected in row-normalized confusion matrices where the middle column (predicted `slumped`) is large across runs.
--   Lower discrimination for `tensed` vs other classes in the smaller architectures, improved modestly in larger EfficientNet-Lite variants.
+- Confusion between `normal` and `slumped`: many `normal` examples are predicted as `slumped`, suggesting the model is sensitive to subtle postural variations or that the dataset contains ambiguous examples near class boundaries.
+- Over-prediction of `slumped`: reflected in row-normalized confusion matrices where the middle column (predicted `slumped`) is large across runs.
+- Lower discrimination for `tensed` vs. other classes in the smaller architectures, improved modestly in larger EfficientNet-Lite variants.
 
 Implications and next steps:
 
--   The results indicate that the models can capture some posture-related features but that class overlap and limited dataset size constrain discriminative performance. Better class balance, additional labelled data for edge cases, and further augmentation tailored to posture variations should be considered.
--   Model calibration and threshold tuning (or use of ensemble methods) may improve precision for the `slumped` and `tensed` classes.
--   Further work should include qualitative review of misclassified examples to identify systematic annotation or dataset issues and targeted augmentation or re-labelling where necessary.
+- The results indicate that the models can capture some posture-related features but that class overlap and limited dataset size constrain discriminative performance. Better class balance, additional labelled data for edge cases, and further augmentation tailored to posture variations should be considered.
+- Model calibration and threshold tuning (or use of ensemble methods) may improve precision for the `slumped` and `tensed` classes.
+- Further work should include qualitative review of misclassified examples to identify systematic annotation or dataset issues and targeted augmentation or re-labelling where necessary.
 
 \clearpage
 

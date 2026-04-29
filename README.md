@@ -1,12 +1,12 @@
 # Dissertation
 
-This is the Dissertation project at the **University of Edinburgh** in the studies **Data Science for Health and Social Care**. Please use [s2616861@ed.ac.uk](mailto:s2616861@ed.ac.uk) for any questions or inquiries about the project.
+This is the Dissertation project at the **University of Edinburgh** in the studies **Data Science for Health and Social Care**. Please use [s2616861\@ed.ac.uk](mailto:s2616861@ed.ac.uk) for any questions or inquiries about the project.
 
 It uses a [Kaggle image dataset](https://www.kaggle.com/datasets/melsmm/posture-keypoints-detection/code) with 300 high quality images which was collected and used by a student in his final project of the *Deep Learning* School course at **MIPTa** - [Github repo](https://github.com/MakhmudovMels/posture-keypoints-detection).
 
 **Project structure:**
 
-```text
+``` text
 .
 ├── .github/
 │   └── copilot-instructions.md
@@ -86,9 +86,10 @@ It uses a [Kaggle image dataset](https://www.kaggle.com/datasets/melsmm/posture-
 ```
 
 <!-- markdownlint-disable MD051 -->
+
 - Research Proposal for the dissertation (Word document): [Dissertation_proposal_B248593.docx](docs/Proposal/Dissertation_proposal_B248593.docx)
 - Dissertation (Quarto file): [Dissertation.qmd](Dissertation.qmd)
-- Reflective Blog 1: [B248593_Blog_1.qmd](docs/Reflective Blog/B248593_Blog_1.qmd)
+- Reflective Blog 1: [B248593_Blog_1.qmd](docs/Reflective%20Blog/B248593_Blog_1.qmd)
 - README (Markdown): [README.md](README.md)
 - LICENSE.txt (Creative Commons Attribution 4.0 International Public License))
 - Code (folder): [code](code/)
@@ -116,20 +117,19 @@ It uses a [Kaggle image dataset](https://www.kaggle.com/datasets/melsmm/posture-
     - `mediapipe_api.py`: n8n API wrapper functions for MediaPipe Pose
 - Documents (folder): [docs](docs/)
   - Proposal documents: [Proposal](docs/Proposal/)
-  - Reflective Blog documents: [Reflective Blog](docs/Reflective Blog/)
+  - Reflective Blog documents: [Reflective Blog](docs/Reflective%20Blog/)
   - Ethics documents: [Ethics](docs/Ethics/)
   - Supervision meeting diary template: [MSc_DSHSC_Supervision_research_meeting_diary_template.docx](docs/MSc_DSHSC_Supervision_research_meeting_diary_template.docx)
-  - Bachelor thesis of a Serious Game in Health project: [Bachelor Thesis](docs/Bachelor Thesis/Bachelor.Thesis.pdf)
+  - Bachelor thesis of a Serious Game in Health project: [Bachelor Thesis](docs/Bachelor%20Thesis/Bachelor.Thesis.pdf)
 - Literature (folder): [literature](literature/)
   - `bibliography.bib`
-  - `apa.csl`
-<!-- markdownlint-enable MD051 -->
+  - `apa.csl` <!-- markdownlint-enable MD051 -->
 
 ## Build dissertation artefacts
 
 The dissertation artefacts can be built using Quarto. The generated PDF will be available at `Dissertation.pdf` after the build.
 
-```bash
+``` bash
 # Rendering to PDf
 quarto render Dissertation.qmd --to pdf
 
@@ -144,7 +144,7 @@ quarto render Dissertation.qmd --to docx
 
 The repository ships with a Docker setup tailored for TensorFlow Lite Model Maker and the surrounding tooling. Set a password for the bundled Jupyter server by exporting `JUPYTER_PASSWORD` or defining it in a `.env` file next to `code/docker-compose.yml` before launching the containers. The container will abort startup if the variable is empty. Use Docker Compose to build and launch the lab environment locally (or rely on the Jenkins build that is automatically triggered on pushes to the repository):
 
-```bash
+``` bash
 # Stopping any running container
 docker compose -f code/docker-compose.yml down
 
@@ -160,12 +160,12 @@ docker compose -f code/docker-compose.yml logs -f dissertation-tflite-lab-1
 
 Open a shell inside the container to retrieve the login URL, then authenticate in the browser with the password stored in `JUPYTER_PASSWORD`:
 
-```bash
+``` bash
 # Getting the Jupyter url with token
 docker compose -f code/docker-compose.yml exec tflite-lab jupyter notebook list
 ```
 
-The Streamlit pose explorer is available at [http://localhost:8501](http://localhost:8501) once the `streamlit` service is running.
+The Streamlit pose explorer is available at <http://localhost:8501> once the `streamlit` service is running.
 
 > **Compatibility note:** The Docker image pins TensorFlow to 2.8.0 and constrains the scientific stack to versions compatible with `tflite-model-maker==0.4.3`. If you also need the newer `mediapipe-model-maker` pipeline, consider creating a parallel container with an updated TensorFlow stack to avoid conflicting requirements.
 
@@ -174,8 +174,7 @@ The Streamlit pose explorer is available at [http://localhost:8501](http://local
 - [MediaPipe Studio Home](https://mediapipe-studio.webapps.google.com/home)
 - [MediaPipe Pose Landmarker Demo](https://mediapipe-studio.webapps.google.com/studio/demo/pose_landmarker)
 
-Webapp demo:
-[MediaPipe Pose Tracking Demo](https://viz.mediapipe.dev/demo/pose_tracking)
+Webapp demo: [MediaPipe Pose Tracking Demo](https://viz.mediapipe.dev/demo/pose_tracking)
 
 ### TLite Model Maker for Image Classification
 
@@ -185,7 +184,7 @@ Training a custom image classification model using MediaPipe Model Maker.
 
 Server-first workflow to commit and push trained models:
 
-```bash
+``` bash
 # 1) Login to the server
 ssh -i ~/.ssh/id_rsa root@ssh.seriousbenentertainment.org
 
@@ -216,13 +215,13 @@ git push -u origin "$(git rev-parse --abbrev-ref HEAD)"
 
 Optional one-time HTTPS push with token (if `origin` credentials are not configured):
 
-```bash
+``` bash
 git push "https://<GITHUB_USERNAME>:<GITHUB_TOKEN>@github.com/DrBenjamin/dissertation-movement-analysis.git" "$(git rev-parse --abbrev-ref HEAD)"
 ```
 
 After push, open the PR page:
 
-```bash
+``` bash
 echo "https://github.com/DrBenjamin/dissertation-movement-analysis/pull/new/$(git rev-parse --abbrev-ref HEAD)"
 ```
 
@@ -236,7 +235,7 @@ Files: `code/human_posture_analysis.ipynb` and `code/human_posture_analysis.py`.
 
 To run the Python script:
 
-```bash
+``` bash
 # for images
 python code/human_posture_analysis.py --mode image --api-base-url http://seriousbenentertainment.org:8000 --input-video ./data/images/input.png --output-video ./data/images/output.png
 
@@ -253,7 +252,7 @@ You can now run a local Streamlit application to experiment with MediaPipe Pose 
 
 Run the app:
 
-```bash
+``` bash
 python -m streamlit run code/mediapipe_pose.py
 ```
 
@@ -273,20 +272,15 @@ All references and resources used in the project are listed below.
 
 ### Mediapipe-model-maker
 
-[MediaPipe Model Maker – Getting Started](https://ai.google.dev/edge/mediapipe/solutions/model_maker#get_started)
-[MediaPipe Model Maker – Image Classifier Customisation](https://ai.google.dev/edge/mediapipe/solutions/customization/image_classifier)
+[MediaPipe Model Maker – Getting Started](https://ai.google.dev/edge/mediapipe/solutions/model_maker#get_started) [MediaPipe Model Maker – Image Classifier Customisation](https://ai.google.dev/edge/mediapipe/solutions/customization/image_classifier)
 
-**In Colab:**
-[MediaPipe Model Maker Colab Example](https://colab.research.google.com/github/googlesamples/mediapipe/blob/main/examples/customization/image_classifier.ipynb#scrollTo=Nbu3mnPiSvSn)
+**In Colab:** [MediaPipe Model Maker Colab Example](https://colab.research.google.com/github/googlesamples/mediapipe/blob/main/examples/customization/image_classifier.ipynb#scrollTo=Nbu3mnPiSvSn)
 
-Custom TensorFlow Lite models for image classification on-device using MediaPipe Model Maker:
-[DeepWiki – Custom TensorFlow Lite Models](https://deepwiki.com/search/is-it-possible-to-develop-a-ml_ee90fb1b-8cfd-4e5d-ab63-22ba7a4bc499)
+Custom TensorFlow Lite models for image classification on-device using MediaPipe Model Maker: [DeepWiki – Custom TensorFlow Lite Models](https://deepwiki.com/search/is-it-possible-to-develop-a-ml_ee90fb1b-8cfd-4e5d-ab63-22ba7a4bc499)
 
 ### Human 3D models compatibility
 
-[Human Mesh Recovery Survey (arXiv 2212.14474)](https://arxiv.org/pdf/2212.14474)
-[PosePile Dataset](https://github.com/isarandi/PosePile)
-[Pose Dataset Viewer](https://github.com/isarandi/pose-dataset-viewer)
+[Human Mesh Recovery Survey (arXiv 2212.14474)](https://arxiv.org/pdf/2212.14474) [PosePile Dataset](https://github.com/isarandi/PosePile) [Pose Dataset Viewer](https://github.com/isarandi/pose-dataset-viewer)
 
 **Demo:**
 
