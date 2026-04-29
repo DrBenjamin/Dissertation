@@ -14,11 +14,32 @@ function Meta(meta)
   end
 
   if should_set then
-    -- compute current time + 0 hours (seconds)
+    -- compute current time + 2 hours (CET offset)
     local t = os.time() + 2 * 60 * 60
-    -- format as UTC time then append +02:00 offset so Quarto parses as local+02
     local iso = os.date("!%d.%m.%Y %H:%M", t)
-    meta.date = pandoc.MetaString(iso)
+
+    -- Try to get the last git commit message
+    local commit_msg = nil
+    local handle = io.popen("git log -1 --format=%s 2>/dev/null")
+    if handle then
+      commit_msg = handle:read("*a")
+      handle:close()
+      if commit_msg then
+        commit_msg = commit_msg:gsub("%s+$", "") -- trim trailing whitespace
+      end
+      if commit_msg == "" then commit_msg = nil end
+    end
+
+    -- Build date with optional commit message below
+    if commit_msg then
+      meta.date = pandoc.MetaInlines({
+        pandoc.Str(iso),
+        pandoc.LineBreak(),
+        pandoc.Emph({pandoc.Str("Last commit: " .. commit_msg)})
+      })
+    else
+      meta.date = pandoc.MetaString(iso)
+    end
   end
 
   return meta
