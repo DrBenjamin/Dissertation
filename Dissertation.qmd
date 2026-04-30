@@ -224,7 +224,7 @@ This chapter documents the systems, pipelines and automation used to prepare the
 
 - **Representative software stack**
 
-  - Python 3.10 or Python 3.13
+  - Python 3.10 (Model Maker) or Python 3.13 (Inference)
   - TensorFlow 2.19.1 with TFLite support and Keras (3.12.1)
   - MediaPipe (0.10.20) and MediaPipe Model Maker (0.2.1.3)
   - OpenCV, NumPy, pandas, Matplotlib

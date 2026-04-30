@@ -9,6 +9,7 @@ dependencies:
     - -r requirements_model-maker.txt
     - setuptools==70.3.0
     - wheel
+    - ml-dtypes==0.5.4
     - mediapipe==0.10.20
     - numpy==1.26.4
     - mediapipe-model-maker==0.2.1.3

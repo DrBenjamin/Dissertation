@@ -41,7 +41,7 @@ RUN python -m pip install --upgrade pip setuptools \
 # name without importing it. This runs safely during image build
 # if MediaPipe was installed by requirements.txt.
 RUN python - <<'PY'
-import importlib.util, sys
+import importlib.util, sys, re
 from pathlib import Path
 spec = importlib.util.find_spec('mediapipe')
 if spec is None:
@@ -64,11 +64,11 @@ if not target.exists():
     sys.exit(0)
 
 text = target.read_text()
-old = 'import mediapipe.tasks.python.audio.audio_classifier'
-new = 'from . import audio_classifier'
-if old in text:
-    text = text.replace(old, new)
-    target.write_text(text)
+# Replace absolute mediapipe.audio imports (which don't bind short names)
+# with relative imports so `core`, `audio_classifier`, etc. are defined.
+text_new = re.sub(r"import\s+mediapipe\.tasks\.python\.audio\.(\w+)", r"from . import \1", text)
+if text_new != text:
+    target.write_text(text_new)
     print('patched', target)
 else:
     print('pattern not found; no change')
