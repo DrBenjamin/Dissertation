@@ -59,7 +59,7 @@ execute:
 
 \clearpage
 
-# MSc in Data Science for Health and Social Care
+# MSc. in Data Science for Health and Social Care
 
 Examination Number: B248593
 
@@ -123,7 +123,7 @@ Chapter 9 concludes with a summary of contributions and future work directions.
 
 # 2. Literature Review
 
-Recent validation studies comparing MediaPipe with gold-standard motion capture systems reveal measurable discrepancies in landmark accuracy, particularly for subtle postural features, highlighting the need for domain-specific refinement for clinical use [@Kakuta2022]. Here, "subtle" means inapropiate muscular tension with small or no movement of (the) body(-parts). More broadly, current pose estimation models remain limited by sensitivity to noise and 2D–3D estimation gaps, reducing their reliability for detecting the named tensions and asymmetries critical to movement and pose imbalance analysis [@Kakuta2022; @Lachance2023]. Fairness and representativeness in pose estimation systems are also important concerns: current Pose Estimation Models (PEMs) exhibit performance disparities across demographic groups, with reduced accuracy for under-represented populations in training datasets [@Lachance2023]. Available datasets frequently focus on male and predominantly white participants between the ages of 19 and 50, while under-representing females, older adults, and individuals with darker skin tones, thereby increasing the risk of systematic bias and reduced generalizability in movement and posture analysis.”
+Recent validation studies comparing MediaPipe with gold-standard motion capture systems reveal measurable discrepancies in landmark accuracy, particularly for subtle postural features, highlighting the need for domain-specific refinement for clinical use [@Kakuta2022]. Here, "subtle" means inappropriate muscular tension with small or no movement of (the) body(-parts). More broadly, current pose estimation models remain limited by sensitivity to noise and 2D–3D estimation gaps, reducing their reliability for detecting the named tensions and asymmetries critical to movement and pose imbalance analysis [@Kakuta2022; @Lachance2023]. Fairness and representativeness in pose estimation systems are also important concerns: current Pose Estimation Models (PEMs) exhibit performance disparities across demographic groups, with reduced accuracy for under-represented populations in training datasets [@Lachance2023]. Available datasets frequently focus on male and predominantly white participants between the ages of 19 and 50, while under-representing females, older adults, and individuals with darker skin tones, thereby increasing the risk of systematic bias and reduced generalizability in movement and posture analysis.”
 
 Consequently, while MediaPipe Pose serves as a robust foundation for pose detection, in its standard configuration of training it does not inherently capture the fine-grained symmetry metrics, sagittal and coronal balance indicators, or compensatory movement patterns that rely on hyper- and hypo-tension that are essential for clinical postural and even more for movement analysis. Computer-vision-based deep learning markerless systems nonetheless represent an important step towards closing the gap between theoretical research, that can be even a century old like the principle of primary control of human movement by @AlexanderFM2017, and practical implementation in remote clinical assessment [@Wagh2024; @UltralyticsInc2025].
 
@@ -199,7 +199,7 @@ All selected images from the Kaggle dataset will undergo preprocessing prior to 
 
 This study employs a transfer learning approach to develop a domain-specific TensorFlow Lite model suitable for clinical posture and movement analysis. Transfer learning enables the adaptation of pre-trained CNN architectures—such as those used within MediaPipe and trained on large-scale datasets like ImageNet—to the focused task of detecting head-neck-torso imbalances. In practice, base model weights are kept frozen or partially frozen, while classification and selected high-level layers are retrained using the Kaggle posture dataset.
 
-Deploying the resulting model as a quantized TensorFlow Lite artefact supports real-time, on-device inference on mobile and edge devices, reducing latency and preserving user privacy by processing data locally.
+Deploying the resulting model as a quantized TensorFlow Lite artifact supports real-time, on-device inference on mobile and edge devices, reducing latency and preserving user privacy by processing data locally.
 
 ## 3.5 Analysis and performance evaluation
 
@@ -220,7 +220,7 @@ This chapter documents the systems, pipelines and automation used to prepare the
 
 - **Hardware and runtime**
 
-  The development was performed on a remote virtual machine with 8GB RAM and 4 CPU Cores. For editing Python scripts, a Jyputer Notebook was used, for editing the Quarto project file a RStudio Server. Next to this, a Streamlit WebApp was developed and used to test re-trained models manually. Both the Jupyter notebook and the Streamlit WebApp were deployed via a Docker container on the remote server to manage heavy Python library dependencies of MediaPipe Model Maker (Python 3.10) respective of MediaPipe / TensorFlow Lite (Python 3.13).
+  The development was performed on a remote virtual machine with 8GB RAM and 4 CPU Cores. For editing Python scripts, a Jupyter Notebook was used, for editing the Quarto project file a RStudio Server. Next to this, a Streamlit WebApp was developed and used to test re-trained models manually. Both the Jupyter notebook and the Streamlit WebApp were deployed via a Docker container on the remote server to manage heavy Python library dependencies of MediaPipe Model Maker (Python 3.10) respective of MediaPipe / TensorFlow Lite (Python 3.13).
 
 - **Representative software stack**
 
@@ -282,7 +282,7 @@ Inference packaging - Inference scripts live in `scripts/` (for example `custom_
 python scripts/custom_tflite_image_classifier.py --model data/models/<run>/model.tflite --image data/images/example.jpg
 ```
 
-**Containerisation and compose**
+**Containerization and compose**
 
 \- The project maintains two primary Dockerfile artifacts:
 
@@ -302,7 +302,7 @@ docker compose -f code/docker-compose.yml up --build
 
 **CI/CD**
 
-Jenkins is used for build a Jupyter environment on a server to run model training and also builds a Streamlit Webapp for inference testing of previously build models.
+Jenkins is used for build a Jupyter environment on a server to run model training and also builds a Streamlit WebApp for inference testing of previously build models.
 
 GitHub Actions of a GitHub Pages repository is trigged to render the Quarto artifacts:
 
@@ -328,7 +328,7 @@ These results are from four model builds with Keras and TensorFlow, and evaluate
 
 ## 5.1 Dataset and preprocessing outcomes
 
-The dataset and splits used across all runs were consistent. The training set contained 1,890 images distributed across three classes, and both the validation and test splits contained 199 images each. To achieve this number from 300 original images, augmentation was applied. First, a subset of duplicated 300 images with body landmarks as overlay were added. This was achieved by an existing MediaPipe Pose model which was adding these annotations. Second, the images were duplicated several times and processed via random image editing utilizing the OpenCV framework. For instance, the colour-theme or background colour were changed, images were cropped or tilted. For each augmented image, 2 changes were applied. The final class counts were as follows:
+The dataset and splits used across all runs were consistent. The training set contained 1,890 images distributed across three classes, and both the validation and test splits contained 199 images each. To achieve this number from 300 original images, augmentation was applied. First, a subset of duplicated 300 images with body landmarks as overlay were added. This was achieved by an existing MediaPipe Pose model which was adding these annotations. Second, the images were duplicated several times and processed via random image editing utilizing the OpenCV framework. For instance, the color-theme or background color were changed, images were cropped or tilted. For each augmented image, 2 changes were applied. The final class counts were as follows:
 
 - Train split (total = 1890):
   - normal posture: 630

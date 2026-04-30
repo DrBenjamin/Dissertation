@@ -157,6 +157,9 @@ docker compose -f code/docker-compose.yml up -d
 # Logging container output
 docker compose -p dissertation -f code/docker-compose.yml logs -f tflite-lab
 
+# Checking running Jupyter notebook container
+docker exec -it dissertation-tflite-lab-1 bash
+
 # Checking TensorFlow version on the MediaPipe / Streamlit container
 docker exec -it dissertation-streamlit-1 python -c "import tensorflow as tf; print(tf.__version__)"
 ```
