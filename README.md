@@ -155,7 +155,10 @@ docker compose -f code/docker-compose.yml build  #--progress plain
 docker compose -f code/docker-compose.yml up -d
 
 # Logging container output
-docker compose -f code/docker-compose.yml logs -f dissertation-tflite-lab-1
+docker compose -p dissertation -f code/docker-compose.yml logs -f tflite-lab
+
+# Checking TensorFlow version on the MediaPipe / Streamlit container
+docker exec -it dissertation-streamlit-1 python -c "import tensorflow as tf; print(tf.__version__)"
 ```
 
 Open a shell inside the container to retrieve the login URL, then authenticate in the browser with the password stored in `JUPYTER_PASSWORD`:
