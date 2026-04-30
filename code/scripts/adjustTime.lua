@@ -35,7 +35,7 @@ function Meta(meta)
       meta.date = pandoc.MetaInlines({
         pandoc.Str(iso),
         pandoc.LineBreak(),
-        pandoc.Emph({pandoc.Str("Last commit: " .. commit_msg)})
+        pandoc.Emph({pandoc.Str("Last commit on https://github.com/DrBenjamin/Dissertation: " .. commit_msg)})
       })
     else
       meta.date = pandoc.MetaString(iso)
