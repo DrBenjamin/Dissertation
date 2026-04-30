@@ -4,6 +4,9 @@ pipeline {
   parameters {
     booleanParam(name: 'DEPLOY', defaultValue: true, description: 'Deploy with docker compose after build?')
     booleanParam(name: 'PULL_BASE_IMAGES', defaultValue: false, description: 'Force pulling base images during compose build? (slower)')
+    // When running the job manually you can toggle whether to trigger the GitHub Pages workflow.
+    // Default `true` preserves automatic behavior for webhook-triggered builds (they use defaults).
+    booleanParam(name: 'DEPLOY_GH_PAGES', defaultValue: true, description: 'After deploy, trigger GitHub Pages workflow (update-content.yml)')
   }
 
   environment {
@@ -80,17 +83,23 @@ pipeline {
               docker compose -p "${COMPOSE_PROJECT_NAME}" -f "${COMPOSE_FILE}" ps
             '''
           }
-          // Trigger GitHub Actions workflow to update GitHub Pages
-          withCredentials([string(credentialsId: 'GITHUB_PAT_DEPLOY', variable: 'GITHUB_PAT')]) {
-            sh '''
-              echo "Triggering GitHub Actions workflow update-content.yml on DrBenjamin/DrBenjamin.github.io"
-              curl -s -X POST \
-                -H "Accept: application/vnd.github+json" \
-                -H "Authorization: Bearer ${GITHUB_PAT}" \
-                -H "Content-Type: application/json" \
-                https://api.github.com/repos/DrBenjamin/DrBenjamin.github.io/actions/workflows/update-content.yml/dispatches \
-                -d '{"ref":"main","inputs":{}}'
-            '''
+          script {
+            if (params.DEPLOY_GH_PAGES) {
+              // Trigger GitHub Actions workflow to update GitHub Pages
+              withCredentials([string(credentialsId: 'GITHUB_PAT_DEPLOY', variable: 'GITHUB_PAT')]) {
+                sh '''
+                  echo "Triggering GitHub Actions workflow update-content.yml on DrBenjamin/DrBenjamin.github.io"
+                  curl -s -X POST \
+                    -H "Accept: application/vnd.github+json" \
+                    -H "Authorization: Bearer ${GITHUB_PAT}" \
+                    -H "Content-Type: application/json" \
+                    https://api.github.com/repos/DrBenjamin/DrBenjamin.github.io/actions/workflows/update-content.yml/dispatches \
+                    -d '{"ref":"main","inputs":{}}'
+                '''
+              }
+            } else {
+              echo "Skipping GitHub Pages dispatch because DEPLOY_GH_PAGES=false"
+            }
           }
         }
       }
