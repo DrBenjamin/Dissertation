@@ -80,6 +80,18 @@ pipeline {
               docker compose -p "${COMPOSE_PROJECT_NAME}" -f "${COMPOSE_FILE}" ps
             '''
           }
+          // Trigger GitHub Actions workflow to update GitHub Pages
+          withCredentials([string(credentialsId: 'GITHUB_PAT_DEPLOY', variable: 'GITHUB_PAT')]) {
+            sh '''
+              echo "Triggering GitHub Actions workflow update-content.yml on DrBenjamin/DrBenjamin.github.io"
+              curl -s -X POST \
+                -H "Accept: application/vnd.github+json" \
+                -H "Authorization: Bearer ${GITHUB_PAT}" \
+                -H "Content-Type: application/json" \
+                https://api.github.com/repos/DrBenjamin/DrBenjamin.github.io/actions/workflows/update-content.yml/dispatches \
+                -d '{"ref":"main","inputs":{}}'
+            '''
+          }
         }
       }
     }
