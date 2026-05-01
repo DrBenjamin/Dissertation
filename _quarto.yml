@@ -1,0 +1,4 @@
+format:
+  pdf:
+    template-partials:
+      - before-body.tex

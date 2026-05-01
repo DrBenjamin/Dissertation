@@ -73,3 +73,5 @@ data/*
 /.luarc.json
 .Rproj.user
 .positai
+
+**/*.quarto_ipynb

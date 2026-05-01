@@ -19,7 +19,7 @@ format:
     toc: true
     toc-expand: 5
     toc-depth: 5
-    number-sections: false
+    number-sections: true
     number-depth: 5
   pdf:
     keep-tex: false
@@ -57,21 +57,17 @@ execute:
   echo: false
 ---
 
-\clearpage
-
-\clearpage
-
-## Contribution
+# Contribution
 
 The development of this dissertation incorporated the selective use of generative artificial intelligence (AI) tools as supportive research and technical assistance instruments. GitHub GitHub Copilot and Posit Assistant were utilized to assist in troubleshooting Python dependency conflicts, resolving CI/CD configuration issues involving Jenkins and Docker, and supporting administrative setup tasks related to RStudio Server. In addition, Perplexity was used for targeted literature discovery and contextual identification of relevant academic sources and references. All critical analysis, interpretation, methodological decisions, and written academic content were independently evaluated, verified, and finalized by the author.
 
 \clearpage
 
-# 1. Introduction
+# Introduction
 
 Healthcare is increasingly recognizing the importance of movement quality and postural balance in preventing injury, managing chronic conditions, and optimizing physical performance [@Whittaker2017]. @Wijekulasuriya2025 found in an extensive actual meta analysis that traditional methods for assessing posture and movement often rely on subjective clinical observations, limiting their accessibility and consistency. Advances in artificial intelligence (AI) and computer vision offer promising avenues for developing such objective tools that are scalable and run on consumer hardware that is widely available [@Google2024; @Bazarevsky2020]. This dissertation explores the development of Convolutional Neural Networks (CNNs) through transfer learning within the Google MediaPipe framework to detect and analyze head-neck-torso alignment.
 
-## 1.1 Background and rationale
+## Background and rationale
 
 Human posture and coordination are central to both health and performance. Impairments such as muscular tension, poor motor control, or postural imbalance contribute significantly to discomfort, injury, and reduced physical performance in daily and professional life [@Kubalek-Schrder2013]. Advanced motor skills rely on precise kinaesthetic differentiation, including fine motor control, proprioceptive sensitivity, accurate force regulation, coordinated timing, and the economy of movement. These elements form the basis of effective movement in sports, rehabilitation, and everyday function [@ZauckerP2010]. Recent research highlights that chronic low back pain and other movement system impairments are closely associated with sustained postural deviations and maladaptive movement patterns that often develop gradually and may not be apparent during isolated clinical assessments [@Sahrmann2017; @Ge2022].
 
@@ -81,7 +77,7 @@ Recent advances in computer vision and artificial intelligence provide opportuni
 
 As a physiotherapist with focus on movement quality, I found these gaps were not purely academic but deeply practical in my clinical practice. To reach a level of good understanding of movement (patterns) it required years of training and clinical experience to develop. For instance the ability to accurately assess the quality of movement based on key indicators such as the passive rotatory mobility of the fifth thoracic vertebra (Th5) and adjacent vertebrae [@Tachihara2019]. The possibility of using lightweight computer vision to complement clinical expertise, enhance rehabilitation outcomes, and support performance improvement is therefore highly compelling.
 
-## 1.2 Research question, aim, and objectives
+## Research question, aim, and objectives
 
 **Research question**\
 How can transfer learning on a pre-existing TensorFlow Lite model for pose estimation and image classification be used to detect and analyze posture and movement imbalances?
@@ -95,7 +91,7 @@ Finetuning and evaluation of a deep learning model for posture and movement qual
 2.  To evaluate the performance of the finetuned classification model.
 3.  To detect and analyze indicators of posture imbalances, including the alignment angles of the head, neck and torso including asymmetries or hyper tension in muscle contours.
 
-## 1.3 Dissertation structure
+## Dissertation structure
 
 The present work is structured as follows:
 
@@ -117,7 +113,7 @@ Chapter 9 concludes with a summary of contributions and future work directions.
 
 \clearpage
 
-# 2. Literature Review
+# Literature Review
 
 Recent validation studies comparing MediaPipe with gold-standard motion capture systems reveal measurable discrepancies in landmark accuracy, particularly for subtle postural features, highlighting the need for domain-specific refinement for clinical use [@Kakuta2022]. Here, "subtle" means inappropriate muscular tension with small or no movement of (the) body(-parts). More broadly, current pose estimation models remain limited by sensitivity to noise and 2D–3D estimation gaps, reducing their reliability for detecting the named tensions and asymmetries critical to movement and pose imbalance analysis [@Kakuta2022; @Lachance2023]. Fairness and representativeness in pose estimation systems are also important concerns: current Pose Estimation Models (PEMs) exhibit performance disparities across demographic groups, with reduced accuracy for under-represented populations in training datasets [@Lachance2023]. Available datasets frequently focus on male and predominantly white participants between the ages of 19 and 50, while under-representing females, older adults, and individuals with darker skin tones, thereby increasing the risk of systematic bias and reduced generalizability in movement and posture analysis.”
 
@@ -125,7 +121,7 @@ Consequently, while MediaPipe Pose serves as a robust foundation for pose detect
 
 This project uses transfer learning [@Kakuta2022] to adapt a pre-trained Google MediaPipe CNN model, originally trained on extensive image data, to a new small Kaggle dataset but with more relevant and higher-quality images for posture imbalance detection. By utilizing pre-learned feature representations, the model can achieve faster convergence and improved accuracy even with a comparatively smaller or domain-specific dataset.
 
-## 2.1 Market research
+## Market research
 
 Modern video analysis with the purpose of detecting pose, movement, and specific markers in sports activities has undergone a paradigm shift, moving from subjective clinical intuition to high-fidelity, data-driven kinematic quantification. Commercial ecosystems like @MAR-Systems-Ltd2026 leverage dual-camera 3D reconstruction to analyze over 40 biomechanical metrics without intrusive markers, targeting retail efficiency and rapid, evidence-based footwear recommendations. Similarly, @RunDNA2026 employs advanced motion capture to track kinetic and kinematic variables from foot strike to toe-off, providing practitioners with a granular, 3D anatomical breakdown of movement asymmetries. For integrated clinical environments, the @Medical-XPRT2026 combines 3D camera technology with a sensorized, load-cell-equipped treadmill to provide real-time biofeedback and synchronized gait analysis. Supplementing these laboratory-grade tools, @Running-Reborn-20262026 utilizes wearable inertial measurement units (IMUs) to provide continuous, longitudinal monitoring of temporal outcomes like ground contact time and cadence, albeit with sensitivity to speed-dependent discrepancies. At the vanguard of performance capture, @Move-AI-Ltd2026 offers sophisticated, markerless motion capture solutions that utilize computer vision to extract high-fidelity skeletal data from multi-camera footage, facilitating biomechanical analysis outside of traditional studio settings.
 
@@ -133,29 +129,29 @@ The overarching advantage of these commercial approaches lies in their ability t
 
 When evaluated against image classification models, the advantages of the latter become apparent: low-cost, low-latency identification of specific postural states and movement patterns, albeit at the expense of the quantitative kinematic precision provided by advanced motion-capture and biomechanical analysis systems.
 
-## 2.2 Current Research on Convolutional Neural Networks
+## Current Research on Convolutional Neural Networks
 
 @Cao2024 state that human posture recognition are machine extractions simulating the eyefunction and human learning via feature extraction. They divde this recognition into static and dynamic posture detection, whereby latter one extracts continuous frame sequences and this more widely used. Using images for training and for inference, this approach is static posture classification.
 
 \clearpage
 
-# 3. Methodology
+# Methodology
 
 In this work, we will apply a quantitative, observational design to explore the feasibility of using transfer learning on a pre-trained TensorFlow Lite model for posture and movement imbalance detection. The study will involve secondary data analysis of an existing image dataset curated for posture analysis, with a focus on evaluating the performance of a finetuned CNN model within the Google MediaPipe framework.
 
-## 3.1 Study design and setting
+## Study design and setting
 
 This study is a secondary data analysis exploring postural and movement imbalance detection using artificial intelligence. The project applies a quantitative, observational design, analyzing existing image data through supervised machine learning, specifically Convolutional Neural Networks (CNNs) implemented via TensorFlow Lite within the Google MediaPipe framework. The aim is to evaluate whether lightweight AI models can detect subtle patterns of imbalance in posture and coordination and to adapt them for potential clinical use through transfer learning on a posture-specific dataset.
 
 The study will be conducted remotely using a secondary dataset. All data analysis will be performed on secured infrastructure provided by the University of Edinburgh. No new data collection or participant interaction is planned.
 
-## 3.2 Data source and characteristics
+## Data source and characteristics
 
 This study uses secondary image data of an openly available "Posture Keypoints Detection – Photos & Labels" dataset on Kaggle. The dataset consists of 300 images in static side view with image resolutions of up to around 1.6 MP and an overall high quality look.
 
 Unlike large-scale, general-purpose image datasets, this Kaggle dataset is specifically curated for posture analysis. It focuses on side-view images suitable for assessing sagittal-plane alignment and upper-body posture. The relatively small dataset size and potential demographic limitations may constrain generalizability and fairness.
 
-## 3.3 Variables, features, and preprocessing
+## Variables, features, and preprocessing
 
 The posture was classified into 3 types of poses regarding posture classifications by @Klein-Vogelbach1990 as you see in the following illustration:
 
@@ -195,13 +191,13 @@ The author manually annotated and applied the 300 images to one of these classes
 
 All selected images from the Kaggle dataset will undergo preprocessing prior to model training, including resizing, normalization, and verification of annotation integrity. Where appropriate, data augmentation (e.g., small rotations, cropping, brightness adjustments) will be applied to improve generalization while preserving clinically meaningful posture characteristics.
 
-## 3.4 Model development and transfer learning
+## Model development and transfer learning
 
 This study employs a transfer learning approach to develop a domain-specific TensorFlow Lite model suitable for clinical posture and movement analysis. Transfer learning enables the adaptation of pre-trained CNN architectures—such as those used within MediaPipe and trained on large-scale datasets like ImageNet—to the focused task of detecting head-neck-torso imbalances. In practice, base model weights are kept frozen or partially frozen, while classification and selected high-level layers are retrained using the Kaggle posture dataset.
 
 Deploying the resulting model as a quantized TensorFlow Lite artifact supports real-time, on-device inference on mobile and edge devices, reducing latency and preserving user privacy by processing data locally.
 
-## 3.5 Analysis and performance evaluation
+## Analysis and performance evaluation
 
 The analysis will proceed in two phases:
 
@@ -212,11 +208,11 @@ Model performance will be evaluated using accuracy as the primary metric and, wh
 
 \clearpage
 
-# 4. Implementation
+# Implementation
 
 This chapter documents the systems, pipelines and automation used to prepare the data, train and evaluate models, and produce deployable inference artifacts. It covers the research environment and names reproducible steps to build the training pipeline and maintain the data-engineering workflows (including the n8n augmentation workflow).
 
-## 4.1 Research setup
+## Research setup
 
 - **Hardware and runtime**
 
@@ -250,7 +246,7 @@ conda env create -f code/environment.yml
 conda activate dissertation
 ```
 
-## 4.2 Training pipeline and data engineering
+## Training pipeline and data engineering
 
 Overview - The training pipeline follows an ETL pattern: ingest → validate → augment → split → train → evaluate → archive. Steps are implemented in the repository as Jupyter notebooks and scripts to allow both interactive experimentation and non-interactive CI execution.
 
@@ -274,7 +270,7 @@ Augmentation & split policy - Augmentations used: small rotations (±10°), rand
 
 Artifacts and model storage - Model artifacts (.h5 and .tflite), logs and run figures are stored under `data/models/` and `runs/`. Each run directory includes metadata (git commit, config checksum, timestamp).
 
-## 4.3 Inference pipeline, containerization and CI/CD
+## Inference pipeline, containerization and CI/CD
 
 Inference packaging - Inference scripts live in `scripts/` (for example `custom_tflite_image_classifier.py` and `custom_tflite_pose.py`) and operate against quantized `.tflite` models exported to `data/models/`. - Local inference example:
 
@@ -322,11 +318,11 @@ GitHub Actions of a GitHub Pages repository is trigged to render the Quarto arti
 
 \clearpage
 
-# 5. Results
+# Results
 
 These results are from four model builds with Keras and TensorFlow, and evaluated on the same image data set and with identical preprocessing steps and configuration.
 
-## 5.1 Dataset and preprocessing outcomes
+## Dataset and preprocessing outcomes
 
 The dataset and splits used across all runs were consistent. The training set contained 1,890 images distributed across three classes, and both the validation and test splits contained 199 images each. To achieve this number from 300 original images, augmentation was applied. First, a subset of duplicated 300 images with body landmarks as overlay were added. This was achieved by an existing MediaPipe Pose model which was adding these annotations. Second, the images were duplicated several times and processed via random image editing utilizing the OpenCV framework. For instance, the color-theme or background color were changed, images were cropped or tilted. For each augmented image, 2 changes were applied. The final class counts were as follows:
 
@@ -345,7 +341,7 @@ The dataset and splits used across all runs were consistent. The training set co
 
 Preprocessing was applied consistently for all runs (same processed image data set) to maintain comparability between architectures.
 
-## 5.2 Model performance
+## Model performance
 
 Four training runs were performed using different base architectures. For each run the reported metrics below are derived from evaluation on the held-out test split and from prediction-derived analysis.
 
@@ -521,7 +517,7 @@ Balanced accuracy (macro recall): 0.3111
 
 ![Training 4](literature/Results/Training_4.png)
 
-## 5.3 Error analysis
+## Error analysis
 
 Across all experiments a consistent pattern of misclassification is apparent. The models show relatively high recall for the `slumped posture` class but lower precision, indicating a tendency to predict `slumped` for a wide range of inputs. `Normal posture` is frequently misclassified (low recall in several runs), and `tensed posture` predictions vary by architecture: deeper Lite variants tended to improve overall discrimination.
 
@@ -543,23 +539,23 @@ Implications and next steps:
 
 \clearpage
 
-# 6. Discussion
+# Discussion
 
-## 6.1 Interpretation of findings
+## Interpretation of findings
 
 Lore Ypsum placeholder text: This section will interpret the main findings in relation to posture science and AI-based movement analysis.
 
-## 6.2 Strengths and limitations
+## Strengths and limitations
 
 Lore Ypsum placeholder text: This section will critically discuss methodological strengths, data limitations, and generalisability constraints.
 
-## 6.3 Clinical and practical implications
+## Clinical and practical implications
 
 Lore Ypsum placeholder text: This section will explain implications for physiotherapy, rehabilitation, and digital health applications.
 
 \clearpage
 
-# 7. Ethics, Information Governance, and Data Management
+# Ethics, Information Governance, and Data Management
 
 This study exclusively uses publicly available secondary image data and includes no participant recruitment, intervention, or direct interaction. The "Posture Keypoints Detection – Photos & Labels" dataset is made available on Kaggle under the Apache 2.0 License, and its use in this project follows the corresponding attribution and license requirements.
 
@@ -569,7 +565,7 @@ Data and derived outputs will be stored on approved, access-controlled systems. 
 
 \clearpage
 
-# 8. Impact and Dissemination
+# Impact and Dissemination
 
 The primary expected output is a proof-of-concept lightweight AI model, built with TensorFlow Lite and integrated with Google MediaPipe Pose, capable of detecting and analyzing subtle postural and movement imbalances in upper-body alignment. Supporting outputs include annotated code, workflow documentation, and visual examples of pose-based analysis.
 
@@ -579,7 +575,7 @@ Dissemination will prioritize practitioner- and public-facing channels, includin
 
 \clearpage
 
-# 9. Conclusion and Future Work
+# Conclusion and Future Work
 
 Lore Ypsum placeholder text: This chapter will summarize the final contributions, reflect on research objectives, and define priorities for future work.
 
