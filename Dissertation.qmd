@@ -59,17 +59,13 @@ execute:
 
 \clearpage
 
-# MSc. in Data Science for Health and Social Care
+\clearpage
 
-Examination Number: B248593
+## Contribution
 
-First reviewer: Dr. Ahmar Shah
+The development of this dissertation incorporated the selective use of generative artificial intelligence (AI) tools as supportive research and technical assistance instruments. GitHub GitHub Copilot and Posit Assistant were utilized to assist in troubleshooting Python dependency conflicts, resolving CI/CD configuration issues involving Jenkins and Docker, and supporting administrative setup tasks related to RStudio Server. In addition, Perplexity was used for targeted literature discovery and contextual identification of relevant academic sources and references. All critical analysis, interpretation, methodological decisions, and written academic content were independently evaluated, verified, and finalized by the author.
 
-Second reviewer: John Wilson
-
-## Dissertation Title
-
-*Detecting Movement Imbalances using custom TensorFlow Lite Models utilizing the Google MediaPipe framework.*
+\clearpage
 
 # 1. Introduction
 
@@ -107,9 +103,9 @@ Chapter 2 provides a comprehensive literature review of the current state of AI-
 
 Chapter 3 outlines the methodology, including the study design, data sources, variable definitions, model development approach, and performance evaluation strategy.
 
-Chapter 4 details the implementation of the training and inference pipelines.
+Chapter 4 details the implementation of the training and inference pipelines with a complex CD/CI integration.
 
-Chapter 5 presents the results of model performance and error analysis.
+Chapter 5 presents the results of model performance and error analysis and shows the challenges of training a custom CNN model.
 
 Chapter 6 discusses the findings in relation to existing literature, strengths and limitations, and clinical implications.
 
@@ -136,6 +132,10 @@ Modern video analysis with the purpose of detecting pose, movement, and specific
 The overarching advantage of these commercial approaches lies in their ability to translate complex, high-frequency spatial-temporal data into actionable clinical diagnostics. They reduce inter-rater variability, the differences between multiple assessors, and enable objective longitudinal tracking. Such standardization of classification, may improve the reliability of qualitative (and quantitative) movement assessments in evidence-based rehabilitation settings. Conversely, the disadvantages often involve high capital expenditure, the requirement for controlled capture environments, and often a reliance on proprietary pipelines that can be difficult to consistently integrate into existing clinical (analytical) workflows.
 
 When evaluated against image classification models, the advantages of the latter become apparent: low-cost, low-latency identification of specific postural states and movement patterns, albeit at the expense of the quantitative kinematic precision provided by advanced motion-capture and biomechanical analysis systems.
+
+## 2.2 Current Research on Convolutional Neural Networks
+
+@Cao2024 state that human posture recognition are machine extractions simulating the eyefunction and human learning via feature extraction. They divde this recognition into static and dynamic posture detection, whereby latter one extracts continuous frame sequences and this more widely used. Using images for training and for inference, this approach is static posture classification.
 
 \clearpage
 

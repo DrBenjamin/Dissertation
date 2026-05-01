@@ -101,20 +101,17 @@ It uses a [Kaggle image dataset](https://www.kaggle.com/datasets/melsmm/posture-
   - Conda environment specification: [environment.yml](code/environment.yml)
   - Requirements for the Streamlit service: [requirements.txt](code/requirements.txt)
   - Jupyter notebook for fine-tuning the image classification model: [custom_image_classifier_model_training.ipynb](code/custom_image_classifier_model_training.ipynb)
-  - Jupyter notebook for training custom Pose Landmarker Model with MediaPipe Model Maker (!!!BROKEN!!!): [custom_pose_model_training.ipynb](code/custom_pose_model_training.ipynb)
-  - Jupyter notebook for the baseline image classification workflow: [image_classification.ipynb](code/image_classification.ipynb)
   - Jupyter notebook for converting images or videos to annotated posture analytics: [human_posture_analysis.ipynb](code/human_posture_analysis.ipynb)
   - Python script for converting images or videos to annotated posture analytics: [human_posture_analysis.py](code/human_posture_analysis.py)
   - Streamlit app for pose detection and analysis: [mediapipe_pose.py](code/mediapipe_pose.py)
   - Subfolder `code/posture-keypoints-detection/` containing the code for fine-tuning and deploying the YOLO11s-pose model:
-    - Jupyter notebook for fine‑tuneing a YOLO11s‑pose model on a custom, CVAT‑annotated dataset of 300 side‑view posture images to learn spinal keypoint detection for automated posture assessment.: [train.ipynb](code/posture-keypoints-detection/train.ipynb)
+    - Jupyter notebook for finetuneing a YOLO11s‑pose model on a custom, CVAT‑annotated dataset of 300 side‑view posture images to learn spinal keypoint detection for automated posture assessment.: [train.ipynb](code/posture-keypoints-detection/train.ipynb)
     - Jupyter notebook for model inference and evaluation of the fine-tuned YOLO11s-pose model: [inference.ipynb](code/posture-keypoints-detection/inference.ipynb)
     - Frontend folder for the Streamlit app: [frontend](code/posture-keypoints-detection/frontend/)
     - Backend folder for the FastAPI service: [backend](code/posture-keypoints-detection/backend/)
   - Subfolder `/code/scripts` containing helper functions for the Streamlit app: [scripts](code/scripts/*)
     - `custom_tflite_pose.py`: helper functions for loading and running inference with a custom TensorFlow Lite model for pose classification
     - `custom_tflite_image_classifier.py`: helper functions for loading and running inference with a custom TensorFlow Lite model for image classification
-    - `mediapipe_api.py`: n8n API wrapper functions for MediaPipe Pose
 - Documents (folder): [docs](docs/)
   - Proposal documents: [Proposal](docs/Proposal/)
   - Reflective Blog documents: [Reflective Blog](docs/Reflective%20Blog/)
@@ -123,7 +120,8 @@ It uses a [Kaggle image dataset](https://www.kaggle.com/datasets/melsmm/posture-
   - Bachelor thesis of a Serious Game in Health project: [Bachelor Thesis](docs/Bachelor%20Thesis/Bachelor.Thesis.pdf)
 - Literature (folder): [literature](literature/)
   - `bibliography.bib`
-  - `apa.csl` <!-- markdownlint-enable MD051 -->
+  - `apa.csl`
+  - Literature as PDF files <!-- markdownlint-enable MD051 -->
 
 ## Build dissertation artefacts
 
@@ -180,7 +178,7 @@ The Streamlit pose explorer is available at <http://localhost:8501> once the `st
 - [MediaPipe Studio Home](https://mediapipe-studio.webapps.google.com/home)
 - [MediaPipe Pose Landmarker Demo](https://mediapipe-studio.webapps.google.com/studio/demo/pose_landmarker)
 
-Webapp demo: [MediaPipe Pose Tracking Demo](https://viz.mediapipe.dev/demo/pose_tracking)
+WebApp demo: [MediaPipe Pose Tracking Demo](https://viz.mediapipe.dev/demo/pose_tracking)
 
 ### TLite Model Maker for Image Classification
 
