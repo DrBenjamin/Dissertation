@@ -314,7 +314,7 @@ GitHub Actions of a GitHub Pages repository is trigged to render the Quarto arti
 
 - Persist augmented images and artifacts on a MinIO file storage.
 
-![Implementation infrastructure](docs/CNN Workflow.drawio.png)
+![Implementation infrastructure](docs/CNN%20Workflow.drawio.png)
 
 \clearpage
 
@@ -556,14 +556,16 @@ Model evaluate() loss/accuracy on dataset_obj: 0.421809/0.854430
 Confusion matrix (rows=true, cols=pred):
 
 | True predicted | non-normal | normal |
-| non-normal     | 35         | 47     |
-| normal         | 27         | 49     |
+|---------------:|-----------:|-------:|
+|     non-normal |         35 |     47 |
+|         normal |         27 |     49 |
 
 Row-normalized confusion matrix (recall by class):
 
 | True predicted | non-normal | normal |
-| non-normal     | 0.4268     | 0.5732 |
-| normal         | 0.3553     | 0.6447 |
+|---------------:|-----------:|-------:|
+|     non-normal |     0.4268 | 0.5732 |
+|         normal |     0.3553 | 0.6447 |
 
 Per-class support:
 
@@ -573,13 +575,14 @@ Per-class support:
 Balanced accuracy (macro recall): 0.5358
 
 Classification report:
+
 | Class              | Precision | Recall | F1-score | Support |
-|--------------------|-----------|--------|----------|---------|
-| non-normal posture | 0.5645    | 0.4268 | 0.4861   | 82      |
-| normal posture     | 0.5104    | 0.6447 | 0.5698   | 76      |
-| **Accuracy**       |           |        | 0.5316   | 158     |
-| **macro avg**      | 0.5375    | 0.5358 | 0.5279   | 158     |
-| **weighted avg**   | 0.5385    | 0.5316 | 0.5264   | 158     |
+|--------------------|----------:|-------:|---------:|--------:|
+| non-normal posture |    0.5645 | 0.4268 |   0.4861 |      82 |
+| normal posture     |    0.5104 | 0.6447 |   0.5698 |      76 |
+| **Accuracy**       |           |        |   0.5316 |     158 |
+| **macro avg**      |    0.5375 | 0.5358 |   0.5279 |     158 |
+| **weighted avg**   |    0.5385 | 0.5316 |   0.5264 |     158 |
 
 ![Training 1](literature/Results/Traning_2-class_1.png)
 
@@ -592,14 +595,16 @@ Model evaluate() loss/accuracy on dataset_obj: 0.454466/0.840426
 Confusion matrix (rows=true, cols=pred):
 
 | True predicted | non-normal | normal |
-| non-normal.    | 44         | 47     |
-| normal         | 36         | 61     |
+|---------------:|-----------:|-------:|
+|     non-normal |         44 |     47 |
+|         normal |         36 |     61 |
 
 Row-normalized confusion matrix (recall by class):
 
 | True predicted | non-normal | normal |
-| non-normal     | 0.4835     | 0.5165 |
-| normal         | 0.3711     | 0.6289 |
+|---------------:|-----------:|-------:|
+|     non-normal |     0.4835 | 0.5165 |
+|         normal |     0.3711 | 0.6289 |
 
 Per-class support:
 
@@ -609,15 +614,16 @@ Per-class support:
 Balanced accuracy (macro recall): 0.5562
 
 Classification report:
-| Class              | Precision | Recall | F1-score | Support |
-|--------------------|-----------|--------|----------|---------|
-| non-normal posture | 0.5500    | 0.4835 | 0.5146   | 91      |
-| normal posture     | 0.5648    | 0.6289 | 0.5951   | 97      |
-| **Accuracy**       |           |        | 0.5585   | 188     |
-| **macro avg**      | 0.5574    | 0.5562 | 0.5549   | 188     |
-| **weighted avg**   | 0.5576    | 0.5585 | 0.5562   | 188     |
 
-![](literature/Results/Training_2-class_2.png)
+| Class              | Precision | Recall | F1-score | Support |
+|--------------------|----------:|-------:|---------:|--------:|
+| non-normal posture |    0.5500 | 0.4835 |   0.5146 |      91 |
+| normal posture     |    0.5648 | 0.6289 |   0.5951 |      97 |
+| **Accuracy**       |           |        |   0.5585 |     188 |
+| **macro avg**      |    0.5574 | 0.5562 |   0.5549 |     188 |
+| **weighted avg**   |    0.5576 | 0.5585 |   0.5562 |     188 |
+
+![Training 2](literature/Results/Training_2-class_2.png)
 
 \clearpage
 
