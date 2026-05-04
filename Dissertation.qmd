@@ -216,7 +216,7 @@ This chapter documents the systems, pipelines and automation used to prepare the
 
 - **Hardware and runtime**
 
-  The development was performed on a remote virtual machine with 8GB RAM and 4 CPU Cores. For editing Python scripts, a Jupyter Notebook was used, for editing the Quarto project file a RStudio Server. Next to this, a Streamlit WebApp was developed and used to test re-trained models manually. Both the Jupyter notebook and the Streamlit WebApp were deployed via a Docker container on the remote server to manage heavy Python library dependencies of MediaPipe Model Maker (Python 3.10) respective of MediaPipe / TensorFlow Lite (Python 3.13).
+  The development was mostly performed on a remote virtual machine with 8GB RAM and 4 CPU Cores. For editing Python scripts, a Jupyter Notebook was used, for editing the Quarto project file a RStudio Server. Next to this, a Streamlit WebApp was developed and used to test re-trained models manually. Both the Jupyter notebook and the Streamlit WebApp were deployed via a Docker container on the remote server to manage heavy Python library dependencies of MediaPipe Model Maker (Python 3.10) respective of MediaPipe / TensorFlow Lite (Python 3.13).
 
 - **Representative software stack**
 
@@ -250,8 +250,6 @@ conda activate dissertation
 
 Overview - The training pipeline follows an ETL pattern: ingest → validate → augment → split → train → evaluate → archive. Steps are implemented in the repository as Jupyter notebooks and scripts to allow both interactive experimentation and non-interactive CI execution.
 
-Data ingestion and annotation - Source images are stored under `data/`. Annotations use a YOLO-pose-like format and MediaPipe keypoints where available. Initial selection and validation are performed in the notebooks (see `code/*.ipynb`).
-
 Automated augmentation (n8n + MediaPipe) - To expand the original 300 images, the repository uses an n8n workflow to produce duplicates with MediaPipe keypoint overlays and controlled image edits (rotations, crops, brightness adjustments). - The exported n8n workflow is available at `code/n8n/Dissertation_Posture_Analysis.json`. The high-level workflow:
 
 1.  Read a list of source images (the initial 300).
@@ -264,7 +262,7 @@ Automated augmentation (n8n + MediaPipe) - To expand the original 300 images, th
 
 5.  Optionally trigger a downstream training job (Jenkins) or commit augmented data back to the repository index. - This decoupled approach produces auditable augmentation runs and keeps augmentation reproducible.
 
-Training execution - Training can be run interactively (via `custom_image_classifier_model_training.ipynb`) or non-interactively inside a container built from `code/Dockerfile`.
+Training execution - Training can be run locally via `custom_image_classifier_model_training.ipynb` or (remote) inside a container built from `code/Dockerfile` served as Juypter notebook.
 
 Augmentation & split policy - Augmentations used: small rotations (±10°), random crops (±10%), brightness/contrast jitter, and MediaPipe keypoint overlays. Horizontal flips are used when anatomically appropriate. - Splits are deterministic and saved to `data/splits/` for reproducibility.
 
@@ -316,6 +314,8 @@ GitHub Actions of a GitHub Pages repository is trigged to render the Quarto arti
 
 - Persist augmented images and artifacts on a MinIO file storage.
 
+![Implementation infrastructure](docs/CNN Workflow.drawio.png)
+
 \clearpage
 
 # Results
@@ -341,7 +341,7 @@ The dataset and splits used across all runs were consistent. The training set co
 
 Preprocessing was applied consistently for all runs (same processed image data set) to maintain comparability between architectures.
 
-## Model performance
+## Model performance - 3-class problem
 
 Four training runs were performed using different base architectures. For each run the reported metrics below are derived from evaluation on the held-out test split and from prediction-derived analysis.
 
@@ -536,6 +536,138 @@ Implications and next steps:
 - The results indicate that the models can capture some posture-related features but that class overlap and limited dataset size constrain discriminative performance. Better class balance, additional labelled data for edge cases, and further augmentation tailored to posture variations should be considered.
 - Model calibration and threshold tuning (or use of ensemble methods) may improve precision for the `slumped` and `tensed` classes.
 - Further work should include qualitative review of misclassified examples to identify systematic annotation or dataset issues and targeted augmentation or re-labelling where necessary.
+
+## 2-Class Training
+
+The best-performing model achieved an accuracy of 41%. To improve performance and enhance clinical interpretability, the task will also be reformulated as a binary classification problem (normal vs. non-normal posture) using the same labeled and annotated image dataset. The objective is to reach an accuracy of approximately 80–90%, which is generally considered strong performance for practical detection tasks in applied machine learning settings and for the Google MediaPipe model architecture.
+
+### Model performance - 2-class problem
+
+The same base dataset was used for both experiments. To address class imbalance, data augmentation was applied with an 8× multiplication for normal posture images and a 4× multiplication for non-normal posture images, resulting in a balanced dataset of 1,580 synthetically augmented images.
+
+Two training runs were conducted. The first used the full augmented dataset of 1,580 images. The second extended this dataset by an additional 300 images, which were augmented using body landmark overlays generated with the Google MediaPipe Pose framework to incorporate explicit skeletal structure information.
+
+#### Training 2-class problem 1
+
+Model architecture: EFFICIENTNET_LITE4
+Training batch size: 16
+Epoch number: 80
+Model file: [/Users/ben/Python/Streamlit/Dissertation/data/models/efficientnet_lite4/20260504_094018/model.tflite](https://file+.vscode-resource.vscode-cdn.net/Users/ben/Python/Streamlit/Dissertation/data/models/efficientnet_lite4/20260504_094018/model.tflite)
+Quantized model (int8) file: [/Users/ben/Python/Streamlit/Dissertation/data/models/efficientnet_lite4/20260504_094018/model_int8.tflite](https://file+.vscode-resource.vscode-cdn.net/Users/ben/Python/Streamlit/Dissertation/data/models/efficientnet_lite4/20260504_094018/model_int8.tflite)
+Train split class counts (total=1264):
+non-normal posture: 664
+normal posture: 600
+
+Validation split class counts (total=158):
+non-normal posture: 74
+normal posture: 84
+
+Test split class counts (total=158):
+non-normal posture: 82
+normal posture: 76
+
+
+Prediction-derived overall accuracy: 0.5316
+Model evaluate() loss/accuracy on dataset_obj: 0.421809/0.854430
+
+Analysis batch size: 1
+
+Confusion matrix (rows=true, cols=pred):
+\[\[35 47\]
+\[27 49\]\]
+
+Row-normalized confusion matrix (recall by class):
+\[\[0.4268 0.5732\]
+\[0.3553 0.6447\]\]
+
+Per-class support:
+non-normal posture: 82
+normal posture: 76
+Balanced accuracy (macro recall): 0.5358
+
+Classification report:
+precision recall f1-score support
+
+non-normal posture 0.5645 0.4268 0.4861 82
+normal posture 0.5104 0.6447 0.5698 76
+
+accuracy 0.5316 158
+macro avg 0.5375 0.5358 0.5279 158
+weighted avg 0.5385 0.5316 0.5264 158
+\
+![Training 1](literature/Results/Traning_2-class_1.png)
+
+#### Training 2-class problem 2 **(extra body landmark overlay image-set)**
+
+Model architecture: EFFICIENTNET_LITE4
+
+Training batch size: 16
+
+Epoch number: 80
+
+Model file: /Users/ben/Python/Streamlit/Dissertation/data/models/efficientnet_lite4/20260504_104831/model.tflite
+
+Quantized model (int8) file: /Users/ben/Python/Streamlit/Dissertation/data/models/efficientnet_lite4/20260504_104831/model_int8.tflite
+
+Train split class counts (total=1804):
+
+non-normal posture: 1034
+
+normal posture: 770
+
+Validation split class counts (total=188):
+
+non-normal posture: 103
+
+normal posture: 85
+
+Test split class counts (total=188):
+
+non-normal posture: 91
+
+normal posture: 9\
+
+Prediction-derived overall accuracy: 0.5585
+
+Model evaluate() loss/accuracy on dataset_obj: 0.454466/0.840426
+
+Analysis batch size: 1
+
+Confusion matrix (rows=true, cols=pred):
+
+\[\[44 47\]
+
+\[36 61\]\]\
+
+Row-normalized confusion matrix (recall by class):
+
+\[\[0.4835 0.5165\]
+
+\[0.3711 0.6289\]\]
+
+Per-class support:
+
+non-normal posture: 91
+
+normal posture: 97
+
+Balanced accuracy (macro recall): 0.5562
+
+Classification report:
+
+precision recall f1-score support
+
+non-normal posture 0.5500 0.4835 0.5146 91
+
+normal posture 0.5648 0.6289 0.5951 97
+
+accuracy 0.5585 188
+
+macro avg 0.5574 0.5562 0.5549 188
+
+weighted avg 0.5576 0.5585 0.5562 188
+
+![](literature/Results/Training_2-class_2.png)
 
 \clearpage
 

@@ -1,0 +1,90 @@
+<mxfile host="app.diagrams.net">
+  <diagram name="System Architecture" id="kpxtq5stzYYBRXOrWlhS">
+    <mxGraphModel dx="956" dy="791" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="sMf0ctMf6OADyzZr91O--23" edge="1" parent="1" source="sMf0ctMf6OADyzZr91O--1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="sMf0ctMf6OADyzZr91O--2">
+          <mxGeometry relative="1" as="geometry">
+            <mxPoint x="250" y="100" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--1" parent="1" style="rounded=1;fillColor=#dae8fc;" value="Jupyter Notebook (Docker)&#xa;CNN Training" vertex="1">
+          <mxGeometry height="80" width="180" x="90" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--24" edge="1" parent="1" source="sMf0ctMf6OADyzZr91O--2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="sMf0ctMf6OADyzZr91O--3">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--2" parent="1" style="rounded=1;fillColor=#dae8fc;" value="RStudio Server&#xa;Quarto Dissertation" vertex="1">
+          <mxGeometry height="80" width="180" x="330" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--3" parent="1" style="rounded=1;fillColor=#dae8fc;" value="Web / API Clients" vertex="1">
+          <mxGeometry height="80" width="180" x="570" y="70" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--4" parent="1" style="rounded=1;fillColor=#ffe6cc;" value="CNN Training Pipeline" vertex="1">
+          <mxGeometry height="80" width="180" x="40" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--5" parent="1" style="rounded=1;fillColor=#ffe6cc;" value="Streamlit App&#xa;CNN Inference Service" vertex="1">
+          <mxGeometry height="80" width="180" x="240" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--6" parent="1" style="rounded=1;fillColor=#ffe6cc;" value="MediaPipe API (Docker)" vertex="1">
+          <mxGeometry height="80" width="180" x="460" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--7" parent="1" style="rounded=1;fillColor=#ffe6cc;" value="n8n Workflow Engine (Docker)" vertex="1">
+          <mxGeometry height="80" width="200" x="670" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--8" parent="1" style="rounded=1;fillColor=#d5e8d4;" value="MinIO Server&#xa;Annotated Dataset" vertex="1">
+          <mxGeometry height="80" width="180" x="40" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--9" parent="1" style="rounded=1;fillColor=#d5e8d4;" value="Model Storage&#xa;(Weights / Artifacts)" vertex="1">
+          <mxGeometry height="80" width="180" x="240" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--10" parent="1" style="rounded=1;fillColor=#d5e8d4;" value="Docker Runtime Environment" vertex="1">
+          <mxGeometry height="80" width="180" x="460" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--11" parent="1" style="rounded=1;fillColor=#d5e8d4;" value="GitHub Repository" vertex="1">
+          <mxGeometry height="80" width="180" x="660" y="360" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--26" edge="1" parent="1" source="sMf0ctMf6OADyzZr91O--12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;" target="sMf0ctMf6OADyzZr91O--25">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--12" parent="1" style="rounded=1;fillColor=#e1d5e7;" value="GitHub Actions Workflow&#xa;" vertex="1">
+          <mxGeometry height="80" width="180" x="460" y="520" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--13" edge="1" parent="1" source="sMf0ctMf6OADyzZr91O--8" target="sMf0ctMf6OADyzZr91O--4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--14" edge="1" parent="1" source="sMf0ctMf6OADyzZr91O--4" target="sMf0ctMf6OADyzZr91O--9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--15" edge="1" parent="1" source="sMf0ctMf6OADyzZr91O--9" target="sMf0ctMf6OADyzZr91O--5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--16" edge="1" parent="1" source="sMf0ctMf6OADyzZr91O--5" target="sMf0ctMf6OADyzZr91O--6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--17" edge="1" parent="1" source="sMf0ctMf6OADyzZr91O--6" target="sMf0ctMf6OADyzZr91O--7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--18" edge="1" parent="1" source="sMf0ctMf6OADyzZr91O--7" target="sMf0ctMf6OADyzZr91O--6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--19" edge="1" parent="1" source="sMf0ctMf6OADyzZr91O--11" target="sMf0ctMf6OADyzZr91O--12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--20" edge="1" parent="1" source="sMf0ctMf6OADyzZr91O--12" target="sMf0ctMf6OADyzZr91O--9">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--21" edge="1" parent="1" source="sMf0ctMf6OADyzZr91O--1" target="sMf0ctMf6OADyzZr91O--4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--22" edge="1" parent="1" source="sMf0ctMf6OADyzZr91O--2" target="sMf0ctMf6OADyzZr91O--11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="sMf0ctMf6OADyzZr91O--25" parent="1" style="rounded=1;fillColor=#a20025;fontColor=#ffffff;strokeColor=#6F0000;" value="Dissertation Paper" vertex="1">
+          <mxGeometry height="80" width="180" x="460" y="640" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
