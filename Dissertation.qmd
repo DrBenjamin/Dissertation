@@ -549,123 +549,73 @@ Two training runs were conducted. The first used the full augmented dataset of 1
 
 #### Training 2-class problem 1
 
-Model architecture: EFFICIENTNET_LITE4
-Training batch size: 16
-Epoch number: 80
-Model file: [/Users/ben/Python/Streamlit/Dissertation/data/models/efficientnet_lite4/20260504_094018/model.tflite](https://file+.vscode-resource.vscode-cdn.net/Users/ben/Python/Streamlit/Dissertation/data/models/efficientnet_lite4/20260504_094018/model.tflite)
-Quantized model (int8) file: [/Users/ben/Python/Streamlit/Dissertation/data/models/efficientnet_lite4/20260504_094018/model_int8.tflite](https://file+.vscode-resource.vscode-cdn.net/Users/ben/Python/Streamlit/Dissertation/data/models/efficientnet_lite4/20260504_094018/model_int8.tflite)
-Train split class counts (total=1264):
-non-normal posture: 664
-normal posture: 600
-
-Validation split class counts (total=158):
-non-normal posture: 74
-normal posture: 84
-
-Test split class counts (total=158):
-non-normal posture: 82
-normal posture: 76
-
-
 Prediction-derived overall accuracy: 0.5316
+
 Model evaluate() loss/accuracy on dataset_obj: 0.421809/0.854430
 
-Analysis batch size: 1
-
 Confusion matrix (rows=true, cols=pred):
-\[\[35 47\]
-\[27 49\]\]
+
+| True predicted | non-normal | normal |
+| non-normal     | 35         | 47     |
+| normal         | 27         | 49     |
 
 Row-normalized confusion matrix (recall by class):
-\[\[0.4268 0.5732\]
-\[0.3553 0.6447\]\]
+
+| True predicted | non-normal | normal |
+| non-normal     | 0.4268     | 0.5732 |
+| normal         | 0.3553     | 0.6447 |
 
 Per-class support:
-non-normal posture: 82
-normal posture: 76
+
+- non-normal posture: 82
+- normal posture: 76
+
 Balanced accuracy (macro recall): 0.5358
 
 Classification report:
-precision recall f1-score support
+| Class              | Precision | Recall | F1-score | Support |
+|--------------------|-----------|--------|----------|---------|
+| non-normal posture | 0.5645    | 0.4268 | 0.4861   | 82      |
+| normal posture     | 0.5104    | 0.6447 | 0.5698   | 76      |
+| **Accuracy**       |           |        | 0.5316   | 158     |
+| **macro avg**      | 0.5375    | 0.5358 | 0.5279   | 158     |
+| **weighted avg**   | 0.5385    | 0.5316 | 0.5264   | 158     |
 
-non-normal posture 0.5645 0.4268 0.4861 82
-normal posture 0.5104 0.6447 0.5698 76
-
-accuracy 0.5316 158
-macro avg 0.5375 0.5358 0.5279 158
-weighted avg 0.5385 0.5316 0.5264 158
-\
 ![Training 1](literature/Results/Traning_2-class_1.png)
 
 #### Training 2-class problem 2 **(extra body landmark overlay image-set)**
-
-Model architecture: EFFICIENTNET_LITE4
-
-Training batch size: 16
-
-Epoch number: 80
-
-Model file: /Users/ben/Python/Streamlit/Dissertation/data/models/efficientnet_lite4/20260504_104831/model.tflite
-
-Quantized model (int8) file: /Users/ben/Python/Streamlit/Dissertation/data/models/efficientnet_lite4/20260504_104831/model_int8.tflite
-
-Train split class counts (total=1804):
-
-non-normal posture: 1034
-
-normal posture: 770
-
-Validation split class counts (total=188):
-
-non-normal posture: 103
-
-normal posture: 85
-
-Test split class counts (total=188):
-
-non-normal posture: 91
-
-normal posture: 9\
 
 Prediction-derived overall accuracy: 0.5585
 
 Model evaluate() loss/accuracy on dataset_obj: 0.454466/0.840426
 
-Analysis batch size: 1
-
 Confusion matrix (rows=true, cols=pred):
 
-\[\[44 47\]
-
-\[36 61\]\]\
+| True predicted | non-normal | normal |
+| non-normal.    | 44         | 47     |
+| normal         | 36         | 61     |
 
 Row-normalized confusion matrix (recall by class):
 
-\[\[0.4835 0.5165\]
-
-\[0.3711 0.6289\]\]
+| True predicted | non-normal | normal |
+| non-normal     | 0.4835     | 0.5165 |
+| normal         | 0.3711     | 0.6289 |
 
 Per-class support:
 
-non-normal posture: 91
-
-normal posture: 97
+- non-normal posture: 91
+- normal posture: 97
 
 Balanced accuracy (macro recall): 0.5562
 
 Classification report:
-
-precision recall f1-score support
-
-non-normal posture 0.5500 0.4835 0.5146 91
-
-normal posture 0.5648 0.6289 0.5951 97
-
-accuracy 0.5585 188
-
-macro avg 0.5574 0.5562 0.5549 188
-
-weighted avg 0.5576 0.5585 0.5562 188
+| Class              | Precision | Recall | F1-score | Support |
+|--------------------|-----------|--------|----------|---------|
+| non-normal posture | 0.5500    | 0.4835 | 0.5146   | 91      |
+| normal posture     | 0.5648    | 0.6289 | 0.5951   | 97      |
+| **Accuracy**       |           |        | 0.5585   | 188     |
+| **macro avg**      | 0.5574    | 0.5562 | 0.5549   | 188     |
+| **weighted avg**   | 0.5576    | 0.5585 | 0.5562   | 188     |
 
 ![](literature/Results/Training_2-class_2.png)
 
