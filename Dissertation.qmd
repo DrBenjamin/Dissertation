@@ -61,13 +61,37 @@ execute:
 
 The development of this dissertation incorporated the selective use of generative artificial intelligence (AI) tools as supportive research and technical assistance instruments. GitHub GitHub Copilot and Posit Assistant were utilized to assist in troubleshooting Python dependency conflicts, resolving CI/CD configuration issues involving Jenkins and Docker, and supporting administrative setup tasks related to RStudio Server. In addition, Perplexity was used for targeted literature discovery and contextual identification of relevant academic sources and references. All critical analysis, interpretation, methodological decisions, and written academic content were independently evaluated, verified, and finalized by the author.
 
+Also, I received guidance and support from my two supervisor, Ahmar Shar and John Wilson, who gave me many recommendations during the whole process to conduct the project as well reviewedthe draft of the paper once and gave me valuable feedback.
+
+\clearpage
+
+# Abstract
+
+## **Aim & objectives**
+
+Finetuning and evaluation of a deep learning model for posture and movement quality assessment that detects and interprets imbalances in the head, neck torso to finetune an pre-trained Google MediaPipe image classification model for posture and movement imbalance detection; and to evaluate the performance of the finetuned classification model.
+
+## Design
+
+Lore Ypsum placeholder text: This section will summarize the design details.
+
+## Methods
+
+Lore Ypsum placeholder text: This section will summarize the methods used in the dissertation.
+
+## Results
+
+Lore Ypsum placeholder text: This section will briefly discuss the results.
+
+## Conclusion
+
+Lore Ypsum placeholder text: This section will conclude the project in a concise way.
+
 \clearpage
 
 # Introduction
 
 Healthcare is increasingly recognizing the importance of movement quality and postural balance in preventing injury, managing chronic conditions, and optimizing physical performance [@Whittaker2017]. @Wijekulasuriya2025 found in an extensive actual meta analysis that traditional methods for assessing posture and movement often rely on subjective clinical observations, limiting their accessibility and consistency. Advances in artificial intelligence (AI) and computer vision offer promising avenues for developing such objective tools that are scalable and run on consumer hardware that is widely available [@Google2024; @Bazarevsky2020]. This dissertation explores the development of Convolutional Neural Networks (CNNs) through transfer learning within the Google MediaPipe framework to detect and analyze head-neck-torso alignment.
-
-## Background and rationale
 
 Human posture and coordination are central to both health and performance. Impairments such as muscular tension, poor motor control, or postural imbalance contribute significantly to discomfort, injury, and reduced physical performance in daily and professional life [@Kubalek-Schrder2013]. Advanced motor skills rely on precise kinaesthetic differentiation, including fine motor control, proprioceptive sensitivity, accurate force regulation, coordinated timing, and the economy of movement. These elements form the basis of effective movement in sports, rehabilitation, and everyday function [@ZauckerP2010]. Recent research highlights that chronic low back pain and other movement system impairments are closely associated with sustained postural deviations and maladaptive movement patterns that often develop gradually and may not be apparent during isolated clinical assessments [@Sahrmann2017; @Ge2022].
 
@@ -77,19 +101,19 @@ Recent advances in computer vision and artificial intelligence provide opportuni
 
 As a physiotherapist with focus on movement quality, I found these gaps were not purely academic but deeply practical in my clinical practice. To reach a level of good understanding of movement (patterns) it required years of training and clinical experience to develop. For instance the ability to accurately assess the quality of movement based on key indicators such as the passive rotatory mobility of the fifth thoracic vertebra (Th5) and adjacent vertebrae [@Tachihara2019]. The possibility of using lightweight computer vision to complement clinical expertise, enhance rehabilitation outcomes, and support performance improvement is therefore highly compelling.
 
-## Research question, aim, and objectives
+## Research question
 
 **Research question**\
 How can transfer learning on a pre-existing TensorFlow Lite model for pose estimation and image classification be used to detect and analyze posture and movement imbalances?
 
-**Aim**\
+## **Aim**
+
 Finetuning and evaluation of a deep learning model for posture and movement quality assessment that detects and interprets imbalances in the head, neck torso and to make it suitable for the clinical context.
 
-**Objectives**
+## **Objectives**
 
-1.  To finetune an pre-trained Google MediaPipe image classification model for posture and movement imbalance detection.
+1.  To finetune an pre-trained Google MediaPipe image classification model for posture and movement imbalance classification.
 2.  To evaluate the performance of the finetuned classification model.
-3.  To detect and analyze indicators of posture imbalances, including the alignment angles of the head, neck and torso including asymmetries or hyper tension in muscle contours.
 
 ## Dissertation structure
 
@@ -131,7 +155,11 @@ When evaluated against image classification models, the advantages of the latter
 
 ## Current Research on Convolutional Neural Networks
 
-@Cao2024 state that human posture recognition are machine extractions simulating the eyefunction and human learning via feature extraction. They divde this recognition into static and dynamic posture detection, whereby latter one extracts continuous frame sequences and this more widely used. Using images for training and for inference, this approach is static posture classification.
+@Cao2024 state that human posture recognition are machine extractions simulating the eye-function and human learning via feature extraction. They divide this recognition into static and dynamic posture detection, whereby latter one extracts continuous frame sequences and this more widely used. Using images for training and for inference, this approach is static posture classification.
+
+## Summary
+
+Lore Ypsum placeholder text: This section will conclude the literature review in a concise way.
 
 \clearpage
 
@@ -643,29 +671,15 @@ Lore Ypsum placeholder text: This section will explain implications for physioth
 
 \clearpage
 
-# Ethics, Information Governance, and Data Management
+# Conclusion and Future Work
 
-This study exclusively uses publicly available secondary image data and includes no participant recruitment, intervention, or direct interaction. The "Posture Keypoints Detection – Photos & Labels" dataset is made available on Kaggle under the Apache 2.0 License, and its use in this project follows the corresponding attribution and license requirements.
-
-No attempt will be made to identify individuals from the dataset, and no personally identifiable information is included to the best of current knowledge. As no personal data are processed, the work is classified as secondary data research under University of Edinburgh governance guidance.
-
-Data and derived outputs will be stored on approved, access-controlled systems. A complete record of preprocessing steps, model training pipelines, and derived features will be maintained. Code and workflows will be version-controlled and shared where licensing permits, aligned with FAIR principles.
-
-\clearpage
-
-# Impact and Dissemination
+Lore Ypsum placeholder text: This chapter will summarize the final contributions, reflect on research objectives, and define priorities for future work.
 
 The primary expected output is a proof-of-concept lightweight AI model, built with TensorFlow Lite and integrated with Google MediaPipe Pose, capable of detecting and analyzing subtle postural and movement imbalances in upper-body alignment. Supporting outputs include annotated code, workflow documentation, and visual examples of pose-based analysis.
 
 The intended impact is to advance accessible, low-cost, and non-invasive approaches for posture and movement assessment, with potential relevance for physiotherapy, sports science, education, and digital health.
 
 Dissemination will prioritize practitioner- and public-facing channels, including open repository documentation, blog-style communication, and concise visual explanations.
-
-\clearpage
-
-# Conclusion and Future Work
-
-Lore Ypsum placeholder text: This chapter will summarize the final contributions, reflect on research objectives, and define priorities for future work.
 
 \clearpage
 
@@ -682,6 +696,3 @@ Lore Ypsum placeholder text: This chapter will summarize the final contributions
 \clearpage
 
 # References
-
-::: {#refs}
-:::
