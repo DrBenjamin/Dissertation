@@ -65,9 +65,9 @@ Also, I received guidance and support from my two supervisor, Ahmar Shar and Joh
 
 \clearpage
 
-# Abstract
+# **Abstract**
 
-## **Aim & objectives**
+## Aim & objectives
 
 Finetuning and evaluation of a deep learning model for posture and movement quality assessment that detects and interprets imbalances in the head, neck torso to finetune an pre-trained Google MediaPipe image classification model for posture and movement imbalance detection; and to evaluate the performance of the finetuned classification model.
 
@@ -101,16 +101,15 @@ Recent advances in computer vision and artificial intelligence provide opportuni
 
 As a physiotherapist with focus on movement quality, I found these gaps were not purely academic but deeply practical in my clinical practice. To reach a level of good understanding of movement (patterns) it required years of training and clinical experience to develop. For instance the ability to accurately assess the quality of movement based on key indicators such as the passive rotatory mobility of the fifth thoracic vertebra (Th5) and adjacent vertebrae [@Tachihara2019]. The possibility of using lightweight computer vision to complement clinical expertise, enhance rehabilitation outcomes, and support performance improvement is therefore highly compelling.
 
-## Research question
+## **Research question**
 
-**Research question**\
 How can transfer learning on a pre-existing TensorFlow Lite model for pose estimation and image classification be used to detect and analyze posture and movement imbalances?
 
-## **Aim**
+## Aim
 
 Finetuning and evaluation of a deep learning model for posture and movement quality assessment that detects and interprets imbalances in the head, neck torso and to make it suitable for the clinical context.
 
-## **Objectives**
+## Objectives
 
 1.  To finetune an pre-trained Google MediaPipe image classification model for posture and movement imbalance classification.
 2.  To evaluate the performance of the finetuned classification model.
@@ -119,21 +118,21 @@ Finetuning and evaluation of a deep learning model for posture and movement qual
 
 The present work is structured as follows:
 
-Chapter 2 provides a comprehensive literature review of the current state of AI-based posture and movement analysis, with a focus on the capabilities and limitations of existing pose estimation frameworks such as Google MediaPipe.
+The abstract formulates the research question, aim, objectives, and provides a concise summary of the design, methods, results, and conclusions. Where as the introduction outlines the background, rationale, and research question, and defines the aim and objectives of the project.
 
-Chapter 3 outlines the methodology, including the study design, data sources, variable definitions, model development approach, and performance evaluation strategy.
+The "Literature Review" chapter provides a comprehensive literature review of the current state of AI-based posture and movement analysis, with a focus on the capabilities and limitations of existing pose estimation frameworks such as Google MediaPipe.
 
-Chapter 4 details the implementation of the training and inference pipelines with a complex CD/CI integration.
+The "Methodology" chapter outlines the methods used, including the study design, data sources, variable definitions, model development approach, and performance evaluation strategy.
 
-Chapter 5 presents the results of model performance and error analysis and shows the challenges of training a custom CNN model.
+The "Implementation" chapter details the implementation of the training and inference pipelines with a complex CD/CI integration.
 
-Chapter 6 discusses the findings in relation to existing literature, strengths and limitations, and clinical implications.
+The "Result" chapter presents the results of model performance and error analysis and shows the challenges of training a custom CNN model.
 
-Chapter 7 addresses ethical considerations, information governance, and data management.
+The "Discussion" chapter addresses the findings in relation to existing literature, strengths and limitations, and clinical implications.
 
-Chapter 8 outlines the expected impact and dissemination plans, while
+The "Conclusion" chapter outlines the expected impact and dissemination plans, while
 
-Chapter 9 concludes with a summary of contributions and future work directions.
+Whereby the final chapter concludes with a summary of contributions and future work directions.
 
 \clearpage
 
@@ -187,35 +186,33 @@ The posture was classified into 3 types of poses regarding posture classificatio
 
 **The classes**
 
-- "tensed posture" (left on the illustration)
-
-- "slumped posture" (middle)
-
-- "normal posture" (right)
+-   "tensed posture" (left on the illustration)
+-   "slumped posture" (middle)
+-   "normal posture" (right)
 
 The author manually annotated and applied the 300 images to one of these classes according to his clinical experience in the field of orthopaedics and functional movement therapy.
 
 **Primary outcomes**
 
-- Head-neck-torso alignment: Angular relationships and relative positioning of the head, cervical spine, and torso.
-- Postural coordination: Upper-body skeletal alignment patterns derived from keypoints and CNN feature maps.
-- Movement imbalance indicators: Detection of asymmetries, misalignments, or inefficient posture as inferred from pose landmarks.
+-   Head-neck-torso alignment: Angular relationships and relative positioning of the head, cervical spine, and torso.
+-   Postural coordination: Upper-body skeletal alignment patterns derived from keypoints and CNN feature maps.
+-   Movement imbalance indicators: Detection of asymmetries, misalignments, or inefficient posture as inferred from pose landmarks.
 
 **Exposures/independent variables**
 
-- Image category/context: Static posture images in standardized side view.
-- Camera/view angle: Minor variation in pose estimation accuracy depending on exact lateral positioning.
+-   Image category/context: Static posture images in standardized side view.
+-   Camera/view angle: Minor variation in pose estimation accuracy depending on exact lateral positioning.
 
 **Covariates/control features**
 
-- Image characteristics: Resolution, background, and lighting, which may influence model performance.
-- Posture variation: Degree of anterior head translation, kyphosis, and other sagittal-plane deviations.
+-   Image characteristics: Resolution, background, and lighting, which may influence model performance.
+-   Posture variation: Degree of anterior head translation, kyphosis, and other sagittal-plane deviations.
 
 **Extracted features**
 
-- Skeletal keypoints: Annotated landmarks in YOLO pose format and MediaPipe Pose outputs.
-- Kinematic proxies: Angular relationships between key joints and segments.
-- Postural imbalance markers: Anterior head translation, sagittal imbalance, and deviations from expected alignment patterns.
+-   Skeletal keypoints: Annotated landmarks in YOLO pose format and MediaPipe Pose outputs.
+-   Kinematic proxies: Angular relationships between key joints and segments.
+-   Postural imbalance markers: Anterior head translation, sagittal imbalance, and deviations from expected alignment patterns.
 
 All selected images from the Kaggle dataset will undergo preprocessing prior to model training, including resizing, normalization, and verification of annotation integrity. Where appropriate, data augmentation (e.g., small rotations, cropping, brightness adjustments) will be applied to improve generalization while preserving clinically meaningful posture characteristics.
 
@@ -238,40 +235,44 @@ Model performance will be evaluated using accuracy as the primary metric and, wh
 
 # Implementation
 
-This chapter documents the systems, pipelines and automation used to prepare the data, train and evaluate models, and produce deployable inference artifacts. It covers the research environment and names reproducible steps to build the training pipeline and maintain the data-engineering workflows (including the n8n augmentation workflow).
+To utilze the Google MediaPipe framework, extended pipelines and automation were used to prepare the data, train and evaluate models, and produce deployable inference artifacts. The research environment and reproducible steps to build the training pipeline and maintain a production ready data-engineering workflow (including the n8n augmentation workflow) are described.
 
 ## Research setup
 
-- **Hardware and runtime**
+-   **Hardware and runtime**
 
-  The development was mostly performed on a remote virtual machine with 8GB RAM and 4 CPU Cores. For editing Python scripts, a Jupyter Notebook was used, for editing the Quarto project file a RStudio Server. Next to this, a Streamlit WebApp was developed and used to test re-trained models manually. Both the Jupyter notebook and the Streamlit WebApp were deployed via a Docker container on the remote server to manage heavy Python library dependencies of MediaPipe Model Maker (Python 3.10) respective of MediaPipe / TensorFlow Lite (Python 3.13).
+    The development was mostly performed on a remote virtual machine with Ubuntu Linux and specs of 8GB RAM and 4 available CPU Cores. For editing Python scripts, a Jupyter Notebook was used for editing and runinng the transfer-learning script, for editing the Quarto dissertation project file a RStudio Server. Next to this, a Streamlit WebApp was developed and used to test re-trained models manually. Both the Jupyter notebook and the Streamlit WebApp were deployed via a Docker container on the remote server to manage heavy Python library dependencies of MediaPipe Model Maker (Python 3.10) respective of MediaPipe / TensorFlow Lite (Python 3.13) for the Streamlit app.
 
-- **Representative software stack**
+-   **Software/framework/service stack**
 
-  - Python 3.10 (Model Maker) or Python 3.13 (Inference)
-  - TensorFlow 2.19.1 with TFLite support and Keras (3.12.1)
-  - MediaPipe (0.10.20) and MediaPipe Model Maker (0.2.1.3)
-  - OpenCV, NumPy, pandas, Matplotlib
-  - Jupyter notebook
-  - Quarto (for rendering `Dissertation.qmd`) on RStudio Server
-  - Streamlit (Python WebApp)
-  - Docker & Docker Compose
-  - Jenkins (CI server)
-  - n8n (automation/workflows)
-  - GitHub Actions (dissertation artifact build)
+    -   Python 3.10 (Model Maker) or Python 3.13 (Inference)
+    -   Core CNN libraries: MediaPipe Pose (0.10.20), MediaPipe Model Maker (0.2.1.3), TensorFlow 2.19.1 with TFLite support and Keras (3.12.1)
+    -   Important Python-libraries: OpenCV, NumPy, pandas, Matplotlib, FastAPI (for MediaPipe API), Streamlit (for WebApp)
+    -   Jupyter notebook
+    -   Quarto
+    -   Streamlit (Python WebApp)
+    -   Docker
+    -   Jenkins (CI server)
+    -   n8n (automation/workflows)
+    -   GitHub Actions (dissertation artifact build and deployment)
 
-- **Environment manifests used in this project (congested by Dockerfiles)**
+-   **Environment manifests used in this project (congested by Dockerfiles)**
 
-  - `code/environment.yml`
-  - `code/environment_model-maker.yml`
-  - `code/requirements.txt`
-  - `code/requirements_model-maker.txt`
+    -   `code/environment.yml`
+    -   `code/environment_model-maker.yml`
+    -   `code/requirements.txt`
+    -   `code/requirements_model-maker.txt`
 
-- **Example reproducible local environment:**
+-   **Example reproducible local environment:**
 
 ``` bash
+# MediaPipe Model Maker environment
+conda env create -f code/environment_model-maker.yml
+conda activate dissertation-3.10
+
+# MediaPipe Pose and TensorFlow Lite environment
 conda env create -f code/environment.yml
-conda activate dissertation
+conda activate dissertation-3.13
 ```
 
 ## Training pipeline and data engineering
@@ -306,17 +307,17 @@ python scripts/custom_tflite_image_classifier.py --model data/models/<run>/model
 
 **Containerization and compose**
 
-\- The project maintains two primary Dockerfile artifacts:
+- The project maintains two primary Dockerfile artifacts:
 
-\- `code/Dockerfile` — training and utilities image.
+- `code/Dockerfile` — training and utilities image.
 
-- `code/Dockerfile_mediapipe`
+-   `code/Dockerfile_mediapipe`
 
 MediaPipe runtime used for keypoint extraction and overlay rendering. Multi-service development is defined in:
 
-\- `code/docker-compose.yml`
+- `code/docker-compose.yml`
 
-\- Start development services:
+- Start development services:
 
 ``` bash
 docker compose -f code/docker-compose.yml up --build
@@ -328,19 +329,16 @@ Jenkins is used for build a Jupyter environment on a server to run model trainin
 
 GitHub Actions of a GitHub Pages repository is trigged to render the Quarto artifacts:
 
-- Checkout repository - Installs Quarto and LaTeX (for PDF rendering).
-
-- Deploys the dissertation project as HTML on <https://drbenjamin.github.io/dissertation.html>
+-   Checkout repository - Installs Quarto and LaTeX (for PDF rendering).
+-   Deploys the dissertation project as HTML on <https://drbenjamin.github.io/dissertation.html>
 
 **Automation orchestration** (n8n)
 
 `A n8n` server run as a containerized service (two container) and to hosts the augmentation workflows. Responsibilities:
 
-- n8n instance (container one)
-
-- Orchestrate MediaPipe API (container two) calls and rendering.
-
-- Persist augmented images and artifacts on a MinIO file storage.
+-   n8n instance (container one)
+-   Orchestrate MediaPipe API (container two) calls and rendering.
+-   Persist augmented images and artifacts on a MinIO file storage.
 
 ![Implementation infrastructure](docs/CNN%20Workflow.drawio.png)
 
@@ -354,18 +352,18 @@ These results are from four model builds with Keras and TensorFlow, and evaluate
 
 The dataset and splits used across all runs were consistent. The training set contained 1,890 images distributed across three classes, and both the validation and test splits contained 199 images each. To achieve this number from 300 original images, augmentation was applied. First, a subset of duplicated 300 images with body landmarks as overlay were added. This was achieved by an existing MediaPipe Pose model which was adding these annotations. Second, the images were duplicated several times and processed via random image editing utilizing the OpenCV framework. For instance, the color-theme or background color were changed, images were cropped or tilted. For each augmented image, 2 changes were applied. The final class counts were as follows:
 
-- Train split (total = 1890):
-  - normal posture: 630
-  - slumped posture: 651
-  - tensed posture: 609
-- Validation split (total = 199):
-  - normal posture: 69
-  - slumped posture: 69
-  - tensed posture: 61
-- Test split (total = 199):
-  - normal posture: 63
-  - slumped posture: 62
-  - tensed posture: 74
+-   Train split (total = 1890):
+    -   normal posture: 630
+    -   slumped posture: 651
+    -   tensed posture: 609
+-   Validation split (total = 199):
+    -   normal posture: 69
+    -   slumped posture: 69
+    -   tensed posture: 61
+-   Test split (total = 199):
+    -   normal posture: 63
+    -   slumped posture: 62
+    -   tensed posture: 74
 
 Preprocessing was applied consistently for all runs (same processed image data set) to maintain comparability between architectures.
 
@@ -397,9 +395,9 @@ Model evaluate(internal performance metric) loss/accuracy on dataset_obj: 0.6382
 
 Per-class support:
 
-- normal posture: 63
-- slumped posture: 62
-- tensed posture: 74
+-   normal posture: 63
+-   slumped posture: 62
+-   tensed posture: 74
 
 Balanced accuracy (macro recall): 0.3263
 
@@ -440,9 +438,9 @@ Model evaluate(internal performance metric) loss/accuracy on dataset_obj: 0.6450
 
 Per-class support:
 
-- normal posture: 63
-- slumped posture: 62
-- tensed posture: 74
+-   normal posture: 63
+-   slumped posture: 62
+-   tensed posture: 74
 
 Balanced accuracy (macro recall): 0.3979
 
@@ -483,9 +481,9 @@ Model evaluate(internal performance metric) loss/accuracy on dataset_obj: 0.7035
 
 Per-class support:
 
-- normal posture: 63
-- slumped posture: 62
-- tensed posture: 74
+-   normal posture: 63
+-   slumped posture: 62
+-   tensed posture: 74
 
 Balanced accuracy (macro recall): 0.4167
 
@@ -526,9 +524,9 @@ Model evaluate(internal performance metric) loss/accuracy on dataset_obj: 0.7365
 
 Per-class support:
 
-- normal posture: 63
-- slumped posture: 62
-- tensed posture: 74
+-   normal posture: 63
+-   slumped posture: 62
+-   tensed posture: 74
 
 Balanced accuracy (macro recall): 0.3111
 
@@ -549,21 +547,21 @@ Balanced accuracy (macro recall): 0.3111
 
 Across all experiments a consistent pattern of misclassification is apparent. The models show relatively high recall for the `slumped posture` class but lower precision, indicating a tendency to predict `slumped` for a wide range of inputs. `Normal posture` is frequently misclassified (low recall in several runs), and `tensed posture` predictions vary by architecture: deeper Lite variants tended to improve overall discrimination.
 
-- Best overall accuracy and balanced recall were achieved by EfficientNet-Lite4 (accuracy 0.4121, balanced accuracy 0.4167).
-- EfficientNet-Lite2 performed second best (accuracy 0.3920, balanced accuracy 0.3979).
-- EfficientNet-Lite0 and MobileNet-V2 produced lower overall accuracy (0.3216 and 0.3065 respectively) and lower balanced accuracy.
+-   Best overall accuracy and balanced recall were achieved by EfficientNet-Lite4 (accuracy 0.4121, balanced accuracy 0.4167).
+-   EfficientNet-Lite2 performed second best (accuracy 0.3920, balanced accuracy 0.3979).
+-   EfficientNet-Lite0 and MobileNet-V2 produced lower overall accuracy (0.3216 and 0.3065 respectively) and lower balanced accuracy.
 
 Common failure modes observed in confusion matrices:
 
-- Confusion between `normal` and `slumped`: many `normal` examples are predicted as `slumped`, suggesting the model is sensitive to subtle postural variations or that the dataset contains ambiguous examples near class boundaries.
-- Over-prediction of `slumped`: reflected in row-normalized confusion matrices where the middle column (predicted `slumped`) is large across runs.
-- Lower discrimination for `tensed` vs. other classes in the smaller architectures, improved modestly in larger EfficientNet-Lite variants.
+-   Confusion between `normal` and `slumped`: many `normal` examples are predicted as `slumped`, suggesting the model is sensitive to subtle postural variations or that the dataset contains ambiguous examples near class boundaries.
+-   Over-prediction of `slumped`: reflected in row-normalized confusion matrices where the middle column (predicted `slumped`) is large across runs.
+-   Lower discrimination for `tensed` vs. other classes in the smaller architectures, improved modestly in larger EfficientNet-Lite variants.
 
 Implications and next steps:
 
-- The results indicate that the models can capture some posture-related features but that class overlap and limited dataset size constrain discriminative performance. Better class balance, additional labelled data for edge cases, and further augmentation tailored to posture variations should be considered.
-- Model calibration and threshold tuning (or use of ensemble methods) may improve precision for the `slumped` and `tensed` classes.
-- Further work should include qualitative review of misclassified examples to identify systematic annotation or dataset issues and targeted augmentation or re-labelling where necessary.
+-   The results indicate that the models can capture some posture-related features but that class overlap and limited dataset size constrain discriminative performance. Better class balance, additional labelled data for edge cases, and further augmentation tailored to posture variations should be considered.
+-   Model calibration and threshold tuning (or use of ensemble methods) may improve precision for the `slumped` and `tensed` classes.
+-   Further work should include qualitative review of misclassified examples to identify systematic annotation or dataset issues and targeted augmentation or re-labelling where necessary.
 
 ## 2-Class Training
 
@@ -597,8 +595,8 @@ Row-normalized confusion matrix (recall by class):
 
 Per-class support:
 
-- non-normal posture: 82
-- normal posture: 76
+-   non-normal posture: 82
+-   normal posture: 76
 
 Balanced accuracy (macro recall): 0.5358
 
@@ -636,8 +634,8 @@ Row-normalized confusion matrix (recall by class):
 
 Per-class support:
 
-- non-normal posture: 91
-- normal posture: 97
+-   non-normal posture: 91
+-   normal posture: 97
 
 Balanced accuracy (macro recall): 0.5562
 
