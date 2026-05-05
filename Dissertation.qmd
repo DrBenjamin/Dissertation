@@ -541,7 +541,7 @@ Balanced accuracy (macro recall): 0.3111
 
 ![Training 4](literature/Results/Training_4.png)
 
-## Error analysis
+### Error analysis
 
 Across all experiments a consistent pattern of misclassification is apparent. The models show relatively high recall for the `slumped posture` class but lower precision, indicating a tendency to predict `slumped` for a wide range of inputs. `Normal posture` is frequently misclassified (low recall in several runs), and `tensed posture` predictions vary by architecture: deeper Lite variants tended to improve overall discrimination.
 
