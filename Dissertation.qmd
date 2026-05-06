@@ -775,37 +775,37 @@ This dissertation demonstrates that transfer learning on compact CNNs within the
 
 Priorities for future work will center on prospective clinical image collection, expert annotation, improving the MediaPipe Pose detection, develop a 4-body-block detection model (Klein-Vogelbach) as well as retraining the three‑class model to improve discrimination and equity.
 
-## **Clinical data collection**
+## Clinical data collection
 
 To acquire a larger, prospectively collected side-view image dataset in real clinical settings, a strictly standardized acquisition protocol should be implemented, including fixed camera height at approximately shoulder level, constant camera-to-subject distance, standardized lateral stance, neutral footwear, uncluttered background, and controlled, even lighting conditions. Demographic representativeness across relevant population groups should be ensured as well informed consent and ethics approvals should be obtained. In addition, metadata such as device type, viewing angle, and lighting conditions could be systematically recorded to enable reproducibility and avoid bias assessment and ensuring robust model validation.
 
-## **Expert annotation**
+## Expert annotation
 
 For expert annotation, future work should implement a multi-rater labeling protocol with at least two independent clinicians to ensure annotation reliability, in contrast to the present study where annotations were performed by a single rater (the author). All annotations should follow a clearly defined rubric aligned with the Klein-Vogelbach posture classes (normal, slumped/hypotonic, tensed/hypertonic), including explicit decision criteria to reduce subjective variability. Disagreements between raters should be resolved through a structured adjudication process, ideally involving a third expert reviewer.
 
 Inter-rater agreement should be quantified using metrics such as Cohen’s κ to monitor consistency and identify ambiguous cases. In addition, a stable **gold-standard** subset should be maintained and periodically reused for model calibration and regression testing to ensure annotation quality and temporal consistency across dataset iterations.
 
-## **Klein-Vogelbach informed Overlay annotation**
+## Klein-Vogelbach informed overlay annotation
 
 Instead of 33 body landmarks, a **4-body-block** detection model should be trained. This can lead to overlay-prepared images that represent the posture as a structured higher-level abstraction rather than isolated joint points. By aggregating landmarks into four functional segments (head, thorax, pelvis, and lower extremities), the model can capture inter-segment relationships consistent with Klein-Vogelbach’s posture classification. This enables clearer representation of global postural organisation, such as integrated alignment in normal posture, anterior-posterior dissociation in hypotonic posture, and global anterior load shift in hypertonic posture, thereby improving interpretability and potentially enhancing class discrimination for CNN-based classification.
 
-This could also render the classification model obsolete, as the system would instead be deployed as a pose model that directly estimates the configuration and relative alignment of the four body blocks, allowing posture categories to be derived deterministically from these relationships rather than learned via a separate classification step.
+This could also render the efforts of training the classification model obsolete, as the system would instead be deployed as a pose model that directly estimates the configuration and relative alignment of the four body blocks, allowing posture categories to be derived deterministically from these relationships rather than learned via a separate classification step. But this would also limit the capabilities, as a pose-only model constrains inference to geometric body configurations and therefore reduces the diversity of detectable patterns compared to a classification model, which can learn higher-level, context-dependent and appearance-based cues beyond skeletal alignment, including subtle compensatory strategies and non-linear visual markers that are often relevant in clinical assessment.
 
-## **Retraining the 3‑class model**
+## Retraining the 3‑class model
 
 To retrain the model using class-balanced sampling to mitigate class imbalance and apply posture-aware augmentation, boundary cases between normal, slumped, and tensed postures should be carefully handled rather than inadvertently reinforced. Training should incorporate more discriminative and clinically consistent examples, with targeted augmentation that preserves posture semantics while increasing variability in non-ambiguous cases.
 
 In addition, interpretable posture-derived features extracted from landmarks (e.g., craniovertebral angle and thoracic kyphosis proxies) could be integrated to complement image-based learning with clinically meaningful structure. A multi-task architecture, jointly predicting posture class and continuous postural angles, may further improve both classification performance and interpretability by enforcing consistency between categorical and geometric representations of posture. Finally, probability calibration should be applied, and operating thresholds should be explicitly defined for a screening use case to prioritize sensitivity for non-normal postures while controlling false-positive rates.
 
-## **Evaluation and fairness**
+## Evaluation and fairness
 
 Future work should include external validation on a held-out site or device to assess generalisability beyond the current data source test data-set. In addition, model performance should be reported across relevant subgroups (e.g., sex, age bands, and skin tone), including an analysis of confusion patterns to identify systematic biases or failure modes. Learning-curve analyses should further be conducted to quantify data requirements and inform targeted data collection for improving model robustness and fairness.
 
-## **Deployment readiness**
+## Deployment readiness
 
 For deployment readiness, inference should be performed on-device to ensure low latency and preserve user privacy within the authors E-Health SaaS service *Serious Ben Entertainment* for the German health market, where posture detection is embedded in a digital serious back school game. To enhance reliability in this preventive context, the system should implement confidence gating, allowing the model to abstain or flag cases as “needs review” when prediction certainty is low. In addition, datasets and model versions should be systematically tracked to ensure reproducibility and regulatory transparency. Post-deployment, continuous monitoring for data drift is required, with periodic recalibration to maintain performance as usage conditions, devices, and user populations evolve.
 
-## **Milestones**
+## Milestones
 
 As a concrete milestone, a on-site pilot study should be conducted creating approximately 1,000 newly class-balanced clinical images. Model performance should be evaluated on an external test split, with a target balanced accuracy (three-class, macro recall) in the range of **0.60–0.65** to demonstrate improved generalisability and clinically meaningful classification performance.
 
