@@ -368,27 +368,27 @@ The third run was extended by an additional 300 images, which were augmented usi
 
 #### Training 2-class problem 1
 
-Prediction-derived overall accuracy: 0.6000
+[Prediction-derived overall accuracy:]{.underline} 0.6000
 
-Model evaluate() loss/accuracy on dataset_obj: 0.546806/0.733333
+[Model evaluate() loss/accuracy on dataset_obj:]{.underline} 0.546806/0.733333
 
 Analysis batch size: 1
 
-Confusion matrix (rows=true, cols=pred):
+**Confusion matrix (rows=true, cols=pred)**
 
 | True predicted | non-normal | normal |
 |---------------:|-----------:|-------:|
 |     non-normal |         16 |      8 |
 |         normal |          4 |      2 |
 
-Row-normalized confusion matrix (recall by class):
+**Row-normalized confusion matrix (recall by class)**
 
 | True predicted | non-normal | normal |
 |---------------:|-----------:|-------:|
 |     non-normal |     0.6667 | 0.3333 |
 |         normal |     0.6667 | 0.3333 |
 
-Per-class support:
+[Per-class support:]{.underline}
 
 - non-normal posture: 24
 - normal posture: 6
@@ -409,25 +409,25 @@ Classification report:
 
 #### Training 2-class problem 2
 
-Prediction-derived overall accuracy: 0.5316
+[Prediction-derived overall accuracy:]{.underline} 0.5316
 
-Model evaluate() loss/accuracy on dataset_obj: 0.421809/0.854430
+[Model evaluate() loss/accuracy on dataset_obj:]{.underline} 0.421809/0.854430
 
-Confusion matrix (rows=true, cols=pred):
+**Confusion matrix (rows=true, cols=pred)**
 
 | True predicted | non-normal | normal |
 |---------------:|-----------:|-------:|
 |     non-normal |         35 |     47 |
 |         normal |         27 |     49 |
 
-Row-normalized confusion matrix (recall by class):
+**Row-normalized confusion matrix (recall by class)**
 
 | True predicted | non-normal | normal |
 |---------------:|-----------:|-------:|
 |     non-normal |     0.4268 | 0.5732 |
 |         normal |     0.3553 | 0.6447 |
 
-Per-class support:
+[Per-class support:]{.underline}
 
 - non-normal posture: 82
 - normal posture: 76
@@ -448,25 +448,25 @@ Classification report:
 
 #### Training 2-class problem 3 (extra body landmark overlay image-set)
 
-Prediction-derived overall accuracy: 0.5585
+[Prediction-derived overall accuracy:]{.underline} 0.5585
 
-Model evaluate() loss/accuracy on dataset_obj: 0.454466/0.840426
+[Model evaluate() loss/accuracy on dataset_obj:]{.underline} 0.454466/0.840426
 
-Confusion matrix (rows=true, cols=pred):
+**Confusion matrix (rows=true, cols=pred)**
 
 | True predicted | non-normal | normal |
 |---------------:|-----------:|-------:|
 |     non-normal |         44 |     47 |
 |         normal |         36 |     61 |
 
-Row-normalized confusion matrix (recall by class):
+**Row-normalized confusion matrix (recall by class)**
 
 | True predicted | non-normal | normal |
 |---------------:|-----------:|-------:|
 |     non-normal |     0.4835 | 0.5165 |
 |         normal |     0.3711 | 0.6289 |
 
-Per-class support:
+[Per-class support:]{.underline}
 
 - non-normal posture: 91
 - normal posture: 97
@@ -499,9 +499,9 @@ Four training runs were performed using different base architectures. For each r
 
 #### Training 1 (EfficientNet-Lite0 architecture)
 
-Prediction-derived overall accuracy: 0.3216
+[Prediction-derived overall accuracy:]{.underline} 0.3216
 
-Model evaluate(internal performance metric) loss/accuracy on dataset_obj: 0.638240/0.824121
+[Model evaluate(internal performance metric) loss/accuracy on dataset_obj:]{.underline} 0.638240/0.824121
 
 **Confusion matrix**
 
@@ -519,7 +519,7 @@ Model evaluate(internal performance metric) loss/accuracy on dataset_obj: 0.6382
 | slumped        | 0.0323 |  0.6452 | 0.3226 |
 | tensed         | 0.0405 |  0.6892 | 0.2703 |
 
-Per-class support:
+[Per-class support:]{.underline}
 
 - normal posture: 63
 - slumped posture: 62
@@ -542,9 +542,9 @@ Per-class support:
 
 #### Training 2 (EfficientNet-Lite2 architecture)
 
-Prediction-derived overall accuracy: 0.3920
+[Prediction-derived overall accuracy:]{.underline} 0.3920
 
-Model evaluate(internal performance metric) loss/accuracy on dataset_obj: 0.645087/0.849246
+[Model evaluate(internal performance metric) loss/accuracy on dataset_obj:]{.underline} 0.645087/0.849246
 
 **Confusion matrix**
 
@@ -562,7 +562,7 @@ Model evaluate(internal performance metric) loss/accuracy on dataset_obj: 0.6450
 | slumped        | 0.1613 |  0.6290 | 0.2097 |
 | tensed         | 0.1622 |  0.5270 | 0.3108 |
 
-Per-class support:
+[Per-class support:]{.underline}
 
 - normal posture: 63
 - slumped posture: 62
@@ -585,9 +585,9 @@ Per-class support:
 
 #### **Training 3 (EfficientNet-Lite4 architecture)**
 
-Prediction-derived overall accuracy: 0.4121
+[Prediction-derived overall accuracy:]{.underline} 0.4121
 
-Model evaluate(internal performance metric) loss/accuracy on dataset_obj: 0.703537/0.758794
+[Model evaluate(internal performance metric) loss/accuracy on dataset_obj:]{.underline} 0.703537/0.758794
 
 **Confusion matrix**
 
@@ -605,7 +605,7 @@ Model evaluate(internal performance metric) loss/accuracy on dataset_obj: 0.7035
 | slumped        | 0.1935 |  0.6129 | 0.1935 |
 | tensed         | 0.2027 |  0.4459 | 0.3514 |
 
-Per-class support:
+[Per-class support:]{.underline}
 
 - normal posture: 63
 - slumped posture: 62
@@ -628,9 +628,9 @@ Per-class support:
 
 #### Training 4 (MobileNet-V2 architecture)
 
-Prediction-derived overall accuracy: 0.3065
+[Prediction-derived overall accuracy:]{.underline} 0.3065
 
-Model evaluate(internal performance metric) loss/accuracy on dataset_obj: 0.736599/0.748744
+[Model evaluate(internal performance metric) loss/accuracy on dataset_obj:]{.underline} 0.736599/0.748744
 
 **Confusion matrix**
 
@@ -648,7 +648,7 @@ Model evaluate(internal performance metric) loss/accuracy on dataset_obj: 0.7365
 | slumped        | 0.4194 |  0.3226 | 0.2581 |
 | tensed         | 0.3108 |  0.4595 | 0.2297 |
 
-Per-class support:
+[Per-class support:]{.underline}
 
 - normal posture: 63
 - slumped posture: 62
