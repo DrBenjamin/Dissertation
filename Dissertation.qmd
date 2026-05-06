@@ -366,13 +366,11 @@ The same base dataset was used for all three training runs. To address class imb
 
 The third run was extended by an additional 300 images, which were augmented using body landmark overlays generated with the Google MediaPipe Pose framework to incorporate explicit skeletal structure information, which lead to a total of 1880 images.
 
-#### Training 2-class problem 1
+#### Training 1
 
 [Prediction-derived overall accuracy:]{.underline} 0.6000
 
 [Model evaluate() loss/accuracy on dataset_obj:]{.underline} 0.546806/0.733333
-
-Analysis batch size: 1
 
 **Confusion matrix (rows=true, cols=pred)**
 
@@ -395,7 +393,7 @@ Analysis batch size: 1
 
 [Balanced accuracy (macro recall):]{.underline} **0.5000**
 
-Classification report:
+**Classification report**
 
 | Class              | Precision |     Recall | F1-score | Support |
 |--------------------|----------:|-----------:|---------:|--------:|
@@ -407,7 +405,7 @@ Classification report:
 
 ![2-Class - Training 1](literature/Results/Training_2-class_1.png)
 
-#### Training 2-class problem 2
+#### Training 2
 
 [Prediction-derived overall accuracy:]{.underline} 0.5316
 
@@ -434,7 +432,7 @@ Classification report:
 
 [Balanced accuracy (macro recall):]{.underline} **0.5358**
 
-Classification report:
+**Classification report**
 
 | Class              | Precision |     Recall | F1-score | Support |
 |--------------------|----------:|-----------:|---------:|--------:|
@@ -446,7 +444,7 @@ Classification report:
 
 ![2-Class - Training 2](literature/Results/Training_2-class_2.png)
 
-#### Training 2-class problem 3 (extra body landmark overlay image-set)
+#### Training 3 (extra body landmark overlay)
 
 [Prediction-derived overall accuracy:]{.underline} 0.5585
 
@@ -473,7 +471,7 @@ Classification report:
 
 [Balanced accuracy (macro recall):]{.underline} **0.5562**
 
-Classification report:
+**Classification report**
 
 | Class              | Precision |     Recall | F1-score | Support |
 |--------------------|----------:|-----------:|---------:|--------:|
@@ -485,148 +483,65 @@ Classification report:
 
 ![2-Class - Training 3](literature/Results/Training_2-class_3.png)
 
-#### Error analysis
+### Error analysis
 
-Model 1 (no overlays) performs with an accuracy of 0.5316 (balanced 0.5358), where as Model 2 (with landmark overlays) with 0.5585. (balanced 0.5562). Landmark overlays yield a modest overall gain and meaningfully improve sensitivity to non‑normal cases, with a small trade‑off in normal recall. Both models perform only slightly above the 50% chance baseline.
+**Training run 1** achieves the highest accuracy of 0.6000. The confusion matrix using the test-image subset shows that performance is uneven across classes: out of 24 non-normal posture cases, 16 are correctly classified and 8 are misclassified as normal, resulting in a recall of 0.6667. In contrast, only 2 out of 6 normal posture cases are correctly identified, while 4 are misclassified as non-normal, yielding a recall of 0.3333. This indicates a clear bias towards correctly predicting non-normal posture while under-detecting normal posture.
+
+As the normal posture class contains only 6 test images, the recall estimate for this class is highly sensitive to single misclassifications and therefore unstable. Consequently, using accuracy as the primary performance indicator is misleading due to both the small sample size and the strong class-wise imbalance. Therefore, **balanced accuracy (macro recall)** is introduced as the primary evaluation metric, which is **0.5000**, as it assigns equal weight to each class and directly reflects class-wise sensitivity (recall), providing a more reliable assessment of model performance across posture categories. Secondly two annotation strategies to increase the total number of images are used for following runs:
+
+- **noise:** Several OpenCV image processing routines where applied to multiply the origial 300 images to changed duplicates. Techniques used are:
+
+  - Random flip (Horizontal or vertical flipping)
+
+  - Affine transform (Rotating, scaling, translating, and shearing)
+
+  - Random crop + resize (Cropping a random window then resizing back to original size)
+
+  - HSV jitter (Random hue, saturation, and value shifts in HSV space)
+
+  - Intensity adjust (Changing contrast/brightness)
+
+  - Gaussian noise (Additive Gaussian noise per pixel)
+
+  - Random erasing (Erasing a random rectangle region)
+
+- **overlay:** With a preexisting Google MediaPipe Pose detection model that creates a mesh of 33 body landmark overlay points, colors for good vs. bad posture (white/red), the 300 original images were processed to be real copies plus the overlays.
+
+**Training run 2** with no overlays but total 1500 images after annotation, achieves an accuracy of 0.5316 and a balanced accuracy of **0.5358**, slightly higher than the first Training run with only 300. The confusion matrix shows an uneven class-wise performance: out of 82 **non-normal posture** cases, 35 are correctly classified as non-normal, while 47 are misclassified as normal, resulting in a recall of 0.4268. In contrast, out of 76 **normal posture** cases, 49 are correctly identified, while 27 are misclassified as non-normal, yielding a recall of 0.6447.
+
+**Training run 3** with additional landmark overlay images (\>1800 images) achieves an accuracy of 0.5585 and a balanced accuracy of **0.5562**. Compared to run 2, class-wise performance becomes more balanced: recall for non-normal cases decreases slightly, while recall for normal cases increases, reducing the class imbalance in sensitivity. This indicates that landmark overlays shift the decision boundary towards improved representation of the minority class, resulting in a more even distribution of classification errors across classes.
+
+Overall, both ladder models still perform only marginally above the 50% chance level, but the overlay-based model provides a measurable improvement in class-balanced performance rather than accuracy alone.
 
 ## 3-Class Training
 
-To achieve the pose detection defined by Klein-Vogelbach, 3 classes were defined.
+To achieve the pose detection defined by Klein-Vogelbach, 3 classes have to be defined:
+
+- normal posture
+
+- slumped posture
+
+- tensed posture
+
+These classes represent distinct qualitative posture states used in clinical movement analysis. The **normal posture** class represents an aligned and functionally efficient baseline posture. The **slumped posture** class captures flexed, collapsed, or reduced postural tone patterns, typically associated with decreased axial extension. The **tensed posture** class represents increased muscular tone and excessive postural rigidity, often reflected in elevated shoulder girdle and reduced movement fluidity in the spine and hips.
+
+This three-class formulation enables the CNN to distinguish between physiologically neutral, hypoactive (slumped), and hyperactive (tensed) postural states, aligning the computational labels with clinically meaningful categories from the Klein-Vogelbach framework.
 
 ### Model performance - 3-class problem
 
-Four training runs were performed using different base architectures. For each run the reported metrics below are derived from evaluation on the held-out test split and from prediction-derived analysis.
+For the 3-class problem, in total four training runs were performed using all four available base architectures (from light to heavy computational wise):
 
-#### Training 1 (EfficientNet-Lite0 architecture)
+- \`MobileNet-V2\`
 
-[Prediction-derived overall accuracy:]{.underline} 0.3216
+- \`EfficientNet-Lite0\`
 
-[Model evaluate(internal performance metric) loss/accuracy on dataset_obj:]{.underline} 0.638240/0.824121
+- \`EfficientNet-Lite2\`
 
-**Confusion matrix**
+- \`EfficientNet-Lite4\`
 
-| True predicted | normal | slumped | tensed |
-|----------------|-------:|--------:|-------:|
-| normal         |      4 |      38 |     21 |
-| slumped        |      2 |      40 |     20 |
-| tensed         |      3 |      51 |     20 |
+For each run the reported metrics below are derived from evaluation on the same held-out on the test split.
 
-**Row-normalized confusion matrix (recall by class)**
-
-| True predicted | normal | slumped | tensed |
-|----------------|-------:|--------:|-------:|
-| normal         | 0.0635 |  0.6032 | 0.3333 |
-| slumped        | 0.0323 |  0.6452 | 0.3226 |
-| tensed         | 0.0405 |  0.6892 | 0.2703 |
-
-[Per-class support:]{.underline}
-
-- normal posture: 63
-- slumped posture: 62
-- tensed posture: 74
-
-[Balanced accuracy (macro recall):]{.underline} **0.3263**
-
-**Classification report**
-
-| Class           | Precision |     Recall | F1-score | Support |
-|-----------------|----------:|-----------:|---------:|--------:|
-| normal posture  |    0.4444 |     0.0635 |   0.1111 |      63 |
-| slumped posture |    0.3101 |     0.6452 |   0.4188 |      62 |
-| tensed posture  |    0.3279 |     0.2703 |   0.2963 |      74 |
-| Accuracy        |           |            |   0.3216 |     199 |
-| Macro avg.      |    0.3608 | **0.3263** |   0.2754 |     199 |
-| Weighted avg.   |    0.3592 |     0.3216 |   0.2759 |     199 |
-
-![3-Class - Training 1](literature/Results/Training_1.png)
-
-#### Training 2 (EfficientNet-Lite2 architecture)
-
-[Prediction-derived overall accuracy:]{.underline} 0.3920
-
-[Model evaluate(internal performance metric) loss/accuracy on dataset_obj:]{.underline} 0.645087/0.849246
-
-**Confusion matrix**
-
-| True predicted | normal | slumped | tensed |
-|----------------|-------:|--------:|-------:|
-| normal         |     16 |      36 |     11 |
-| slumped        |     10 |      39 |     13 |
-| tensed         |     12 |      39 |     23 |
-
-**Row-normalized confusion matrix (recall by class)**
-
-| True predicted | normal | slumped | tensed |
-|----------------|-------:|--------:|-------:|
-| normal         | 0.2540 |  0.5714 | 0.1746 |
-| slumped        | 0.1613 |  0.6290 | 0.2097 |
-| tensed         | 0.1622 |  0.5270 | 0.3108 |
-
-[Per-class support:]{.underline}
-
-- normal posture: 63
-- slumped posture: 62
-- tensed posture: 74
-
-[Balanced accuracy (macro recall):]{.underline} **0.3979**
-
-**Classification report**
-
-| Class           | Precision |     Recall | F1-score | Support |
-|-----------------|----------:|-----------:|---------:|--------:|
-| normal posture  |    0.4211 |     0.2540 |   0.3168 |      63 |
-| slumped posture |    0.3421 |     0.6290 |   0.4432 |      62 |
-| tensed posture  |    0.4894 |     0.3108 |   0.3802 |      74 |
-| Accuracy        |           |            |   0.3920 |     199 |
-| Macro avg.      |    0.4175 | **0.3979** |   0.3801 |     199 |
-| Weighted avg.   |    0.4219 |     0.3920 |   0.3797 |     199 |
-
-![3-Class - Training 2](literature/Results/Training_2.png)
-
-#### **Training 3 (EfficientNet-Lite4 architecture)**
-
-[Prediction-derived overall accuracy:]{.underline} 0.4121
-
-[Model evaluate(internal performance metric) loss/accuracy on dataset_obj:]{.underline} 0.703537/0.758794
-
-**Confusion matrix**
-
-| True predicted | normal | slumped | tensed |
-|----------------|-------:|--------:|-------:|
-| normal         |     18 |      33 |     12 |
-| slumped        |     12 |      38 |     12 |
-| tensed         |     15 |      33 |     26 |
-
-**Row-normalized confusion matrix (recall by class)**
-
-| True predicted | normal | slumped | tensed |
-|----------------|-------:|--------:|-------:|
-| normal         | 0.2857 |  0.5238 | 0.1905 |
-| slumped        | 0.1935 |  0.6129 | 0.1935 |
-| tensed         | 0.2027 |  0.4459 | 0.3514 |
-
-[Per-class support:]{.underline}
-
-- normal posture: 63
-- slumped posture: 62
-- tensed posture: 74
-
-[Balanced accuracy (macro recall):]{.underline} **0.4167**
-
-**Classification report**
-
-| Class             | Precision |     Recall |   F1-score | Support |
-|-------------------|----------:|-----------:|-----------:|--------:|
-| normal posture    |    0.4000 |     0.2857 |     0.3333 |      63 |
-| slumped posture   |    0.3654 |     0.6129 |     0.4578 |      62 |
-| tensed posture    |    0.5200 |     0.3514 |     0.4194 |      74 |
-| **Accuracy**      |           |            | **0.4121** |     199 |
-| **Macro avg.**    |    0.4285 | **0.4167** |     0.4035 |     199 |
-| **Weighted avg.** |    0.4338 |     0.4121 |     0.4041 |     199 |
-
-![3-Class - Training 3](literature/Results/Training_3.png)
-
-#### Training 4 (MobileNet-V2 architecture)
+#### Training 1 (MobileNet-V2 architecture)
 
 [Prediction-derived overall accuracy:]{.underline} 0.3065
 
@@ -667,27 +582,150 @@ Four training runs were performed using different base architectures. For each r
 | **Macro avg.**    |    0.3096 | **0.3111** |     0.3056 |     199 |
 | **Weighted avg.** |    0.3111 |     0.3065 |     0.3038 |     199 |
 
-![3-Class - Training 4](literature/Results/Training_4.png)
+![3-Class - Training 1](literature/Results/Training_4.png){alt="3-Class - Training 4"}
+
+#### Training 2 (EfficientNet-Lite0 architecture)
+
+[Prediction-derived overall accuracy:]{.underline} 0.3216
+
+[Model evaluate(internal performance metric) loss/accuracy on dataset_obj:]{.underline} 0.638240/0.824121
+
+**Confusion matrix**
+
+| True predicted | normal | slumped | tensed |
+|----------------|-------:|--------:|-------:|
+| normal         |      4 |      38 |     21 |
+| slumped        |      2 |      40 |     20 |
+| tensed         |      3 |      51 |     20 |
+
+**Row-normalized confusion matrix (recall by class)**
+
+| True predicted | normal | slumped | tensed |
+|----------------|-------:|--------:|-------:|
+| normal         | 0.0635 |  0.6032 | 0.3333 |
+| slumped        | 0.0323 |  0.6452 | 0.3226 |
+| tensed         | 0.0405 |  0.6892 | 0.2703 |
+
+[Per-class support:]{.underline}
+
+- normal posture: 63
+- slumped posture: 62
+- tensed posture: 74
+
+[Balanced accuracy (macro recall):]{.underline} **0.3263**
+
+**Classification report**
+
+| Class           | Precision |     Recall | F1-score | Support |
+|-----------------|----------:|-----------:|---------:|--------:|
+| normal posture  |    0.4444 |     0.0635 |   0.1111 |      63 |
+| slumped posture |    0.3101 |     0.6452 |   0.4188 |      62 |
+| tensed posture  |    0.3279 |     0.2703 |   0.2963 |      74 |
+| Accuracy        |           |            |   0.3216 |     199 |
+| Macro avg.      |    0.3608 | **0.3263** |   0.2754 |     199 |
+| Weighted avg.   |    0.3592 |     0.3216 |   0.2759 |     199 |
+
+![3-Class - Training 2](literature/Results/Training_1.png)
+
+#### Training 3 (EfficientNet-Lite2 architecture)
+
+[Prediction-derived overall accuracy:]{.underline} 0.3920
+
+[Model evaluate(internal performance metric) loss/accuracy on dataset_obj:]{.underline} 0.645087/0.849246
+
+**Confusion matrix**
+
+| True predicted | normal | slumped | tensed |
+|----------------|-------:|--------:|-------:|
+| normal         |     16 |      36 |     11 |
+| slumped        |     10 |      39 |     13 |
+| tensed         |     12 |      39 |     23 |
+
+**Row-normalized confusion matrix (recall by class)**
+
+| True predicted | normal | slumped | tensed |
+|----------------|-------:|--------:|-------:|
+| normal         | 0.2540 |  0.5714 | 0.1746 |
+| slumped        | 0.1613 |  0.6290 | 0.2097 |
+| tensed         | 0.1622 |  0.5270 | 0.3108 |
+
+[Per-class support:]{.underline}
+
+- normal posture: 63
+- slumped posture: 62
+- tensed posture: 74
+
+[Balanced accuracy (macro recall):]{.underline} **0.3979**
+
+**Classification report**
+
+| Class           | Precision |     Recall | F1-score | Support |
+|-----------------|----------:|-----------:|---------:|--------:|
+| normal posture  |    0.4211 |     0.2540 |   0.3168 |      63 |
+| slumped posture |    0.3421 |     0.6290 |   0.4432 |      62 |
+| tensed posture  |    0.4894 |     0.3108 |   0.3802 |      74 |
+| Accuracy        |           |            |   0.3920 |     199 |
+| Macro avg.      |    0.4175 | **0.3979** |   0.3801 |     199 |
+| Weighted avg.   |    0.4219 |     0.3920 |   0.3797 |     199 |
+
+![3-Class - Training 3](literature/Results/Training_2.png)
+
+#### **Training 4 (EfficientNet-Lite4 architecture)**
+
+[Prediction-derived overall accuracy:]{.underline} 0.4121
+
+[Model evaluate(internal performance metric) loss/accuracy on dataset_obj:]{.underline} 0.703537/0.758794
+
+**Confusion matrix**
+
+| True predicted | normal | slumped | tensed |
+|----------------|-------:|--------:|-------:|
+| normal         |     18 |      33 |     12 |
+| slumped        |     12 |      38 |     12 |
+| tensed         |     15 |      33 |     26 |
+
+**Row-normalized confusion matrix (recall by class)**
+
+| True predicted | normal | slumped | tensed |
+|----------------|-------:|--------:|-------:|
+| normal         | 0.2857 |  0.5238 | 0.1905 |
+| slumped        | 0.1935 |  0.6129 | 0.1935 |
+| tensed         | 0.2027 |  0.4459 | 0.3514 |
+
+[Per-class support:]{.underline}
+
+- normal posture: 63
+- slumped posture: 62
+- tensed posture: 74
+
+[Balanced accuracy (macro recall):]{.underline} **0.4167**
+
+**Classification report**
+
+| Class             | Precision |     Recall |   F1-score | Support |
+|-------------------|----------:|-----------:|-----------:|--------:|
+| normal posture    |    0.4000 |     0.2857 |     0.3333 |      63 |
+| slumped posture   |    0.3654 |     0.6129 |     0.4578 |      62 |
+| tensed posture    |    0.5200 |     0.3514 |     0.4194 |      74 |
+| **Accuracy**      |           |            | **0.4121** |     199 |
+| **Macro avg.**    |    0.4285 | **0.4167** |     0.4035 |     199 |
+| **Weighted avg.** |    0.4338 |     0.4121 |     0.4041 |     199 |
+
+![3-Class - Training 4](literature/Results/Training_3.png)
 
 ### Error analysis
 
 Across all experiments a consistent pattern of misclassification is apparent. The models show relatively high recall for the `slumped posture` class but lower precision, indicating a tendency to predict `slumped` for a wide range of inputs. `Normal posture` is frequently misclassified (low recall in several runs), and `tensed posture` predictions vary by architecture: deeper Lite variants tended to improve overall discrimination.
 
-- Best overall accuracy and balanced recall were achieved by EfficientNet-Lite4 (accuracy 0.4121, balanced accuracy 0.4167).
-- EfficientNet-Lite2 performed second best (accuracy 0.3920, balanced accuracy 0.3979).
-- EfficientNet-Lite0 and MobileNet-V2 produced lower overall accuracy (0.3216 and 0.3065 respectively) and lower balanced accuracy.
+- Best overall accuracy and balanced recall were achieved by EfficientNet-Lite4 (accuracy 0.4121, balanced accuracy **0.4167**).
+- EfficientNet-Lite2 performed second best (accuracy 0.3920, balanced accuracy **0.3979**).
+- EfficientNet-Lite0 and MobileNet-V2 produced lower overall accuracy (0.3216 and **0.3065** respectively) and lower balanced accuracy.
 
 Common failure modes observed in confusion matrices:
 
 - Confusion between `normal` and `slumped`: many `normal` examples are predicted as `slumped`, suggesting the model is sensitive to subtle postural variations or that the dataset contains ambiguous examples near class boundaries.
 - Over-prediction of `slumped`: reflected in row-normalized confusion matrices where the middle column (predicted `slumped`) is large across runs.
 - Lower discrimination for `tensed` vs. other classes in the smaller architectures, improved modestly in larger EfficientNet-Lite variants.
-
-Implications and next steps:
-
-- The results indicate that the models can capture some posture-related features but that class overlap and limited dataset size constrain discriminative performance. Better class balance, additional labelled data for edge cases, and further augmentation tailored to posture variations should be considered.
-- Model calibration and threshold tuning (or use of ensemble methods) may improve precision for the `slumped` and `tensed` classes.
-- Further work should include qualitative review of misclassified examples to identify systematic annotation or dataset issues and targeted augmentation or re-labelling where necessary.
 
 #### Comparison of results to 2-class training
 
@@ -701,7 +739,7 @@ Chance levels for the 3-class are 1/3 or 33.3%, for the 2-class 1/2 or 50%. 
 
   - κ∗=0.562−0.51−0.5=0.0620.5=0.124κ∗=1−0.50.562−0.5​=0.50.062 = **0.124**.
 
-Adjusted for chance, 3-class and 2-class models perform essentially on the same performance level. The 3-class model is marginally higher (0.125 vs 0.124), a difference that’s practically negligible and likely not statistically significant with these sample sizes. In raw terms, binary shows higher accuracy (≈56% vs 41%), but that’s expected given its higher chance baseline.
+Adjusted for chance, **3-class** and 2-class models perform essentially on the same performance level. The 3-class model is marginally higher (**0.125** vs 0.124), a difference that’s practically negligible and likely not statistically significant with these sample sizes. In raw terms, binary shows higher accuracy (≈56% vs **41%**), but that’s expected given its higher chance baseline.
 
 \clearpage
 
@@ -712,6 +750,12 @@ This study demonstrates that compact CNNs within the MediaPipe/TFLite stack can 
 ## Interpretation of findings
 
 The strongest three‑class model (EfficientNet‑Lite4) reached 41.2% accuracy (41.7% balanced accuracy). Reformulating the task as binary improved raw accuracy to 55.9% (55.6% balanced) with landmark overlays, indicating that explicit skeletal cues modestly aid detection.To compare the results of the 3-class and 2-class training, we can look at the overall accuracy and balanced accuracy (macro recall) for each model. The 3-class model achieved an overall accuracy of 41.21% and a balanced accuracy of 41.67%, while the 2-class model with landmark overlays achieved an overall accuracy of 55.85% and a balanced accuracy of 55.62%. Also the overall low performances of both CNN model training approaches (2-class as well as 3-class only slightly above chance) suggest that the task is challenging and that further improvements in data quality, model architecture, or training strategy may be needed to achieve clinically useful performance.
+
+Implications and next steps:
+
+- The results indicate that the models can capture some posture-related features but that class overlap and limited dataset size constrain discriminative performance. Better class balance, additional labelled data for edge cases, and further augmentation tailored to posture variations should be considered.
+- Model calibration and threshold tuning (or use of ensemble methods) may improve precision for the `slumped` and `tensed` classes.
+- Further work should include qualitative review of misclassified examples to identify systematic annotation or dataset issues and targeted augmentation or re-labelling where necessary.
 
 ## Strengths and limitations
 
