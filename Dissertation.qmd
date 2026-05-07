@@ -158,10 +158,6 @@ When evaluated against image classification models, the advantages of the latter
 
 @Cao2024 state that human posture recognition are machine extractions simulating the eye-function and human learning via feature extraction. They divide this recognition into static and dynamic posture detection, whereby latter one extracts continuous frame sequences and this more widely used. Using images for training and for inference, this approach is static posture classification.
 
-## Summary
-
-Lore Ypsum placeholder text: This section will conclude the literature review in a concise way.
-
 \clearpage
 
 # Methodology
@@ -773,12 +769,6 @@ To acquire a larger, prospectively collected side-view image dataset in real cli
 For expert annotation, future work should implement a multi-rater labeling protocol with at least two independent clinicians to ensure annotation reliability, in contrast to the present study where annotations were performed by a single rater (the author). All annotations should follow a clearly defined rubric aligned with the Klein-Vogelbach posture classes (normal, slumped/hypotonic, tensed/hypertonic), including explicit decision criteria to reduce subjective variability. Disagreements between raters should be resolved through a structured adjudication process, ideally involving a third expert reviewer.
 
 Inter-rater agreement should be quantified using metrics such as Cohen’s κ to monitor consistency and identify ambiguous cases. In addition, a stable **gold-standard** subset should be maintained and periodically reused for model calibration and regression testing to ensure annotation quality and temporal consistency across dataset iterations.
-
-## Klein-Vogelbach informed overlay annotation
-
-Instead of 33 body landmarks, a **4-body-block** detection model should be trained. This can lead to overlay-prepared images that represent the posture as a structured higher-level abstraction rather than isolated joint points. By aggregating landmarks into four functional segments (head, thorax, pelvis, and lower extremities), the model can capture inter-segment relationships consistent with Klein-Vogelbach’s posture classification. This enables clearer representation of global postural organisation, such as integrated alignment in normal posture, anterior-posterior dissociation in hypotonic posture, and global anterior load shift in hypertonic posture, thereby improving interpretability and potentially enhancing class discrimination for CNN-based classification.
-
-This could also render the efforts of training the classification model obsolete, as the system would instead be deployed as a pose model that directly estimates the configuration and relative alignment of the four body blocks, allowing posture categories to be derived deterministically from these relationships rather than learned via a separate classification step. But this would also limit the capabilities, as a pose-only model constrains inference to geometric body configurations and therefore reduces the diversity of detectable patterns compared to a classification model, which can learn higher-level, context-dependent and appearance-based cues beyond skeletal alignment, including subtle compensatory strategies and non-linear visual markers that are often relevant in clinical assessment.
 
 ## Retraining the 3‑class model
 
