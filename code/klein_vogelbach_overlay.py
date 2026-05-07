@@ -156,6 +156,7 @@ def process_one(
     thresholds: KleinVogelbachThresholds,
     write_json: bool,
     show_bbox: bool,
+    show_label: bool,
 ) -> Optional[dict]:
     image = cv2.imread(input_file)
     if image is None:
@@ -186,7 +187,7 @@ def process_one(
         include_arms_in_thorax=include_arms_in_thorax,
         thresholds=thresholds,
     )
-    annotated = draw_block_overlay(image, result, show_bbox=show_bbox)
+    annotated = draw_block_overlay(image, result, show_bbox=show_bbox, show_label=show_label)
     cv2.imwrite(output_file, annotated)
     logger.info(
         "Wrote %s | class=%s confidence=%.2f reasoning=%s",
@@ -225,6 +226,11 @@ def parse_arguments() -> argparse.Namespace:
         "--no-bbox",
         action="store_true",
         help="Hide per-block bounding boxes; only draw centroids and chain.",
+    )
+    parser.add_argument(
+        "--no-label",
+        action="store_true",
+        help="Hide the 'Klein-Vogelbach: ...' posture label banner.",
     )
     parser.add_argument(
         "--normal-max-offset",
@@ -285,6 +291,7 @@ def main() -> int:
                 thresholds=thresholds,
                 write_json=args.json,
                 show_bbox=not args.no_bbox,
+                show_label=not args.no_label,
             )
     finally:
         runner.close()

@@ -257,16 +257,17 @@ Aggregating the 33 MediaPipe Pose landmarks into the four Klein-Vogelbach functi
 Files: `code/klein_vogelbach_overlay.py` (CLI) and `code/scripts/klein_vogelbach_blocks.py` (pure aggregation + classification + drawing). Geometry tests: `code/scripts/test_klein_vogelbach_blocks.py`.
 
 ```bash
-# single image
+# Annotating single image
 python code/klein_vogelbach_overlay.py \
     --input ./data/images/test.png \
     --output ./data/images/test_kv.png
 
-# directory of images, with JSON sidecar per result
+# Annotating directory of images, with JSON sidecar per result
 python code/klein_vogelbach_overlay.py \
     --input "./data/images/posture/normal posture" \
     --output ./data/images/kv_out \
     --json
+    --no-label
 
 # geometry tests (no MediaPipe needed)
 python code/scripts/test_klein_vogelbach_blocks.py
