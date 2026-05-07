@@ -262,11 +262,10 @@ python code/klein_vogelbach_overlay.py \
     --input ./data/images/test.png \
     --output ./data/images/test_kv.png
 
-# Annotating directory of images, with JSON sidecar per result
+# Annotating directory of images, without labelling the posture class (only the blocks and angles)
 python code/klein_vogelbach_overlay.py \
-    --input "./data/images/posture/normal posture" \
-    --output ./data/images/kv_out \
-    --json
+    --input "./data/images/rebalanced_posture/normal posture" \
+    --output "./data/images/kv_out/normal posture" \
     --no-label
 
 # geometry tests (no MediaPipe needed)
