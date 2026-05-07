@@ -6,6 +6,15 @@
 .Trashes
 ehthumbs.db
 Thumbs.db
+.dolt/
+.beads/
+*.db
+.beads-credential-key
+AGENTS.md
+CLAUDE.md
+.gitignore
+.claude/settings.json
+#4-body-blocks detection.md
 
 # Python
 __pycache__/
@@ -73,5 +82,4 @@ data/*
 /.luarc.json
 .Rproj.user
 .positai
-
 **/*.quarto_ipynb

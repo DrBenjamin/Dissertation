@@ -497,17 +497,11 @@ As the normal posture class contains only 6 test images, the recall estimate for
 - **noise:** Several OpenCV image processing routines where applied to multiply the original 300 images to changed duplicates. Techniques used are:
 
   - Random flip (Horizontal or vertical flipping)
-
   - Affine transform (Rotating, scaling, translating, and shearing)
-
   - Random crop + resize (Cropping a random window then resizing back to original size)
-
   - HSV jitter (Random hue, saturation, and value shifts in HSV space)
-
   - Intensity adjust (Changing contrast/brightness)
-
   - Gaussian noise (Additive Gaussian noise per pixel)
-
   - Random erasing (Erasing a random rectangle region)
 
 - **overlay:** With a pre-trained Google MediaPipe Pose model, which estimates 33 body landmarks to create a skeletal pose representation, the original 300 images were processed into augmented copies with landmark overlays and color coding (white/red) to indicate posture angles and quality (see Fig. A1).
@@ -523,9 +517,7 @@ Overall, both ladder models still perform only marginally above the 50% chance l
 To achieve the pose detection defined by Klein-Vogelbach, 3 classes have to be defined:
 
 - normal posture
-
 - slumped posture
-
 - tensed posture
 
 These classes represent distinct qualitative posture states used in clinical movement analysis. The **normal posture** class represents an aligned and functionally efficient baseline posture. The **slumped posture** class captures flexed, collapsed, or reduced postural tone patterns, typically associated with decreased axial extension. The **tensed posture** class represents increased muscular tone and excessive postural rigidity, often reflected in elevated shoulder girdle and reduced movement fluidity in the spine and hips.
@@ -537,11 +529,8 @@ This three-class formulation enables the CNN to distinguish between physiologica
 For the 3-class problem, in total four training runs were performed using all four available base architectures (from light to heavy computational wise):
 
 - \`MobileNet-V2\`
-
 - \`EfficientNet-Lite0\`
-
 - \`EfficientNet-Lite2\`
-
 - \`EfficientNet-Lite4\`
 
 For each run the reported metrics below are derived from evaluation on the same held-out on the test split.
@@ -737,11 +726,8 @@ Common failure modes observed in confusion matrices:
 Chance levels for the 3-class are 1/3 or 33.3%, for the 2-class 1/2 or 50%. Because of this difference, a chance-balanced accuracy will be calculated.
 
 - Best 3-class model: balanced accuracy =0.4167.
-
   - κ∗=0.4167−1/31−1/3=0.08340.6667≈0.125κ∗=1−1/30.4167−1/3​=0.66670.0834 ​≈ **0.125**.
-
 - Best 2-class model: balanced accuracy =0.562.
-
   - κ∗=0.562−0.51−0.5=0.0620.5=0.124κ∗=1−0.50.562−0.5​=0.50.062 = **0.124**.
 
 Adjusted for chance, **3-class** and 2-class models perform essentially on the same performance level. The 3-class model is marginally higher (**0.125** vs 0.124), a difference that’s practically negligible and likely not statistically significant with these sample sizes. In raw terms, binary shows higher accuracy (≈56% vs **41%**), but that’s expected given its higher chance baseline.

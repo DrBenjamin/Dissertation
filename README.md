@@ -250,6 +250,28 @@ python code/human_posture_analysis.py --mode video --api-base-url http://serious
 python code/human_posture_analysis.py --mode video --api-base-url http://seriousbenentertainment.org:8000 --input-video ./data/video/input.mp4 --output-video ./data/video/output.mp4 --output-image ./data/video/output_worst_frame.png
 ```
 
+### Klein-Vogelbach 4-body-block overlay
+
+Aggregating the 33 MediaPipe Pose landmarks into the four Klein-Vogelbach functional blocks (head, thorax, pelvis, lower extremities) and deriving the posture class (normal / hypotonic / hypertonic) deterministically from inter-block geometry. The aggregation runs locally with MediaPipe Pose (no remote API call) and can be used as a higher-level interpretable overlay alongside the standard 33-landmark output.
+
+Files: `code/klein_vogelbach_overlay.py` (CLI) and `code/scripts/klein_vogelbach_blocks.py` (pure aggregation + classification + drawing). Geometry tests: `code/scripts/test_klein_vogelbach_blocks.py`.
+
+```bash
+# single image
+python code/klein_vogelbach_overlay.py \
+    --input ./data/images/test.png \
+    --output ./data/images/test_kv.png
+
+# directory of images, with JSON sidecar per result
+python code/klein_vogelbach_overlay.py \
+    --input "./data/images/posture/normal posture" \
+    --output ./data/images/kv_out \
+    --json
+
+# geometry tests (no MediaPipe needed)
+python code/scripts/test_klein_vogelbach_blocks.py
+```
+
 ### Streamlit MediaPipe Pose App
 
 You can now run a local Streamlit application to experiment with MediaPipe Pose on your own images.
