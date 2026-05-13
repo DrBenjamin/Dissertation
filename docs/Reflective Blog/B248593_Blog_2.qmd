@@ -1,0 +1,31 @@
+---
+title: "Second Reflective Blog"
+subtitle: "HEIN11053 - Dissertation (Data Science for Health and Social Care) - Reflective Blog 2"
+author: "B248593"
+date: "May 13, 2026"
+format:
+  pdf:
+    toc: false
+    number-sections: false
+---
+
+**Word count:** 496
+
+## What?
+
+From mid-December onward my dissertation work was disrupted as I was overworked, moving several times, and spending time in a low‑income/developing country with unreliable power supply. Coding and literature work became stop‑start, which bred anxiety to reach my goals. In a supervision meeting I received blunt feedback that revealed a thin understanding of CNN layer roles as in transfer‑learning approaches. I felt exposed and defensive bundled to my exhaustion. Instead of immediately seeking clarity in counseling and support from the university like an extension, I tried to push through with the idea that power will come back. For roughly five weeks I did not fully explain my situation to my supervisors; unsurprisingly, progress remained shallow and communication was at a low. When I finally shared the context, both supervisors were understanding. We instituted short bi‑weekly morning check‑ins plus occasional longer meetings, and I was encouraged to lower self‑expectations and focus on steady, structured progress. Subsequent training runs showed small accuracy improvements, but the new cadence made the path forward feel more coherent.
+
+## So What?
+
+This episode surfaced two linked issues. First, I conflated business with learning. Cognitive overload, unstable working conditions, and fragmented time specially in the moving process to another continent made it hard to consolidate fundamentals. I learned very much from my assignment in my role as a ICT consultating in healthcare, but not in my particular role (which was training doctors and nurses in a new HIS), so I learned needed Data Science skills from internal colleauges from other teams next to the work I had to deliver to my customer. This was extra load, the dissertation itself was already a big learning curve, and I did not have the bandwidth to learn CNN fundamentals properly next to the described commitments.
+
+Second, my delay in disclosing constraints created a feedback vacuum. Shame and perfectionism nudged me toward avoidance rather than dialogue. In hindsight, earlier transparency would have saved cycles and stress. The supervisors’ perspectives reframed success as professional, reproducible progress rather than heroic leaps: tighter scope, explicit evaluation, and predictable rituals reduce variance. Emotionally, acknowledging exhaustion reduced the pressure to chase quick wins and made room for patient skill‑building.
+
+## Now What?
+
+1. To close the CNN fundamentals gap I started two LinkedIn Learning courses to fill in CNN and Deep Learning fundamentals.
+2. To make progress in resilient to conditions I moved to the capital city for the rest of the dissertation project phase.
+3. To maintain a sustainable pace, I have established boundaries around my working hours and ensured I have time for rest and recuperation.
+4. To reduce stress, my daily routine has optional duties I can skip when needed to focus more on the dissertation.
+5. To keep the communication I have a bi-weekly check‑in with on of my supervisors. 
+6. To evaluate what matters I over and over again redefined performance metrics and evaluation criteria to make sure they are aligned with my project goals and lead to practical impact of my work.
