@@ -18,7 +18,10 @@ pipeline {
   options {
     skipDefaultCheckout(true)
     timeout(time: 300, unit: 'MINUTES')
-    buildDiscarder(logRotator(numToKeepStr: '10'))
+    buildDiscarder(logRotator(
+      numToKeepStr: '1',
+      artifactNumToKeepStr: '1'
+    ))
   }
 
   stages {
