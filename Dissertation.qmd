@@ -11,7 +11,7 @@ author:
 filters:
   - code/scripts/adjustTime.lua
 abstract: |
-  This dissertation explores the application of AI-based posture recognition using Convolutional Neural Networks (CNNs) to detect and analyse habitual patterns of human movement and posture. The work focuses on transfer learning with TensorFlow Lite and Google MediaPipe for identifying head-neck-torso imbalances.
+  This dissertation explores the application of deep learning to detect and analyse habitual patterns of human movement and posture. The work focuses on transfer learning for identifying head-neck-torso imbalances.
 format:
   html:
     embed-resources: true
@@ -59,7 +59,9 @@ execute:
 
 # Contribution
 
-The development of this dissertation incorporated the selective use of generative artificial intelligence (AI) tools as supportive research and technical assistance instruments. GitHub GitHub Copilot and Posit Assistant were utilized to assist in troubleshooting Python dependency conflicts, resolving CI/CD configuration issues involving Jenkins and Docker, and supporting administrative setup tasks related to RStudio Server. In addition, Perplexity was used for targeted literature discovery and contextual identification of relevant academic sources and references. All critical analysis, interpretation, methodological decisions, and written academic content were independently evaluated, verified, and finalized by the author.
+The development of this dissertation incorporated the selective use of generative artificial intelligence (AI) tools as supportive research and technical assistance instruments. Github Copilot and Posit Assistant were utilized to assist in troubleshooting Python dependency conflicts, resolving CI/CD configuration issues involving Jenkins and Docker, and supporting administrative setup tasks related to RStudio Server. In addition, Perplexity was used for targeted literature discovery and contextual identification of relevant academic sources and references.
+
+All critical analysis, interpretation, methodological decisions, and written academic content were independently evaluated, verified, and finalized by the author. This was achieved through systematic inspection of model outputs, including accuracy, loss trajectories, precision/recall metrics, and confusion matrices across training runs, as well as consistency checks between expected and observed model behavior.
 
 Also, I received guidance and support from my two supervisor, Dr. Syed Ahmar Shah and John Wilson, who gave me many recommendations during the whole process to conduct the project as well reviewed the draft of the paper once and gave me valuable feedback.
 
@@ -67,41 +69,51 @@ Also, I received guidance and support from my two supervisor, Dr. Syed Ahmar Sha
 
 # **Abstract**
 
-## Aim & objectives
+## Background {.unnumbered}
+
+```         
+* clinical/problem context
+* literature gap
+* rationale for the study
+```
+
+Through comparing multiple compact model architectures and deployment-friendly pipelines to assess feasibility for low-cost, on-device, low-latency clinical screening. Model performance is measured on a test set to gauge discrimination across three posture classes and also a binary reformulation of the training was conducted.
+
+## Aim & objectives {.unnumbered}
 
 Finetuning and evaluation of a deep learning model for posture and movement quality assessment that detects and interprets imbalances in the head, neck torso to finetune an pre-trained Google MediaPipe image classification model for posture and movement imbalance detection; and to evaluate the performance of the finetuned classification model.
 
-## Design
+## Methods {.unnumbered}
 
-Quantitative, observational secondary data analysis evaluating transfer learning on lightweight convolutional neural networks (CNNs) within the Google MediaPipe/TensorFlow Lite ecosystem for static posture classification. Through comparing multiple compact model architectures and deployment-friendly pipelines to assess feasibility for low-cost, on-device, low-latency clinical screening. Model performance is measured on a test set to gauge discrimination across three posture classes and also a binary reformulation of the training was conducted.
+Quantitative, observational secondary data analysis evaluating transfer learning on lightweight convolutional neural networks (CNNs) using a curated Kaggle image dataset (n=300) according to clinically informed criteria derived from the physiotherapeutic Klein-Vogelbach framework to yield approximately 1,900 training images with validation and test splits. Transfer learning fine‑tuned classification layers on EfficientNet‑Lite0/2/4 and MobileNet‑V2 backbones; preprocessing included resizing/normalization and clinically conservative augmentations. Models were exported fully as well as quantized TFLite artifacts and evaluated using accuracy, precision, recall, F1, confusion matrices, and balanced accuracy. A binary “normal vs non‑normal” task was also trained to probe clinical interpretability and potential performance gains.
 
-## Methods
-
-A curated Kaggle side‑view posture image set (n=300) was manually labelled into three classes (normal, slumped, tensed) and expanded via deterministic augmentation to yield around 1900 training images with validation/test splits. Transfer learning fine‑tuned classification layers on EfficientNet‑Lite0/2/4 and MobileNet‑V2 backbones; preprocessing included resizing/normalization and clinically conservative augmentations (small rotations/crops, brightness/contrast jitter, keypoint overlays). Models were exported fully as well as quantized TFLite artifacts and evaluated using accuracy, precision, recall, F1, confusion matrices, and balanced accuracy. A binary “normal vs non‑normal” task was also trained to probe clinical interpretability and potential performance gains.
-
-## Results
+## Results {.unnumbered}
 
 Across the two-class experiments, the binary classification task achieved a balanced accuracy of 0.552 (with landmark overlays) and 0.536 (without overlays), compared to a 0.50 chance level.
 
-Reformulating as a three-class experiement the EfficientNet‑Lite4 model architecture achieved the highest balanced test accuracy (**41.7%**), followed by EfficientNet‑Lite2 (**39.8%**). Confusion patterns showed over‑prediction of “slumped” and frequent misclassification of “normal,” consistent with class overlap and subtle boundary cases. This approach indicates modest gains (0.33 chance level) and clearer clinical framing, though still below targets for deployment.
+Reformulating as a three-class experiement the EfficientNet‑Lite4 model architecture achieved the highest balanced test accuracy (**41.7%**), followed by EfficientNet‑Lite2 (**39.8%**). Confusion patterns showed over‑prediction of “slumped” and frequent misclassification of “normal,” consistent with class overlap and subtle boundary cases. This approach indicates modest gains against 0.33 chance level and clearer clinical framing.
 
-## Conclusion
+## Conclusion {.unnumbered}
 
-Transfer learning on compact CNNs within the MediaPipe/TFLite stack is feasible for posture imbalance screening, but current performance is limited by small sample size, class ambiguity, and domain subtlety. Targeted data growth (especially boundary and “normal” exemplars), refined labels, posture‑aware augmentation, calibration/thresholding, and fairness checks are recommended. With these improvements and expanded validation, a lightweight, on‑device tool could support objective posture assessment alongside clinical judgement.
+Transfer learning on compact CNNs within the used MediaPipe stack is feasible for posture imbalance screening, but current performance is limited potentially constrained by a small sample size, class ambiguity, and domain subtlety. Therefore targeted data growth (especially boundary and “normal” exemplars), refined labels, posture‑aware augmentation, calibration/thresholding, and fairness checks are recommended.
 
 \clearpage
 
 # Introduction
 
-Healthcare is increasingly recognizing the importance of movement quality and postural balance in preventing injury, managing chronic conditions, and optimizing physical performance [@Whittaker2017]. @Wijekulasuriya2025 found in an extensive actual meta analysis that traditional methods for assessing posture and movement often rely on subjective clinical observations, limiting their accessibility and consistency. Advances in artificial intelligence (AI) and computer vision offer promising avenues for developing such objective tools that are scalable and run on consumer hardware that is widely available [@Google2024; @Bazarevsky2020]. This dissertation explores the development of Convolutional Neural Networks (CNNs) through transfer learning within the Google MediaPipe framework to detect and analyze head-neck-torso alignment.
+Healthcare is increasingly recognizing the importance of movement quality and postural balance in preventing injury, managing chronic conditions, and optimizing physical performance [@Whittaker2017]. @Wijekulasuriya2025 found in an extensive recent meta analysis that traditional methods for assessing posture and movement often rely on subjective clinical observations, limiting their accessibility and consistency. Deep learning and computer vision offer promising avenues for developing such objective tools that are scalable and run on consumer hardware that is widely available [@Google2024; @Bazarevsky2020]. This dissertation explores the development of a deep Learning algorithm for supporting the objective assessment of human posture.
+
+Deep learning is a subset of machine learning based on multi-layered artificial neural networks that learn hierarchical feature representations directly from raw data such as images or motion sequences. Unlike traditional approaches that rely on manually engineered features, deep learning models automatically extract complex, non-linear patterns like edges in images. This enables state-of-the-art performance in domains such as monitoring physical activities of patients . Transfer learning is used to simplify adoption, allowing the reuse of learned visual representations for domain-specific posture classification, extending this paradigm by reusing knowledge from pretrained models. These models often learned from large-scale datasets with wider focus. So, instead of training models from scratch, pretrained networks (e.g., image classification or pose estimation models) are fine-tuned on domain-specific data such as clinical posture datasets. This significantly reduces data requirements and improves generalization, particularly in settings where labelled clinical data are limited or expensive to obtain [@Ray2024].
+
+This thesis employs a deep learning method—specifically, a transfer learning approach—to develop a resource-efficient, operational system for posture analysis that can run on standard hardware. Pretrained feature extractors are adapted to classify clinically defined posture categories, leveraging prior knowledge from large-scale vision models to compensate for limited domain-specific data. This combination enables a transition from subjective visual assessment toward scalable, data-driven posture evaluation suitable for healthcare screening, rehabilitation, and movement analysis applications.
 
 Human posture and coordination are central to both health and performance. Impairments such as muscular tension, poor motor control, or postural imbalance contribute significantly to discomfort, injury, and reduced physical performance in daily and professional life [@Kubalek-Schrder2013]. Advanced motor skills rely on precise kinaesthetic differentiation, including fine motor control, proprioceptive sensitivity, accurate force regulation, coordinated timing, and the economy of movement. These elements form the basis of effective movement in sports, rehabilitation, and everyday function [@ZauckerP2010]. Recent research highlights that chronic low back pain and other movement system impairments are closely associated with sustained postural deviations and maladaptive movement patterns that often develop gradually and may not be apparent during isolated clinical assessments [@Sahrmann2017; @Ge2022].
 
-Traditional approaches to assessing posture and coordination rely on subjective evaluations, clinical observation, expensive motion analysis systems, or extensive practitioner expertise. While commercial software for posture assessment exists, these solutions often require professional oversight and remain limited in their ability to capture subtle or habitual patterns of imbalance consistently [@Badhe2018]. This highlights a clear gap between the qualitative nature of clinical assessments and the potential for more objective, data-driven methods enabled by modern machine learning techniques.
+Traditional approaches to assessing posture and coordination rely on subjective evaluations, clinical observation, expensive motion analysis systems, or extensive practitioner expertise. While commercial software for posture assessment exists, these solutions often require professional oversight and remain limited in their ability to capture subtle or habitual patterns of imbalance consistently [@Badhe2018]. This highlights a clear gap between the qualitative nature of clinical assessments and the potential for more objective, data-driven methods enabled by modern deepl learning techniques.
 
-Recent advances in computer vision and artificial intelligence provide opportunities to bridge these limitations. Convolutional Neural Networks (CNNs) have demonstrated high accuracy in identifying patterns within image and video data and are increasingly applied in gait analysis, posture detection, and motion tracking [@Jiang2023]. Among available frameworks, the Google MediaPipe framework brings a lightweight approach that can be run in the browser or on mobile devices, utilizing a statistical 3D human shape modelling pipeline offered as a trainable and modular deep learning framework. It can accurately represent full-body details to detect pose and posture [@Xu2020; @Bazarevsky2020].
+Recent advances in computer vision and deep learning algorithms provide opportunities to bridge these limitations. Convolutional Neural Networks (CNNs) have demonstrated high accuracy in identifying patterns within image and video data and are increasingly applied in gait analysis, posture detection, and motion tracking [@Jiang2023]. Among available frameworks, the Google MediaPipe framework brings a lightweight approach that can be run in the browser or on mobile devices, utilizing a statistical 3D human shape modelling pipeline offered as a trainable and modular deep learning framework. It can accurately represent full-body details to detect pose and posture [@Xu2020; @Bazarevsky2020].
 
-As a physiotherapist with focus on movement quality, I found these gaps were not purely academic but deeply practical in my clinical practice. To reach a level of good understanding of movement (patterns) it required years of training and clinical experience to develop. For instance the ability to accurately assess the quality of movement based on key indicators such as the passive rotatory mobility of the fifth thoracic vertebra (Th5) and adjacent vertebrae [@Tachihara2019]. The possibility of using lightweight computer vision to complement clinical expertise, enhance rehabilitation outcomes, and support performance improvement is therefore highly compelling.
+As a physiotherapist with focus on movement quality, I found these gaps were not purely academic but deeply practical in my clinical practice. To reach a level of good understanding of movement (patterns) it required years of training and clinical experience to develop. For instance the ability to accurately assess the quality of movement based on key indicators such as the passive rotatory mobility of the fifth thoracic vertebra (Th5) and adjacent vertebrae [@Tachihara2019].
 
 ## **Research question**
 
@@ -166,7 +178,7 @@ In this work, a quantitative observational design is applied to explore the feas
 
 ## Study design and setting
 
-This study is a secondary data analysis exploring postural and movement imbalance detection using artificial intelligence. The project applies a quantitative, observational design, analyzing existing image data through supervised machine learning, specifically Convolutional Neural Networks (CNNs) implemented via TensorFlow Lite within the Google MediaPipe framework. The aim is to evaluate whether lightweight AI models can detect subtle patterns of imbalance in posture and coordination and to adapt them for potential clinical use through transfer learning on a posture-specific dataset.
+This study is a secondary data analysis exploring postural and movement imbalance detection using deep learning algorithms. The project applies a quantitative, observational design, analyzing existing image data through supervised deep learning, specifically Convolutional Neural Networks (CNNs) implemented via TensorFlow Lite within the Google MediaPipe framework. The aim is to evaluate whether lightweight AI models can detect subtle patterns of imbalance in posture and coordination and to adapt them for potential clinical use through transfer learning on a posture-specific dataset.
 
 The study will be conducted remotely using a secondary dataset. All data analysis will be performed on secured infrastructure provided by the author (see Implementation). No new data collection or participant interaction is planned.
 
@@ -253,7 +265,7 @@ To utilize the Google MediaPipe framework, extended pipelines and automation wer
   - Docker
   - Jenkins (CI server)
   - n8n (automation/workflows)
-  - GitHub Actions (dissertation artifact build and deployment)
+  - Github Actions (dissertation artifact build and deployment)
 
 - **Environment manifests used in this project (congested by Dockerfiles)**
 
@@ -326,7 +338,7 @@ docker compose -f code/docker-compose.yml up --build
 
 Jenkins is used for build a Jupyter environment on a server to run model training and also builds a Streamlit WebApp for inference testing of previously build models.
 
-GitHub Actions of a GitHub Pages repository is trigged to render the Quarto artifacts:
+Github Actions of a Github Pages repository is trigged to render the Quarto artifacts:
 
 - Checkout repository - Installs Quarto and LaTeX (for PDF rendering).
 - Deploys the dissertation project as HTML on <https://drbenjamin.github.io/dissertation.html>
@@ -359,7 +371,7 @@ Preprocessing was applied consistently for all runs (same processed image data s
 
 ## 2-Class Training
 
-The objective is to reach an accuracy of approximately 80–90%, which is generally considered strong performance for practical detection tasks in applied machine learning settings and for the Google MediaPipe model architecture. Therefore, the images will be annotated into normal and non-normal to define 2 classes.
+The objective is to reach an accuracy of approximately 80–90%, which is generally considered strong performance for practical detection tasks in applied deep learning settings and for the Google MediaPipe model architecture. Therefore, the images will be annotated into normal and non-normal to define 2 classes.
 
 ### Model performance - 2-class problem
 
