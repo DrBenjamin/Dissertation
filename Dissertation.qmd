@@ -57,7 +57,7 @@ execute:
   echo: false
 ---
 
-# Contribution
+# Contribution {.unnumbered}
 
 The development of this dissertation incorporated the selective use of generative artificial intelligence (AI) tools as supportive research and technical assistance instruments. Github Copilot and Posit Assistant were utilized to assist in troubleshooting Python dependency conflicts, resolving CI/CD configuration issues involving Jenkins and Docker, and supporting administrative setup tasks related to RStudio Server. In addition, Perplexity was used for targeted literature discovery and contextual identification of relevant academic sources and references.
 
@@ -67,17 +67,12 @@ Also, I received guidance and support from my two supervisor, Dr. Syed Ahmar Sha
 
 \clearpage
 
-# **Abstract**
+# **Abstract** {.unnumbered}
 
 ## Background {.unnumbered}
 
-```         
-* clinical/problem context
-* literature gap
-* rationale for the study
-```
-
-Through comparing multiple compact model architectures and deployment-friendly pipelines to assess feasibility for low-cost, on-device, low-latency clinical screening. Model performance is measured on a test set to gauge discrimination across three posture classes and also a binary reformulation of the training was conducted.
+Postural abnormalities and impaired motor coordination are associated with musculoskeletal
+disorder, whilst their assessment in clinical practice often relies on subjective observations and the clinician’s expertise. At the same time, increasing pressure on healthcare systems highlights the need for scalable, cost-effective and objective screening tools that can also be used outside highly specialised laboratory settings. Recent advances in deep learning have enabled automated posture and pose analysis. However, existing research focuses predominantly on general pose estimation or biomechanical tracking, whilst comparatively few studies have investigated clinically grounded models for posture classification based on existing physiotherapy frameworks, such as the Klein-Vogelbach concept of normal, curved (hypotonic) and tense (hypertonic) postural patterns. This study therefore investigates whether transfer learning on compact CNN architectures can support practical, cost-effective and device-based posture screening through the classification of clinically relevant postural states.
 
 ## Aim & objectives {.unnumbered}
 
@@ -101,7 +96,8 @@ Transfer learning on compact CNNs within the used MediaPipe stack is feasible fo
 
 # Introduction
 
-Healthcare is increasingly recognizing the importance of movement quality and postural balance in preventing injury, managing chronic conditions, and optimizing physical performance [@Whittaker2017]. @Wijekulasuriya2025 found in an extensive recent meta analysis that traditional methods for assessing posture and movement often rely on subjective clinical observations, limiting their accessibility and consistency. Deep learning and computer vision offer promising avenues for developing such objective tools that are scalable and run on consumer hardware that is widely available [@Google2024; @Bazarevsky2020]. This dissertation explores the development of a deep Learning algorithm for supporting the objective assessment of human posture.
+@Liu2025 states that there is an increasing pressure on healthcare systems through musculoskeletal
+disorders with projected rise to 2.161 billion people in 2035. Therefore, healthcare is progressively recognizing the importance of movement quality and postural balance in preventing injury, managing chronic conditions, and optimizing physical performance [@Whittaker2017]. @Wijekulasuriya2025 found in an extensive recent meta analysis that traditional methods for assessing posture and movement often rely on subjective clinical observations, limiting their accessibility and consistency. Deep learning and computer vision offer promising avenues for developing such objective tools that are scalable and run on consumer hardware that is widely available [@Google2024; @Bazarevsky2020]. This dissertation explores the development of a deep Learning algorithm for supporting the objective assessment of human posture.
 
 Deep learning is a subset of machine learning based on multi-layered artificial neural networks that learn hierarchical feature representations directly from raw data such as images or motion sequences. Unlike traditional approaches that rely on manually engineered features, deep learning models automatically extract complex, non-linear patterns like edges in images. This enables state-of-the-art performance in domains such as monitoring physical activities of patients . Transfer learning is used to simplify adoption, allowing the reuse of learned visual representations for domain-specific posture classification, extending this paradigm by reusing knowledge from pretrained models. These models often learned from large-scale datasets with wider focus. So, instead of training models from scratch, pretrained networks (e.g., image classification or pose estimation models) are fine-tuned on domain-specific data such as clinical posture datasets. This significantly reduces data requirements and improves generalization, particularly in settings where labelled clinical data are limited or expensive to obtain [@Ray2024].
 
