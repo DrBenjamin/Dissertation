@@ -7,10 +7,9 @@ import io
 import subprocess
 import sys
 import time
+import requests
 from urllib.parse import urljoin, urlparse
 from typing import Tuple, List, Optional
-import requests
-
 
 logger = logging.getLogger(__name__)
 

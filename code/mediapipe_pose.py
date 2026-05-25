@@ -7,9 +7,6 @@ import tempfile
 import csv
 import importlib
 import requests
-from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple
-from urllib.parse import urlparse
 import ssl
 import cv2
 import numpy as np
@@ -20,7 +17,9 @@ try:
 except Exception:
     Minio = None
 from human_posture_analysis import process_video
-
+from dataclasses import dataclass
+from typing import Dict, List, Optional, Tuple
+from urllib.parse import urlparse
 
 # Setting logger
 logger = logging.getLogger(__name__)
@@ -560,7 +559,7 @@ def process_uploaded_video_file(uploaded_file) -> Dict[str, object]:
 # Function to render sidebar controls and return configuration
 def sidebar_configuration() -> PoseConfig:
     """Rendering sidebar controls for MediaPipe Pose parameters."""
-    st.sidebar.header("Model Configuration")
+    st.sidebar.header("Configuration")
     model_type = 'pose'
     
     # Model selection section
@@ -725,8 +724,8 @@ def sidebar_configuration() -> PoseConfig:
 
     # Configuration based on model type
     if model_type == 'classification':
-        st.sidebar.subheader("Image Classification Configuration")
-        max_results = st.sidebar.slider("Max classification results", 1, 10, 4, 1)
+        st.sidebar.subheader("Classification Settings")
+        max_results = st.sidebar.slider("Max number of classes in results", 1, 3, 3, 1)
         min_detection_confidence = st.sidebar.slider(
             "Min classification confidence", 0.0, 1.0, 0.1, 0.05)
         
@@ -760,7 +759,7 @@ def sidebar_configuration() -> PoseConfig:
             "Min detection confidence", 0.0, 1.0, 0.5, 0.05)
         min_tracking_confidence = st.sidebar.slider(
             "Min tracking confidence", 0.0, 1.0, 0.5, 0.05)
-        max_results = 4  # Default for pose detection
+        max_results = 3  # Default for pose detection
 
     # Returning configuration dataclass
     return PoseConfig(
@@ -789,8 +788,8 @@ def main():
     )
 
     # Application title and description
-    st.title("🧘 MediaPipe Pose Detection & Image Classification")
-    st.markdown("Upload images to analyze human pose or classify images using MediaPipe or custom TensorFlow Lite models.")
+    st.title("🧘 MediaPipe Pose & Image Classification")
+    st.markdown("Upload images to analyze human pose or classify images using either a MediaPipe pretrained or a custom TensorFlow Lite model.")
 
     # Configuring detection parameters
     cfg = sidebar_configuration()
@@ -809,8 +808,8 @@ def main():
 
     api_base_url, api_ok, api_resolution_message = resolve_posture_api_base_url()
     if api_ok:
-        st.caption(f"Using posture API: {api_base_url}")
         if api_resolution_message:
+            st.caption(f"Using posture API: {api_base_url}")
             st.warning(api_resolution_message)
     else:
         st.error(
