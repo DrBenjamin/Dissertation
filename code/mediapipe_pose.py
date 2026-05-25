@@ -16,7 +16,7 @@ try:
     Minio = getattr(_minio_module, "Minio")
 except Exception:
     Minio = None
-from human_posture_analysis import process_video
+from scripts.human_posture_analysis import process_video
 from dataclasses import dataclass
 from typing import Dict, List, Optional, Tuple
 from urllib.parse import urlparse

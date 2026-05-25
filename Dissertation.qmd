@@ -238,26 +238,28 @@ Model performance will be evaluated using accuracy as the primary metric and, wh
 
 # Implementation
 
-To utilize the Google MediaPipe framework, extended pipelines and automation were used to prepare the data, train and evaluate models, and produce deployable inference artifacts. The research environment and reproducible steps to build the training pipeline and maintain a production ready data-engineering workflow (including the n8n augmentation workflow) are described.
+To utilize the Google MediaPipe framework, an extended pipeline and automation were used to prepare the data, train and evaluate models, and produce deployable artifacts. The research environment and reproducible steps to build the training pipeline and maintain a production ready data-engineering workflow (including the n8n augmentation workflow) are described in this chapter.
 
 ## Research setup
 
 ### Hardware and runtime
 
-The development was mostly performed on a remote virtual machine with Ubuntu Linux and specs of 8GB RAM and 4 available CPU Cores. For editing Python scripts, a Jupyter Notebook was used for editing and running the transfer-learning script, for editing the Quarto dissertation project file a RStudio Server. Next to this, a Streamlit WebApp was developed and used to test re-trained models manually. Both the Jupyter notebook and the Streamlit WebApp were deployed via a Docker container on the remote server to manage heavy Python library dependencies of MediaPipe Model Maker (Python 3.10) respective of MediaPipe / TensorFlow Lite (Python 3.13) for the Streamlit app.
+The development was mostly performed on a remote virtual machine with Ubuntu Linux and specs of 8GB RAM and 4 available CPU Cores. For editing Python scripts and notebooks, the Jupyter Notebook was used. The transfer learning script was usually run for training a custom model locally on a MacBook Pro due to its superior performance.
 
-### **Software/framework/service stack**
+For editing the Quarto dissertation project file a RStudio Server was utilized. Next to this, a Streamlit WebApp was developed and used to test re-trained models manually. Both the Jupyter notebook and the Streamlit WebApp were deployed via a Docker container on the remote server to manage heavy Python library dependencies of MediaPipe Model Maker (Python 3.10) respective of MediaPipe / TensorFlow Lite (Python 3.13) for the Streamlit app.
+
+### Software/framework/service stack
 
 | Category | Technologies / Services |
 |------------------------------------|------------------------------------|
-| Programming environments | Python 3.10 (Model Maker), Python 3.13 (Inference) |
-| Core deep learning frameworks | MediaPipe Pose 0.10.20, MediaPipe Model Maker 0.2.1.3, TensorFlow 2.19.1 (with TensorFlow Lite), Keras 3.12.1 |
-| Supporting Python libraries | OpenCV, NumPy, pandas, Matplotlib, FastAPI, Streamlit |
-| Development and authoring tools | Jupyter Notebook, Quarto |
-| Deployment and containerization | Docker, Streamlit WebApp |
+| Conda programming environments | Python 3.10 (Model Maker), Python 3.13 (Inference) |
+| Core deep learning frameworks | MediaPipe Pose 0.10.20, MediaPipe Model Maker 0.2.1.3, TensorFlow (+Lite, bundled) 2.19.1, Keras 3.12.1 |
+| Supporting Python libraries | OpenCV, NumPy, pandas, Matplotlib, FastAPI |
+| Development and authoring tools | RStudio Server, Jupyter Notebook, Quarto |
+| Deployment and containerized services | Docker, Streamlit WebApp, MediaPipe API |
 | CI/CD and automation | Jenkins, GitHub Actions, n8n |
 
-### **Environment manifests used in this project (congested by Dockerfiles)**
+### Environment manifests used in this project (congested by Dockerfiles)
 
 `code/`
 
@@ -269,7 +271,9 @@ The development was mostly performed on a remote virtual machine with Ubuntu Lin
 
 `└── requirements_model-maker.txt`
 
-### **Example reproducible local environment**
+### Example reproducible local environment
+
+All scripts, notebooks and the web app can also be run locally; to do this, a Conda environment needs to be created:
 
 ``` bash
 # MediaPipe Model Maker environment
@@ -283,9 +287,9 @@ conda activate dissertation-3.13
 
 ### Streamlit Web App Interface
 
-To utilize the existing MediaPipe Pose model to create images with the YOLO 33 body landmarker overlay, for testing purposes an Interface was developed. Herefore Streamlit, an open-source Python framework was choosen to build a graphical user interface. Streamlit is widely used in the data science sphere, to build interactive data apps.
+To utilize the existing MediaPipe Pose model to create images with the YOLO 33 body landmarker overlay, for testing purposes an Interface was developed. Herefore Streamlit, an open-source Python framework was choosen to build a graphical user interface at `code/mediapipe_pose.py`.
 
-The same Interface was used to test the build classification models, as you can see in the following presentation:
+Streamlit is widely used in the data science sphere, to build interactive data apps. The same Interface was used to test the build classification models, as you can see in the following presentation:
 
 ![Streamlit Web App with classification of postures using the build quantized model from Training 4 (3-class)](docs/Streamlit_WebApp.png)
 
@@ -299,26 +303,34 @@ Automated augmentation (n8n + MediaPipe API) - To expand the original 300 images
 
 1.  Read a list of source images (the initial 300).
 
-2.  For each image, call a MediaPipe inference endpoint (either the containerized `code/mediapipe_pose.py` service or an HTTP MediaPipe API) using an `HTTP Request` (FastAPI) node.
+2.  For each image, call a MediaPipe inference endpoint (either the containerized FastAPI MediaPipe API) using an `HTTP Request` node.
 
-3.  Receive keypoint coordinates and render overlay images server-side (via the MediaPipe container or a rendering script).
+3.  Receive keypoint coordinates and render overlay images server-side.
 
-4.  Save augmented images to `data/` and record augmentation metadata (source id, parameters).
+4.  Save augmented images to MinIO bucket.
 
-5.  Optionally trigger a downstream training job (Jenkins) or commit augmented data back to the repository index. - This decoupled approach produces auditable augmentation runs and keeps augmentation reproducible.
+Training execution - Training can be run locally via the hosted Jupyter notbook on `custom_image_classifier_model_training.ipynb`.
 
-Training execution - Training can be run locally via `custom_image_classifier_model_training.ipynb` or (remote) inside a container built from `code/Dockerfile` served as Juypter notebook.
+### Augmentation & split policy
 
-Augmentation & split policy - Augmentations used: small rotations (±10°), random crops (±10%), brightness/contrast jitter, and MediaPipe keypoint overlays. Horizontal flips are used when anatomically appropriate. - Splits are deterministic and saved to `data/splits/` for reproducibility.
+Augmentations used brightness/contrast jitter, cropping, tilting. small rotations, and MediaPipe body landmark overlays. Splits are deterministic and saved into sub-folders in `data/` for reproducibility.
 
-Artifacts and model storage - Model artifacts (.h5 and .tflite), logs and run figures are stored under `data/models/` and `runs/`. Each run directory includes metadata (git commit, config checksum, timestamp).
+Artifacts and model storage - Model artifacts (.h5 and .tflite), logs and run figures are stored under `data/models/` and `runs/`. Each run directory includes metadata.
 
-## Inference pipeline, containerization and CI/CD
+## Research clients, Inference pipeline, containerization and CI/CD
 
-Inference packaging - Inference scripts live in `scripts/` (for example `custom_tflite_image_classifier.py` and `custom_tflite_pose.py`) and operate against quantized `.tflite` models exported to `data/models/`. - Local inference example:
+Inference research client scripts live in code `code/scripts/` (for example `custom_tflite_image_classifier.py` and `custom_tflite_pose.py`) and operate against quantized `.tflite` models exported to `data/models/`.
+
+Local research client example:
 
 ``` bash
-python scripts/custom_tflite_image_classifier.py --model data/models/<run>/model.tflite --image data/images/example.jpg
+python code/scripts/custom_tflite_image_classifier.py --model data/models/<run>/model.tflite --image data/images/example.jpg
+```
+
+As a counterpart to the Streamlit Web App there is also a command line tool for testing (also utilizing the API). Example:
+
+``` bash
+python code/scripts/human_posture_analysis.py --mode image --api-base-url http://seriousbenentertainment.org:8000 --input-video ./data/images/input.png --output-video ./data/images/output.png
 ```
 
 ### Containerization and compose
@@ -331,11 +343,7 @@ The project maintains two primary Dockerfile artifacts:
 
 `└──``Dockerfile_mediapipe`
 
-MediaPipe runtime used for keypoint extraction and overlay rendering. Multi-service development is defined in:
-
-`code/`
-
-`└──``docker-compose.yml`
+MediaPipe runtime used for keypoint extraction and overlay rendering. Multi-service development is defined in `code/``docker-compose.yml`.
 
 To start development services docker compose was used:
 
@@ -354,13 +362,15 @@ Github Actions of a Github Pages repository is trigged to render the Quarto arti
 
 ### Automation orchestration (n8n)
 
-`A n8n` server run as a containerized service (two container) and to hosts the augmentation workflows. Responsibilities:
+`A n8n` server run as a containerized service (two container) to hosts the augmentation workflows. Responsibilities:
 
-- n8n instance (container one)
-- Orchestrate MediaPipe API (container two) calls and rendering.
-- Persist augmented images and artifacts on a MinIO file storage.
+- n8n Canvas for editing the workflows (container one)
+- MediaPipe API (container two) for inference calls.
+- MinIO file storage to persist augmented images.
 
-![Implementation visualization](docs/CNN%20Workflow.drawio.png)
+This illustration shows the whole implementation setup and dependencies:
+
+![Implementation illustration](docs/CNN%20Workflow.drawio.png)
 
 \clearpage
 

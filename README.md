@@ -241,13 +241,13 @@ To run the Python script:
 
 ``` bash
 # for images
-python code/human_posture_analysis.py --mode image --api-base-url http://seriousbenentertainment.org:8000 --input-video ./data/images/input.png --output-video ./data/images/output.png
+python code/scripts/human_posture_analysis.py --mode image --api-base-url http://seriousbenentertainment.org:8000 --input-video ./data/images/input.png --output-video ./data/images/output.png
 
 # for videos
-python code/human_posture_analysis.py --mode video --api-base-url http://seriousbenentertainment.org:8000 --input-video ./data/video/input.mp4 --output-video ./data/video/output.mp4
+python code/scripts/human_posture_analysis.py --mode video --api-base-url http://seriousbenentertainment.org:8000 --input-video ./data/video/input.mp4 --output-video ./data/video/output.mp4
 
 # for videos with the worst posture frame extracted as image
-python code/human_posture_analysis.py --mode video --api-base-url http://seriousbenentertainment.org:8000 --input-video ./data/video/input.mp4 --output-video ./data/video/output.mp4 --output-image ./data/video/output_worst_frame.png
+python code/scripts/human_posture_analysis.py --mode video --api-base-url http://seriousbenentertainment.org:8000 --input-video ./data/video/input.mp4 --output-video ./data/video/output.mp4 --output-image ./data/video/output_worst_frame.png
 ```
 
 ### Klein-Vogelbach 4-body-block overlay
@@ -258,12 +258,12 @@ Files: `code/klein_vogelbach_overlay.py` (CLI) and `code/scripts/klein_vogelbach
 
 ```bash
 # Annotating single image
-python code/klein_vogelbach_overlay.py \
+python code/scripts/klein_vogelbach_overlay.py \
     --input ./data/images/test.png \
     --output ./data/images/test_kv.png
 
 # Annotating directory of images, without labelling the posture class (only the blocks and angles)
-python code/klein_vogelbach_overlay.py \
+python code/scripts/klein_vogelbach_overlay.py \
     --input "./data/images/rebalanced_posture/normal posture" \
     --output "./data/images/kv_out/normal posture" \
     --no-label
