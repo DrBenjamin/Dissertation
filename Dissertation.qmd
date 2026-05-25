@@ -283,15 +283,23 @@ conda activate dissertation-3.13
 
 ### Streamlit Web App Interface
 
+To utilize the existing MediaPipe Pose model to create images with the YOLO 33 body landmarker overlay, for testing purposes an Interface was developed. Herefore Streamlit, an open-source Python framework was choosen to build a graphical user interface. Streamlit is widely used in the data science sphere, to build interactive data apps.
+
+The same Interface was used to test the build classification models, as you can see in the following presentation:
+
+![Streamlit Web App with classification of postures using the build quantized model from Training 4 (3-class)](docs/Streamlit_WebApp.png)
+
+The app can digest images from the Browser as User upload and from the self-hosted MinIO server. As later described, a n8n automation was processing images automatically from a MinIO bucket (and saved it back to a second bucket), the App uses the same API to classify or annotate images (when a pose model is chosen). This lead to a more efficient development, as only on source of truth for the image detection/processing code was needed.
+
 ## Training pipeline and data engineering
 
 Overview - The training pipeline follows an ETL pattern: ingest → validate → augment → split → train → evaluate → archive. Steps are implemented in the repository as Jupyter notebooks and scripts to allow both interactive experimentation and non-interactive CI execution.
 
-Automated augmentation (n8n + MediaPipe) - To expand the original 300 images, the repository uses an n8n workflow to produce duplicates with MediaPipe keypoint overlays and controlled image edits (rotations, crops, brightness adjustments). - The exported n8n workflow is available at `code/n8n/Dissertation_Posture_Analysis.json`. The high-level workflow:
+Automated augmentation (n8n + MediaPipe API) - To expand the original 300 images, the repository uses an n8n workflow to produce duplicates with MediaPipe keypoint overlays and controlled image edits (rotations, crops, brightness adjustments). - The exported n8n workflow is available at `code/n8n/Dissertation_Posture_Analysis.json`. The high-level workflow:
 
 1.  Read a list of source images (the initial 300).
 
-2.  For each image, call a MediaPipe inference endpoint (either the containerized `code/mediapipe_pose.py` service or an HTTP MediaPipe API) using an `HTTP Request` node.
+2.  For each image, call a MediaPipe inference endpoint (either the containerized `code/mediapipe_pose.py` service or an HTTP MediaPipe API) using an `HTTP Request` (FastAPI) node.
 
 3.  Receive keypoint coordinates and render overlay images server-side (via the MediaPipe container or a rendering script).
 
@@ -313,25 +321,29 @@ Inference packaging - Inference scripts live in `scripts/` (for example `custom_
 python scripts/custom_tflite_image_classifier.py --model data/models/<run>/model.tflite --image data/images/example.jpg
 ```
 
-**Containerization and compose**
+### Containerization and compose
 
-- The project maintains two primary Dockerfile artifacts:
+The project maintains two primary Dockerfile artifacts:
 
-- `code/Dockerfile` — training and utilities image.
+`code/`
 
-- `code/Dockerfile_mediapipe`
+`├──``Dockerfile` — training and utilities image.
+
+`└──``Dockerfile_mediapipe`
 
 MediaPipe runtime used for keypoint extraction and overlay rendering. Multi-service development is defined in:
 
-- `code/docker-compose.yml`
+`code/`
 
-- Start development services:
+`└──``docker-compose.yml`
+
+To start development services docker compose was used:
 
 ``` bash
 docker compose -f code/docker-compose.yml up --build
 ```
 
-**CI/CD**
+### CI/CD
 
 Jenkins is used for build a Jupyter environment on a server to run model training and also builds a Streamlit WebApp for inference testing of previously build models.
 
@@ -340,7 +352,7 @@ Github Actions of a Github Pages repository is trigged to render the Quarto arti
 - Checkout repository - Installs Quarto and LaTeX (for PDF rendering).
 - Deploys the dissertation project as HTML on <https://drbenjamin.github.io/dissertation.html>
 
-**Automation orchestration** (n8n)
+### Automation orchestration (n8n)
 
 `A n8n` server run as a containerized service (two container) and to hosts the augmentation workflows. Responsibilities:
 
@@ -348,7 +360,7 @@ Github Actions of a Github Pages repository is trigged to render the Quarto arti
 - Orchestrate MediaPipe API (container two) calls and rendering.
 - Persist augmented images and artifacts on a MinIO file storage.
 
-![Implementation infrastructure](docs/CNN%20Workflow.drawio.png)
+![Implementation visualization](docs/CNN%20Workflow.drawio.png)
 
 \clearpage
 
