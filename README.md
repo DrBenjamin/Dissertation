@@ -12,6 +12,7 @@ It uses a [Kaggle image dataset](https://www.kaggle.com/datasets/melsmm/posture-
 │   └── copilot-instructions.md
 ├── .gitignore
 ├── Dissertation.qmd
+├── Dissertation.Rproj
 ├── LICENSE
 ├── Proposal.md
 ├── README.md

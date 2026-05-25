@@ -83,3 +83,4 @@ data/*
 .Rproj.user
 .positai
 **/*.quarto_ipynb
+.codex/hooks.json
