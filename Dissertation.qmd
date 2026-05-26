@@ -85,7 +85,7 @@ Quantitative, observational secondary data analysis evaluating transfer learning
 
 Across the two-class experiments, the binary classification task achieved a balanced accuracy of 0.552 (with landmark overlays) and 0.536 (without overlays), compared to a 0.50 chance level.
 
-Reformulating as a three-class experiement the EfficientNet‑Lite4 model architecture achieved the highest balanced test accuracy (**41.7%**), followed by EfficientNet‑Lite2 (**39.8%**). Confusion patterns showed over‑prediction of “slumped” and frequent misclassification of “normal,” consistent with class overlap and subtle boundary cases. This approach indicates modest gains against 0.33 chance level and clearer clinical framing.
+Reformulating as a three-class experiment the EfficientNet‑Lite4 model architecture achieved the highest balanced test accuracy (**41.7%**), followed by EfficientNet‑Lite2 (**39.8%**). Confusion patterns showed over‑prediction of “slumped” and frequent misclassification of “normal,” consistent with class overlap and subtle boundary cases. This approach indicates modest gains against 0.33 chance level and clearer clinical framing.
 
 ## Conclusion {.unnumbered}
 
@@ -146,7 +146,7 @@ Whereby the final chapter concludes with a summary of contributions and future w
 
 # Literature Review
 
-@Cao2024 describe the detection of human postures undertaken by artificial intelligence as a process in which machines mimic the human visual system and learning behaviour by extracting distinctive features from sensor or image data and subsequently using these features to classify or track postures over time. Furthermore they divide into static and dynamic posture recognition, whereas the static posture recognition treats each input (image or single frame) as a standalone instance. Models for these purposes are trained and perform inference on individual frames, using image-based classifiers such as such as scale-invariant feature transform, histogram of oriented gradients, support vector machine (SVM), Gaussian mixture model, dynamic time warping, hidden Markovmodel (HMM), lightweight network and convolutional neural networks (CNN) [@Jiang2023]. @Cao2024 describe the dynamic pose detection as processing a continuous image sequence (video), with models capturing temporal evolution via recurrent structures such as BiGRUs or similar time-aware networks. As they explain, CNNs perform this capturing or, more precisely, feature extraction through the use of a deep convolutional neural network that locates skeletal keypoints and derives a multidimensional set of pose features, much like the human eye recognises edges, shapes and joints. The extracted pose features are then learned as spatial features (body configuration in each individual frame) and temporal features (how the pose changes across successive frames). These models are also called Pose Estimation Models (PEMs). A widely used open-source example of a CNN PEM is Google’s MediaPipe framework for real-time pose estimation [@Lugaresi2019].
+@Cao2024 describe the detection of human postures undertaken by artificial intelligence as a process in which machines mimic the human visual system and learning behaviour by extracting distinctive features from sensor or image data and subsequently using these features to classify or track postures over time. Furthermore they divide into static and dynamic posture recognition, whereas the static posture recognition treats each input (image or single frame) as a standalone instance. Models for these purposes are trained and perform inference on individual frames, using image-based classifiers such as such as scale-invariant feature transform, histogram of oriented gradients, support vector machine (SVM), Gaussian mixture model, dynamic time warping, hidden Markov model (HMM), lightweight network and convolutional neural networks (CNN) [@Jiang2023]. @Cao2024 describe the dynamic pose detection as processing a continuous image sequence (video), with models capturing temporal evolution via recurrent structures such as BiGRUs or similar time-aware networks. As they explain, CNNs perform this capturing or, more precisely, feature extraction through the use of a deep convolutional neural network that locates skeletal keypoints and derives a multidimensional set of pose features, much like the human eye recognises edges, shapes and joints. The extracted pose features are then learned as spatial features (body configuration in each individual frame) and temporal features (how the pose changes across successive frames). These models are also called Pose Estimation Models (PEMs). A widely used open-source example of a CNN PEM is Google’s MediaPipe framework for real-time pose estimation [@Lugaresi2019].
 
 Recent validation studies comparing MediaPipe with gold-standard motion capture systems reveal measurable discrepancies in landmark accuracy, particularly for subtle postural features, highlighting the need for domain-specific refinement for clinical use [@Kakuta2022]. Here, "subtle" means inappropriate muscular tension with small or no movement of (the) body(-parts). More broadly, current pose estimation models remain limited by sensitivity to noise and 2D–3D estimation gaps, reducing their reliability for detecting the named tensions and asymmetries critical to movement and pose imbalance analysis [@Kakuta2022; @Lachance2023]. Fairness and representativeness in pose estimation systems are also important concerns: current PEMs exhibit performance disparities across demographic groups, with reduced accuracy for under-represented populations in training datasets [@Lachance2023]. Available datasets frequently focus on male and predominantly white participants between the ages of 19 and 50, while under-representing females, older adults, and individuals with darker skin tones, thereby increasing the risk of systematic bias and reduced generalizability in movement and posture analysis.”
 
@@ -156,7 +156,9 @@ This project uses transfer learning [@Kakuta2022] to adapt a pre-trained Google 
 
 ## Market research on motion capture systems
 
-Modern video analysis with the purpose of detecting pose, movement, and specific markers in sports activities has undergone a paradigm shift, moving from subjective clinical intuition to high-fidelity, data-driven kinematic quantification. Commercial ecosystems like @MAR-Systems-Ltd2026 leverage dual-camera 3D reconstruction to analyze over 40 biomechanical metrics without intrusive markers, targeting retail efficiency and rapid, evidence-based footwear recommendations. Similarly, @RunDNA2026 employs advanced motion capture to track kinetic and kinematic variables from foot strike to toe-off, providing practitioners with a granular, 3D anatomical breakdown of movement asymmetries. For integrated clinical environments, the @Medical-XPRT2026 combines 3D camera technology with a sensorized, load-cell-equipped treadmill to provide real-time biofeedback and synchronized gait analysis. Supplementing these laboratory-grade tools, @Running-Reborn-20262026 utilizes wearable inertial measurement units (IMUs) to provide continuous, longitudinal monitoring of temporal outcomes like ground contact time and cadence, albeit with sensitivity to speed-dependent discrepancies. At the vanguard of performance capture, @Move-AI-Ltd2026 offers sophisticated, markerless motion capture solutions that utilize computer vision to extract high-fidelity skeletal data from multi-camera footage, facilitating biomechanical analysis outside of traditional studio settings.
+Modern video analysis with the purpose of detecting pose, movement, and specific markers in sports activities has undergone a paradigm shift, moving from subjective clinical intuition to high-fidelity, data-driven kinematic quantification. Commercial ecosystems like @MAR-Systems-Ltd2026 leverage dual-camera 3D reconstruction to analyze over 40 biomechanical metrics without intrusive markers, targeting retail efficiency and rapid, evidence-based footwear recommendations. Similarly, @RunDNA2026 employs advanced motion capture to track kinetic and kinematic variables from foot strike to toe-off, providing practitioners with a granular, 3D anatomical breakdown of movement asymmetries. For integrated clinical environments, the @Medical-XPRT2026 combines 3D camera technology with a sensorized, load-cell-equipped treadmill to provide real-time biofeedback and synchronized gait analysis. Supplementing these laboratory-grade tools, @Running-Reborn-20262026 utilizes wearable inertial measurement units (IMUs) to provide continuous, longitudinal monitoring of temporal outcomes like ground contact time and cadence, albeit with sensitivity to speed-dependent discrepancies. At the vanguard of performance capture, @Move-AI-Ltd2026 offers sophisticated, markerless motion capture solutions that utilize computer vision to extract high-fidelity skeletal data from multi-camera footage, facilitating biomechanical analysis outside of traditional studio settings as shown in @fig-move-ai.
+
+![Move AI advertising accurate markerless motion capturing on their website.](literature/Media/Move AI.png){#fig-move-ai fig-align="right"}
 
 The overarching advantage of these commercial approaches lies in their ability to translate complex, high-frequency spatial-temporal data into actionable clinical diagnostics. They reduce inter-rater variability, the differences between multiple assessors, and enable objective longitudinal tracking. Such standardization of classification, may improve the reliability of qualitative (and quantitative) movement assessments in evidence-based rehabilitation settings. Conversely, the disadvantages often involve high capital expenditure, the requirement for controlled capture environments, and often a reliance on proprietary pipelines that can be difficult to consistently integrate into existing clinical (analytical) workflows.
 
@@ -184,34 +186,34 @@ Unlike large-scale, general-purpose image datasets, this Kaggle dataset is speci
 
 The posture classification follows 3 types of poses regarding posture classifications by @Klein-Vogelbach1990 as illustrated in @fig-klein-vogelbach-posture.
 
-![3 types of posture types by Klein-Vogelbach](literature/Media/3_posture_types.png){#fig-klein-vogelbach-posture}
+![3 types of posture types defined by Klein-Vogelbach, the underlying functional movement concept was developed between 1955-1975.](literature/Media/3_posture_types.png){#fig-klein-vogelbach-posture}
 
-**The classes**
+### The classes
 
 - "tensed posture" (left)
 - "slumped posture" (middle)
 - "normal posture" (right)
 
-The author manually annotated and assigned the 300 images to one of these classes according to his clinical experience in the field of orthopedics and functional movement therapy. In the initial annotation round, the dataset was artificially balanced by assigning 100 images to each class (normal, slumped, and tensed posture). While this ensured equal class distribution for training, it also introduced ambiguous and potentially misclassified samples near class boundaries. Therefore, a second annotation and training run was conducted using a slightly imbalanced but clinically more consistent class distribution, resulting in improved class separation and overall classification performance.
+The author manually annotated and assigned the 300 images to one of these classes according to his clinical experience in the field of orthopaedics and functional movement therapy. In the initial annotation round, the dataset was artificially balanced by assigning 100 images to each class (normal, slumped, and tensed posture). While this ensured equal class distribution for training, it also introduced ambiguous and potentially misclassified samples near class boundaries. Therefore, a second annotation and training run was conducted using a slightly imbalanced but clinically more consistent class distribution, resulting in improved class separation and overall classification performance.
 
-**Primary outcome**
+### Primary outcome
 
 - **Head-neck-torso alignment:** Angular relationships and relative positioning of the head, cervical spine, and torso regarding the 3-class model by Klein-Vogelbach will lead towards model classification
   - normal posture
   - slumped posture
   - tensed posture
 
-**Exposures/independent variables**
+#### Exposures/independent variables
 
 - **Image category/context:** Static posture images in standardized side view.
 - **Camera/view angle:** Minor variation in pose estimation accuracy depending on exact lateral positioning.
 
-**Covariates/control features**
+#### Covariates/control features
 
 - **Image characteristics:** Resolution, background, and lighting, which may influence model performance.
 - **Posture variation:** Degree of anterior head translation, kyphosis, and other sagittal-plane deviations.
 
-**Extracted features**
+#### Extracted features
 
 - **Skeletal keypoints:** Annotated landmarks in YOLO pose format and MediaPipe Pose outputs.
 - **Kinematic proxies:** Angular relationships between key joints and segments.
@@ -251,7 +253,7 @@ For editing the Quarto dissertation project file a RStudio Server was utilized. 
 ### Software/framework/service stack
 
 | Category | Technologies / Services |
-|----|----|
+|------------------------------------|------------------------------------|
 | Conda programming environments | Python 3.10 (Model Maker), Python 3.13 (Inference) |
 | Core deep learning frameworks | MediaPipe Pose 0.10.20, MediaPipe Model Maker 0.2.1.3, TensorFlow (+Lite, bundled) 2.19.1, Keras 3.12.1 |
 | Supporting Python libraries | OpenCV, NumPy, pandas, Matplotlib, FastAPI |
@@ -291,7 +293,7 @@ To utilize the existing MediaPipe Pose model to create images with the YOLO 33 b
 
 Streamlit is widely used in the data science sphere, to build interactive data apps. The same Interface was used to test the build classification models, as you can see in @fig-streamlit-app.
 
-![Streamlit Web App with classification of postures using the build quantized model from Training 4 (3-class) @fig-training-3class-4](docs/Streamlit_WebApp.png){#fig-streamlit-app}
+![Streamlit Web App with classification of postures using the build quantized model from Training 4 (3-class) @fig-training-3class-4.](docs/Streamlit_WebApp.png){#fig-streamlit-app}
 
 The app can digest images from the Browser as User upload and from the self-hosted MinIO server. As later described, a n8n automation was processing images automatically from a MinIO bucket (and saved it back to a second bucket), the App uses the same API to classify or annotate images (when a pose model is chosen). This lead to a more efficient development, as only on source of truth for the image detection/processing code was needed.
 
@@ -370,13 +372,13 @@ Github Actions of a Github Pages repository is trigged to render the Quarto arti
 
 The @fig-CNN-workflow illustration shows the whole implementation setup and dependencies.
 
-![Implementation illustration](docs/CNN%20Workflow.drawio.png){#fig-CNN-workflow}
+![Implementation map illustrates the pipelines, automation and containerization.](docs/CNN%20Workflow.drawio.png){#fig-CNN-workflow}
 
 \clearpage
 
 # Results
 
-Results were measured for seven model training in total. Three for 2-class and 4 for 3-class image input datasets.
+Results were measured for seven model trainings in total. Three for 2-class and 4 for 3-class image input datasets.
 
 ## Dataset and preprocessing outcomes
 
@@ -390,7 +392,7 @@ Preprocessing was applied consistently for all runs (same processed image data s
 
 ## 2-Class Training
 
-The objective is to reach an accuracy of approximately 80–90%, which is generally considered strong performance for practical detection tasks in applied deep learning settings and for the Google MediaPipe model architecture. Therefore, the images will be annotated into normal and non-normal to define 2 classes.
+The objective is to reach an accuracy of approximately 80–90%, which is generally considered strong performance for practical detection tasks in applied deep learning settings and for the Google MediaPipe model architecture. Therefore, the images will be annotated into normal and non-normal to define 2 classes. As the first training run consisted of only 300 images in total, which were further devided into training, validation and testing subsets, the largest available architecture class, **EfficientNet-Lite4,** was selected to maximize feature extraction capacity despite limited dataset size. EfficientNet-Lite4 was also retained for training run 2 and 3, although dataset sizes increased substantially. This was done to maintain comparability across experiments.
 
 ### Model performance - 2-class problem
 
@@ -435,7 +437,7 @@ The third run was extended by an additional 300 images, which were augmented usi
 | **macro avg.**     |    0.5000 | **0.5000** |   0.4886 |      30 |
 | **weighted avg.**  |    0.6800 |     0.6000 |   0.6318 |      30 |
 
-![2-Class - Training 1](literature/Results/Training_2-class_1.png){#fig-training-2class-1}
+![2-Class - Training 1 confusion matrix showing low amount of test images and preference for category \`non-normal posture\`.](literature/Results/Training_2-class_1.png){#fig-training-2class-1}
 
 #### Training 2
 
@@ -474,7 +476,7 @@ The third run was extended by an additional 300 images, which were augmented usi
 | **macro avg.**     |    0.5375 | **0.5358** |   0.5279 |     158 |
 | **weighted avg.**  |    0.5385 |     0.5316 |   0.5264 |     158 |
 
-![2-Class - Training 2](literature/Results/Training_2-class_2.png){#fig-training-2class-2}
+![2-Class - Training 2 confusion matrix showing \`normal posture\` class preference.](literature/Results/Training_2-class_2.png){#fig-training-2class-2}
 
 #### Training 3 (extra body landmark overlay)
 
@@ -513,7 +515,7 @@ The third run was extended by an additional 300 images, which were augmented usi
 | **macro avg.**     |    0.5574 | **0.5562** |   0.5549 |     188 |
 | **weighted avg.**  |    0.5576 |     0.5585 |   0.5562 |     188 |
 
-![2-Class - Training 3](literature/Results/Training_2-class_3.png){#fig-training-2class-3}
+![2-Class - Training 3 confusion matrix again showing \`normal posture\` class preference.](literature/Results/Training_2-class_3.png){#fig-training-2class-3}
 
 ### Error analysis
 
@@ -603,7 +605,7 @@ For each run the reported metrics below are derived from evaluation on the same 
 | **Macro avg.**    |    0.3096 | **0.3111** |   0.3056 |     199 |
 | **Weighted avg.** |    0.3111 |     0.3065 |   0.3038 |     199 |
 
-![3-Class - Training 1](literature/Results/Training_3-class_1.png){#fig-training-3class-1}
+![3-Class - Training 1 confusion matrix showing under-representation of \`tensed posture\` class.](literature/Results/Training_3-class_1.png){#fig-training-3class-1}
 
 #### Training 2 (EfficientNet-Lite0 architecture)
 
@@ -646,7 +648,7 @@ For each run the reported metrics below are derived from evaluation on the same 
 | **Macro avg.**    |    0.3608 | **0.3263** |   0.2754 |     199 |
 | **Weighted avg.** |    0.3592 |     0.3216 |   0.2759 |     199 |
 
-![3-Class - Training 2](literature/Results/Training_3-class_2.png){#fig-training-3class-2}
+![3-Class - Training 2 confusion matrix showing under-representation of \`normal posture\` class and a preference for \`slumped posture\`.](literature/Results/Training_3-class_2.png){#fig-training-3class-2}
 
 #### Training 3 (EfficientNet-Lite2 architecture)
 
@@ -689,7 +691,7 @@ For each run the reported metrics below are derived from evaluation on the same 
 | **Macro avg.**    |    0.4175 | **0.3979** |   0.3801 |     199 |
 | **Weighted avg.** |    0.4219 |     0.3920 |   0.3797 |     199 |
 
-![3-Class - Training 3](literature/Results/Training_3-class_3.png){#fig-training-3class-3}
+![3-Class - Training 3 confusion matrix showing preference of \`slumped posture\` class.](literature/Results/Training_3-class_3.png){#fig-training-3class-3}
 
 #### **Training 4 (EfficientNet-Lite4 architecture)**
 
@@ -732,7 +734,7 @@ For each run the reported metrics below are derived from evaluation on the same 
 | **Macro avg.**    |    0.4285 | **0.4167** |   0.4035 |     199 |
 | **Weighted avg.** |    0.4338 |     0.4121 |   0.4041 |     199 |
 
-![3-Class - Training 4](literature/Results/Training_3-class_4.png){#fig-training-3class-4}
+![3-Class - Training 4 confusion matrix showing again preference of \`slumped posture\` class.](literature/Results/Training_3-class_4.png){#fig-training-3class-4}
 
 ### Error analysis
 
@@ -742,7 +744,7 @@ Across all experiments a consistent pattern of misclassification is apparent. Th
 - EfficientNet-Lite2 performed second best (accuracy 0.3920, balanced accuracy **0.3979**).
 - EfficientNet-Lite0 and MobileNet-V2 produced lower overall accuracy (0.3216 and **0.3065** respectively) and lower balanced accuracy.
 
-Common failure modes observed in confusion matrices:
+#### Common failure modes observed in confusion matrices
 
 - Confusion between `normal` and `slumped`: many `normal` examples are predicted as `slumped`, suggesting the model is sensitive to subtle postural variations or that the dataset contains ambiguous examples near class boundaries.
 - Over-prediction of `slumped`: reflected in row-normalized confusion matrices where the middle column (predicted `slumped`) is large across runs.
@@ -769,7 +771,7 @@ This study demonstrates that compact CNNs within the MediaPipe/TFLite stack can 
 
 The strongest three‑class model (EfficientNet‑Lite4) reached 41.2% accuracy (41.7% balanced accuracy). Reformulating the task as binary improved raw accuracy to 55.9% (55.6% balanced) with landmark overlays, indicating that explicit skeletal cues modestly aid detection.To compare the results of the 3-class and 2-class training, we can look at the overall accuracy and balanced accuracy (macro recall) for each model. This 3-class model achieved an overall accuracy of 41.21% and a balanced accuracy of 41.67%, while the 2-class model with landmark overlays achieved an overall accuracy of 55.85% and a balanced accuracy of 55.62%. Also the overall low performances of both CNN model training approaches (2-class as well as 3-class only slightly above chance) suggest that the task is challenging and that further improvements in data quality, model architecture, or training strategy may be needed to achieve clinically useful performance.
 
-Implications and next steps:
+### Implications and next steps
 
 - The results indicate that the models can capture some posture-related features but that class overlap and limited dataset size constrain discriminative performance. Better class balance, additional labelled data for edge cases, and further augmentation tailored to posture variations should be considered.
 - Model calibration and threshold tuning (or use of ensemble methods) may improve precision for the `slumped` and `tensed` classes.
@@ -829,7 +831,7 @@ Last but not least, a dedicated iOS application should be developed to deploy th
 
 @fig-overlay-mediapipe: Google MediaPipe Pose overlay to show angles of head/neck and torso.
 
-![Overlay annotation by Google MediaPipe Pose](literature/Media/Overlay_annotation.jpg){#fig-overlay-mediapipe}
+![Overlay annotation by Google MediaPipe Pose.](literature/Media/Overlay_annotation.jpg){#fig-overlay-mediapipe}
 
 \clearpage
 
