@@ -1,5 +1,5 @@
 # Human Posture Analysis Using Spinal Keypoint Detection
----
+
 This application was developed as the **final project of the Deep Learning School course at MIPT**. It allows you to track the position of a person's back while they work at a computer.
 
 ![Example of how the site works](images/interface.gif)
@@ -8,7 +8,7 @@ We collected and annotated a dataset of 300 images of people and fine‑tuned a 
 To demonstrate the trained model, we implemented a web application using Streamlit. The application receives a video stream from the user's webcam and uses the model to detect posture keypoints.
 
 ## Problem exploration and description of the proposed solution
----
+
 ### Problem
 Poor posture is one of the most common issues among people who work at a computer. This problem can lead to serious health consequences, including back, neck, and shoulder pain, as well as headaches and vision problems.
 
@@ -24,7 +24,7 @@ To track the position of the back, it is necessary to determine the spinal keypo
 The simplest way to determine whether posture is correct using keypoints is to measure the distance between pairs of keypoints along the X‑coordinate. If the distance between two points exceeds a certain threshold, we consider the posture to be poor; otherwise, we conclude the posture is straight.
 
 ## Finding a trained model and dataset
----
+
 ### YOLO11s‑pose model
 YOLO11s‑pose is a machine learning model designed for human pose estimation. It is one of the YOLO model versions focused on real‑time object detection and pose estimation. The number 11 in the name denotes the YOLO version, and the letter s denotes the model size.
 
@@ -61,6 +61,7 @@ The model performs quite well at detecting the keypoints; however, for more accu
 Thus, the YOLO11s‑pose model “out of the box” does not allow full tracking of the back position.
 
 ### Dataset collection and annotation
+
 #### Image collection
 Given the limitation described above, we decided to fine‑tune the YOLO11s‑pose model on a new dataset containing images with annotations for all necessary keypoints.
 
@@ -83,7 +84,7 @@ You can download the dataset and read its full description at
 https://www.kaggle.com/datasets/melsmm/posture-keypoints-detection/data.
 
 ## Model training
----
+
 After collecting and annotating the dataset, we fine‑tuned the YOLO11s‑pose model on it. During training, we set the number of epochs to 200 and the batch size to 32. Training took about 23 minutes on a P100 GPU.
 
 At the end of training, we achieved the following metrics:
@@ -95,7 +96,7 @@ At the end of training, we achieved the following metrics:
 The training code is in the notebook `code/train.ipynb`.
 
 ## Model testing
----
+
 Below is a comparison of the fine‑tuned model with the base YOLO11s‑pose model. We will see how the models detect keypoints in real time.
 
 Results of the base YOLO11s‑pose model:
@@ -111,7 +112,7 @@ We can note that the fine‑tuned model detects keypoints with similar quality, 
 The notebook `code/inference.ipynb` contains more examples of model inference on images.
 
 ## Demo development
----
+
 We chose Streamlit as the framework for developing the web demo. Streamlit is a free, open‑source Python framework for building interactive dashboards and machine learning apps and sharing them. For the backend part of the application, we used FastAPI, a Python web framework for building APIs. Both services are wrapped using docker‑compose.
 
 The application uses a pre‑trained YOLO model to detect body keypoints and evaluate posture correctness. If posture is correct, the message “Excellent posture” is displayed in green; otherwise, “Straighten your back” is shown in red. A separate window shows the webcam image with connected keypoints. If posture is correct, the keypoints are drawn in green; otherwise, in red.
@@ -129,7 +130,7 @@ Using `l` ensures that the threshold scales with image size.
 The coefficient `K` controls the allowed deviation of the back from the vertical and ranges within `(0, 1]`. The smaller `K` is, the more sensitive the program is to small posture deviations. Empirically, `K = 1/6` was found to be the optimal value.
 
 ## Demo testing
----
+
 Let us test the developed web application:
 
 ![example](images/interface.gif)

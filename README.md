@@ -138,6 +138,9 @@ quarto render Dissertation.qmd --to html
 
 # Rendering to Word
 quarto render Dissertation.qmd --to docx
+
+# or a quick preview (html)
+quarto preview Dissertation.qmd
 ```
 
 ## Build developing environments (Jenkins & Docker)
