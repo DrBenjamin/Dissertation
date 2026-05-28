@@ -48,6 +48,7 @@ format:
     number-sections: true
     lof: false
     lot: false
+figureTitle: ""
 link-citations: true
 csl: "./literature/apa.csl"
 bibliography: "./literature/bibliography.bib"
@@ -449,7 +450,7 @@ The third run was extended by an additional 300 images, which were augmented usi
 |                  non-normal |         16 |      8 |
 |                      normal |          4 |      2 |
 
-: @tab-training-2class-1: Confusion matrix for 2-class training 1 showing class imbalance and preference for `non-normal posture`.
+: @tab-training-2class-1: Confusion matrix for 2-class training 1 showing class imbalance and preference for `non-normal posture`.{#tab-training-2class-1}
 
 **Row-normalized confusion matrix (recall by class)**
 
@@ -458,7 +459,7 @@ The third run was extended by an additional 300 images, which were augmented usi
 |                  non-normal |     0.6667 | 0.3333 |
 |                      normal |     0.6667 | 0.3333 |
 
-: @tab-training-row-2class-1: Row-normalized confusion matrix for 2-class training 1 showing class imbalance and preference for `non-normal posture`.
+: @tab-training-row-2class-1: Row-normalized confusion matrix for 2-class training 1 showing class imbalance and preference for `non-normal posture`.{#tab-training-row-2class-1}
 
 [Per-class support:]{.underline}
 
@@ -477,7 +478,7 @@ The third run was extended by an additional 300 images, which were augmented usi
 | **macro avg.**     |    0.5000 | **0.5000** |   0.4886 |      30 |
 | **weighted avg.**  |    0.6800 |     0.6000 |   0.6318 |      30 |
 
-: @tab-report-training-2class-1: Classification results for 2-class training 1 showing an accuracy of 60%, but on a highly imbalanced class distribution.
+: @tab-report-training-2class-1: Classification results for 2-class training 1 showing an accuracy of 60%, but on a highly imbalanced class distribution.{#tab-report-training-2class-1}
 
 ![@fig-training-2class-1: Confusion matrix showing low amount of test images and preference for category \`non-normal posture\`.](literature/Results/Training_2-class_1.png){#fig-training-2class-1}
 
@@ -494,7 +495,7 @@ The third run was extended by an additional 300 images, which were augmented usi
 |                  non-normal |         35 |     47 |
 |                      normal |         27 |     49 |
 
-: @tab-training-2class-2: Confusion matrix for 2-class training 2 showing class imbalance and preference for `normal posture`.
+: @tab-training-2class-2: Confusion matrix for 2-class training 2 showing class imbalance and preference for `normal posture`.{#tab-training-2class-2}
 
 **Row-normalized confusion matrix (recall by class)**
 
@@ -503,7 +504,7 @@ The third run was extended by an additional 300 images, which were augmented usi
 |                  non-normal |     0.4268 | 0.5732 |
 |                      normal |     0.3553 | 0.6447 |
 
-: @tab-training-row-2class-2: Row-normalized confusion matrix for 2-class training 2 showing class imbalance and preference for `normal posture`.
+: @tab-training-row-2class-2: Row-normalized confusion matrix for 2-class training 2 showing class imbalance and preference for `normal posture`.{#tab-training-row-2class-2}
 
 [Per-class support:]{.underline}
 
@@ -522,7 +523,7 @@ The third run was extended by an additional 300 images, which were augmented usi
 | **macro avg.**     |    0.5375 | **0.5358** |   0.5279 |     158 |
 | **weighted avg.**  |    0.5385 |     0.5316 |   0.5264 |     158 |
 
-: @tab-report-training-2class-2: Classification results for 2-class training 2 showing an accuracy of 53.16%.
+: @tab-report-training-2class-2: Classification results for 2-class training 2 showing an accuracy of 53.16%.{#tab-report-training-2class-2}
 
 ![@fig-training-2class-2: Confusion matrix showing \`normal posture\` class preference.](literature/Results/Training_2-class_2.png){#fig-training-2class-2}
 
@@ -539,7 +540,7 @@ The third run was extended by an additional 300 images, which were augmented usi
 |                  non-normal |         44 |     47 |
 |                      normal |         36 |     61 |
 
-: @tab-training-2class-3: Confusion matrix for 2-class training 3 showing class imbalance and preference for `normal posture`.
+: @tab-training-2class-3: Confusion matrix for 2-class training 3 showing class imbalance and preference for `normal posture`.{#tab-training-2class-3}
 
 **Row-normalized confusion matrix (recall by class)**
 
@@ -548,7 +549,7 @@ The third run was extended by an additional 300 images, which were augmented usi
 |                  non-normal |     0.4835 | 0.5165 |
 |                      normal |     0.3711 | 0.6289 |
 
-: @tab-training-row-2class-3: Row-normalized confusion matrix for 2-class training 3 showing class imbalance and preference for `normal posture`.
+: @tab-training-row-2class-3: Row-normalized confusion matrix for 2-class training 3 showing class imbalance and preference for `normal posture`.{#tab-training-row-2class-3}
 
 [Per-class support:]{.underline}
 
@@ -567,7 +568,7 @@ The third run was extended by an additional 300 images, which were augmented usi
 | **macro avg.**     |    0.5574 | **0.5562** |   0.5549 |     188 |
 | **weighted avg.**  |    0.5576 |     0.5585 |   0.5562 |     188 |
 
-: @tab-report-training-2class-3: Classification results for 2-class training 3 showing an accuracy of 55.85%.
+: @tab-report-training-2class-3: Classification results for 2-class training 3 showing an accuracy of 55.85%.{#tab-report-training-2class-3}
 
 ![@fig-training-2class-3: Confusion matrix again showing \`normal posture\` class preference.](literature/Results/Training_2-class_3.png){#fig-training-2class-3}
 
@@ -613,7 +614,7 @@ For the 3-class problem, in total four training runs were performed using all fo
 |                     slumped |     26 |      20 |     16 |
 |                      tensed |     23 |      34 |     17 |
 
-: @tab-training-3class-1: Confusion matrix for 3-class training 1 showing slight over-prediction of `slumped` class.
+: @tab-training-3class-1: Confusion matrix for 3-class training 1 showing slight over-prediction of `slumped` class.{#tab-training-3class-1}
 
 **Row-normalized confusion matrix (recall by class)**
 
@@ -623,7 +624,7 @@ For the 3-class problem, in total four training runs were performed using all fo
 |                     slumped | 0.4194 |  0.3226 | 0.2581 |
 |                      tensed | 0.3108 |  0.4595 | 0.2297 |
 
-: @tab-training-row-3class-1: Row-normalized confusion matrix for 3-class training 1 showing slight over-prediction of `slumped` class.
+: @tab-training-row-3class-1: Row-normalized confusion matrix for 3-class training 1 showing slight over-prediction of `slumped` class.{#tab-training-row-3class-1}
 
 [Per-class support:]{.underline}
 
@@ -644,7 +645,7 @@ For the 3-class problem, in total four training runs were performed using all fo
 | **Macro avg.**    |    0.3096 | **0.3111** |   0.3056 |     199 |
 | **Weighted avg.** |    0.3111 |     0.3065 |   0.3038 |     199 |
 
-: @tab-report-training-3class-1: Classification results for 3-class training 1 showing an accuracy of 30.65% and a balanced accuracy of 31.11%.
+: @tab-report-training-3class-1: Classification results for 3-class training 1 showing an accuracy of 30.65% and a balanced accuracy of 31.11%.{#tab-report-training-3class-1}
 
 ![@fig-training-3class-1: Confusion matrix showing under-representation of \`tensed posture\` class.](literature/Results/Training_3-class_1.png){#fig-training-3class-1}
 
@@ -662,7 +663,7 @@ For the 3-class problem, in total four training runs were performed using all fo
 |                     slumped |      2 |      40 |     20 |
 |                      tensed |      3 |      51 |     20 |
 
-: @tab-training-3class-2: Confusion matrix for 3-class training 2 showing under-representation of `normal posture` class and a preference for `slumped posture`.
+: @tab-training-3class-2: Confusion matrix for 3-class training 2 showing under-representation of `normal posture` class and a preference for `slumped posture`.{#tab-training-3class-2}
 
 **Row-normalized confusion matrix (recall by class)**
 
@@ -672,7 +673,7 @@ For the 3-class problem, in total four training runs were performed using all fo
 |                     slumped | 0.0323 |  0.6452 | 0.3226 |
 |                      tensed | 0.0405 |  0.6892 | 0.2703 |
 
-: @tab-training-row-3class-2: Row-normalized confusion matrix for 3-class training 2 showing under-representation of `normal posture` class and a preference for `slumped posture`.
+: @tab-training-row-3class-2: Row-normalized confusion matrix for 3-class training 2 showing under-representation of `normal posture` class and a preference for `slumped posture`.{#tab-training-row-3class-2}
 
 [Per-class support:]{.underline}
 
@@ -693,7 +694,7 @@ For the 3-class problem, in total four training runs were performed using all fo
 | **Macro avg.**    |    0.3608 | **0.3263** |   0.2754 |     199 |
 | **Weighted avg.** |    0.3592 |     0.3216 |   0.2759 |     199 |
 
-: @tab-report-training-3class-2: Classification results for 3-class training 2 showing an accuracy of 32.16% and a balanced accuracy of 32.63%.
+: @tab-report-training-3class-2: Classification results for 3-class training 2 showing an accuracy of 32.16% and a balanced accuracy of 32.63%.{#tab-report-training-3class-2}
 
 ![@fig-training-3class-2: Confusion matrix showing under-representation of \`normal posture\` class and a preference for \`slumped posture\`.](literature/Results/Training_3-class_2.png){#fig-training-3class-2}
 
@@ -711,7 +712,7 @@ For the 3-class problem, in total four training runs were performed using all fo
 |                     slumped |     10 |      39 |     13 |
 |                      tensed |     12 |      39 |     23 |
 
-: @tab-training-3class-3: Confusion matrix for 3-class training 3 showing preference for `slumped posture` class.
+: @tab-training-3class-3: Confusion matrix for 3-class training 3 showing preference for `slumped posture` class.{#tab-training-3class-3}
 
 **Row-normalized confusion matrix (recall by class)**
 
@@ -721,7 +722,7 @@ For the 3-class problem, in total four training runs were performed using all fo
 |                     slumped | 0.1613 |  0.6290 | 0.2097 |
 |                      tensed | 0.1622 |  0.5270 | 0.3108 |
 
-: @tab-training-row-3class-3: Row-normalized confusion matrix for 3-class training 3 showing preference for `slumped posture` class.
+: @tab-training-row-3class-3: Row-normalized confusion matrix for 3-class training 3 showing preference for `slumped posture` class.{#tab-training-row-3class-3}
 
 [Per-class support:]{.underline}
 
@@ -742,7 +743,7 @@ For the 3-class problem, in total four training runs were performed using all fo
 | **Macro avg.**    |    0.4175 | **0.3979** |   0.3801 |     199 |
 | **Weighted avg.** |    0.4219 |     0.3920 |   0.3797 |     199 |
 
-: @tab-report-training-3class-3: Classification results for 3-class training 3 showing an accuracy of 39.20% and a balanced accuracy of 39.79%.
+: @tab-report-training-3class-3: Classification results for 3-class training 3 showing an accuracy of 39.20% and a balanced accuracy of 39.79%.{#tab-report-training-3class-3}
 
 ![@fig-training-3class-3: Confusion matrix showing preference of \`slumped posture\` class.](literature/Results/Training_3-class_3.png){#fig-training-3class-3}
 
@@ -760,7 +761,7 @@ For the 3-class problem, in total four training runs were performed using all fo
 |                     slumped |     12 |      38 |     12 |
 |                      tensed |     15 |      33 |     26 |
 
-: @tab-training-3class-4: Confusion matrix for 3-class training 4 showing preference for `slumped posture` class.
+: @tab-training-3class-4: Confusion matrix for 3-class training 4 showing preference for `slumped posture` class.{#tab-training-3class-4}
 
 **Row-normalized confusion matrix (recall by class)**
 
@@ -770,7 +771,7 @@ For the 3-class problem, in total four training runs were performed using all fo
 |                     slumped | 0.1935 |  0.6129 | 0.1935 |
 |                      tensed | 0.2027 |  0.4459 | 0.3514 |
 
-: @tab-training-row-3class-4: Row-normalized confusion matrix for 3-class training 4 showing preference for `slumped posture` class.
+: @tab-training-row-3class-4: Row-normalized confusion matrix for 3-class training 4 showing preference for `slumped posture` class.{#tab-training-row-3class-4}
 
 [Per-class support:]{.underline}
 
@@ -791,7 +792,7 @@ For the 3-class problem, in total four training runs were performed using all fo
 | **Macro avg.**    |    0.4285 | **0.4167** |   0.4035 |     199 |
 | **Weighted avg.** |    0.4338 |     0.4121 |   0.4041 |     199 |
 
-: @tab-report-training-3class-4: Classification results for 3-class training 4 showing an accuracy of 41.21% and a balanced accuracy of 41.67%.
+: @tab-report-training-3class-4: Classification results for 3-class training 4 showing an accuracy of 41.21% and a balanced accuracy of 41.67%.{#tab-report-training-3class-4}
 
 ![@fig-training-3class-4: Confusion matrix showing again preference of \`slumped posture\` class.](literature/Results/Training_3-class_4.png){#fig-training-3class-4}
 
