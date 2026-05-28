@@ -160,7 +160,7 @@ Consequently, while MediaPipe Pose serves as a robust foundation for pose detect
 
 Modern video analysis with the purpose of detecting pose, movement, and specific markers in sports activities has undergone a paradigm shift, moving from subjective clinical intuition to high-fidelity, data-driven kinematic quantification. Commercial ecosystems like @MAR-Systems-Ltd2026 leverage dual-camera 3D reconstruction to analyze over 40 biomechanical metrics without intrusive markers, targeting retail efficiency and rapid, evidence-based footwear recommendations. Similarly, @RunDNA2026 employs advanced motion capture to track kinetic and kinematic variables from foot strike to toe-off, providing practitioners with a granular, 3D anatomical breakdown of movement asymmetries. For integrated clinical environments, the @Medical-XPRT2026 combines 3D camera technology with a sensorized, load-cell-equipped treadmill to provide real-time biofeedback and synchronized gait analysis. Supplementing these laboratory-grade tools, @Running-Reborn-20262026 utilizes wearable inertial measurement units (IMUs) to provide continuous, longitudinal monitoring of temporal outcomes like ground contact time and cadence, albeit with sensitivity to speed-dependent discrepancies. At the vanguard of performance capture, @Move-AI-Ltd2026 offers sophisticated, markerless motion capture solutions that utilize computer vision to extract high-fidelity skeletal data from multi-camera footage, facilitating biomechanical analysis outside of traditional studio settings as shown in @fig-move-ai.
 
-![Move AI advertising accurate markerless motion capturing on their website.](literature/Media/Move%20AI.png){#fig-move-ai fig-align="right"}
+![@fig-move-ai: Move AI advertising accurate markerless motion capturing on their website.](literature/Media/Move%20AI.png){#fig-move-ai fig-align="right"}
 
 The overarching advantage of these commercial approaches lies in their ability to translate complex, high-frequency spatial-temporal data into actionable clinical diagnostics. They reduce inter-rater variability, the differences between multiple assessors, and enable objective longitudinal tracking. Such standardization of classification, may improve the reliability of qualitative (and quantitative) movement assessments in evidence-based rehabilitation settings. Conversely, the disadvantages often involve high capital expenditure, the requirement for controlled capture environments, and often a reliance on proprietary pipelines that can be difficult to consistently integrate into existing clinical (analytical) workflows.
 
@@ -180,9 +180,9 @@ The study will be conducted remotely using a secondary dataset. All data analysi
 
 ## Data source, preprocessing and class definition
 
-This study uses secondary image data of an openly available "Posture Keypoints Detection – Photos & Labels" dataset on Kaggle. The dataset consists of 300 images in static side view with image resolutions of up to around 1.6 MP and an overall high quality look.
+The training image dataset contained 300 original images distributed across two or three classes, which was done manually through expert-informed visual posture classification by the author. For all but the first 2-class training, the number from 300 original images were synthetically expanded to between 1500 up to 1800 images, depending on whether extra annotated images with body landmark overlay were used or not. The overlays were generated with the Google MediaPipe Pose framework to incorporate explicit skeletal structure information. As this study uses secondary image data of an openly available "Posture Keypoints Detection – Photos & Labels" dataset on Kaggle only, there was no possibility to increase the amount of samples other than augmenting the existing image data. The original dataset consists of 300 images in static side view in different positions with image resolutions of up to around 1.6 MP and an overall high quality look.
 
-Unlike large-scale, general-purpose image datasets, this Kaggle dataset is specifically curated for posture analysis. It focuses on side-view images suitable for assessing sagittal-plane alignment and upper-body posture. The relatively small dataset size and potential demographic limitations may constrain generalizability and fairness.
+Unlike large-scale, general-purpose image datasets, this Kaggle dataset is specifically curated for posture analysis. It focuses on side-view images suitable for assessing sagittal-plane alignment and often only upper-body posture, missing the limbs and feet. The relatively small dataset size and potential demographic limitations may constrain generalizability and fairness.
 
 To increase the number of images, various augmentation techniques were applied:
 
@@ -190,7 +190,12 @@ To increase the number of images, various augmentation techniques were applied:
 
 - Second, a subset of duplicated 300 images with body landmarks as overlay were added to specific runs. This was achieved by an existing MediaPipe Pose model which was adding these annotations.
 
-Preprocessing was applied consistently for all runs (same processed image data set) to maintain comparability between 2/3 class runs and architectures.
+Preprocessing was applied consistently for all runs (same processed image data set) to maintain comparability between two and three class runs and the different base architectures:
+
+- `MobileNet-V2`
+- `EfficientNet-Lite0`
+- `EfficientNet-Lite2`
+- `EfficientNet-Lite4`
 
 The objective is to reach an accuracy of approximately 80–90%, which is generally considered strong performance for practical detection tasks in applied deep learning settings and for the Google MediaPipe model architecture. Therefore, the images will be annotated into normal and non-normal to define 2 classes. As the first training run consisted of only 300 images in total, which were further divided into training, validation and testing subsets, the largest available architecture class, **EfficientNet-Lite4,** was selected to maximize feature extraction capacity despite limited dataset size. EfficientNet-Lite4 was also retained for training run 2 and 3, although dataset sizes increased substantially. This was done to maintain comparability across experiments.
 
@@ -208,7 +213,7 @@ This three-class formulation enables the CNN to distinguish between physiologica
 
 The posture classification follows 3 types of poses regarding posture classifications by @Klein-Vogelbach1990 as illustrated in @fig-klein-vogelbach-posture.
 
-![3 types of posture types defined by Klein-Vogelbach, the underlying functional movement concept was developed between 1955-1975.](literature/Media/3_posture_types.png){#fig-klein-vogelbach-posture}
+![@fig-klein-vogelbach-posture: 3 types of posture types defined by Klein-Vogelbach, the underlying functional movement concept was developed between 1955-1975.](literature/Media/3_posture_types.png){#fig-klein-vogelbach-posture}
 
 ### The classes
 
@@ -281,13 +286,15 @@ For editing the Quarto dissertation project file a RStudio Server was utilized. 
 ### Software/framework/service stack
 
 | Category | Technologies / Services |
-|------------------------------------|------------------------------------|
+|----|----|
 | Conda programming environments | Python 3.10 (Model Maker), Python 3.13 (Inference) |
 | Core deep learning frameworks | MediaPipe Pose 0.10.20, MediaPipe Model Maker 0.2.1.3, TensorFlow (+Lite, bundled) 2.19.1, Keras 3.12.1 |
-| Supporting Python libraries | OpenCV, NumPy, pandas, Matplotlib, FastAPI |
+| Supporting Python libraries | OpenCV, NumPy, Pandas, Matplotlib, FastAPI |
 | Development and authoring tools | RStudio Server, Jupyter Notebook, Quarto |
 | Deployment and containerized services | Docker, Streamlit WebApp, MediaPipe API |
 | CI/CD and automation | Jenkins, GitHub Actions, n8n |
+
+: @tab-software-framework-service-stack: Software, Framework and Service Stack used for the development, training, deployment, and automation of the system.
 
 ### Environment manifests used in this project (congested by Dockerfiles)
 
@@ -300,6 +307,8 @@ For editing the Quarto dissertation project file a RStudio Server was utilized. 
 `├── requirements.txt`
 
 `└── requirements_model-maker.txt`
+
+:   @lst-environment-manifests: Environment manifest files used for local development and containerization.{#lst-environment-manifests}
 
 #### Example reproducible local environment
 
@@ -315,13 +324,15 @@ conda env create -f code/environment.yml
 conda activate dissertation-3.13
 ```
 
+: @lst-conda-env-setup: Reproducible Conda environment setup for local execution.{#lst-conda-env-setup}
+
 ### Streamlit Web App Interface
 
 To utilize the existing MediaPipe Pose model to create images with the YOLO 33 body landmarker overlay, for testing purposes an Interface was developed. Therefore Streamlit, an open-source Python framework was chosen to build a graphical user interface at `code/mediapipe_pose.py`.
 
 Streamlit is widely used in the data science sphere, to build interactive data apps. The same Interface was used to test the build classification models, as you can see in @fig-streamlit-app.
 
-![Streamlit Web App with classification of postures using the build quantized model from Training 4 (3-class) @fig-training-3class-4.](docs/Streamlit_WebApp.png){#fig-streamlit-app}
+![@fig-streamlit-app.: Streamlit Web App with classification of postures using the build quantized model from Training 4 (3-class) @fig-training-3class-4.](docs/Streamlit_WebApp.png){#fig-streamlit-app}
 
 The app can digest images from the Browser as User upload and from the self-hosted MinIO server. As later described, a n8n automation was processing images automatically from a MinIO bucket (and saved it back to a second bucket), the App uses the same API to classify or annotate images (when a pose model is chosen). This lead to a more efficient development, as only on source of truth for the image detection/processing code was needed.
 
@@ -354,14 +365,20 @@ Inference research client scripts live in code `code/scripts/` (for example `cus
 Local research client example:
 
 ``` bash
+# Example usage of the custom TFLite image classifier script for testing a trained model on an example image.
 python code/scripts/custom_tflite_image_classifier.py --model data/models/<run>/model.tflite --image data/images/example.jpg
 ```
+
+: @lst-research-client-example: Example usage of the custom TFLite image classifier script for testing a trained model on an example image.{#lst-research-client-example}
 
 As a counterpart to the Streamlit Web App there is also a command line tool for testing (also utilizing the API). Example:
 
 ``` bash
+# Example usage of the human posture analysis script in image mode, calling the MediaPipe API for inference and saving the output with pose overlay.
 python code/scripts/human_posture_analysis.py --mode image --api-base-url http://seriousbenentertainment.org:8000 --input-video ./data/images/input.png --output-video ./data/images/output.png
 ```
+
+: @lst-human-posture-analysis-example: Example usage of the human posture analysis script in image mode, calling the MediaPipe API for inference and saving the output with pose overlay.{#lst-human-posture-analysis-example}
 
 ### Containerization and compose
 
@@ -373,13 +390,18 @@ The project maintains two primary Dockerfile artifacts:
 
 `└── Dockerfile_mediapipe`
 
+:   @lst-dockerfiles: Dockerfiles for containerization of the training environment.{#lst-dockerfiles}
+
 MediaPipe runtime used for keypoint extraction and overlay rendering. Multi-service development is defined in `code/docker-compose.yml`.
 
 To start development services docker compose was used:
 
 ``` bash
+# Development environment with Docker Compose, building the necessary images and running the defined services (e.g., MediaPipe API, Streamlit Web App).
 docker compose -f code/docker-compose.yml up --build
 ```
+
+: @lst-docker-compose: Development environment with Docker Compose, building the necessary images and running the defined services (e.g., MediaPipe API, Streamlit Web App).{#lst-docker-compose}
 
 ### CI/CD
 
@@ -400,23 +422,19 @@ Github Actions of a Github Pages repository is trigged to render the Quarto arti
 
 The @fig-CNN-workflow illustration shows the whole implementation setup and dependencies.
 
-![Implementation map illustrates the pipelines, automation and containerization.](docs/CNN%20Workflow.drawio.png){#fig-CNN-workflow}
+![@fig-CNN-workflow: Implementation map illustrates the pipelines, automation and containerization.](docs/CNN%20Workflow.drawio.png){#fig-CNN-workflow}
 
 \clearpage
 
 # Results
 
-Results were measured for seven model trainings in total. Three for 2-class and 4 for 3-class image input datasets.
-
-## Dataset and preprocessing outcomes
-
-The dataset and splits used across all runs were consistent. The training set contained 300 original images distributed across two or three classes. For all but the first 2-class training, the number from 300 original images were increased to \~1500 to \~1800.
+Results were measured for seven model trainings in total, three for 2-class problem solving and four for 3-class approach.
 
 ## 2-Class Training Model performance
 
-The same base dataset was used for all three training runs. To address class imbalance in run 2 and 3, data augmentation was applied with an 8× multiplication for normal posture images and a 4× multiplication for non-normal posture images, resulting in a balanced dataset of 1,580 synthetically augmented images.
+The same base dataset was used for all three training runs. To address the class imbalance identified in the test runs prior to the training (runs 2 and 3), data augmentation was performed, increasing the number of images with normal body postures by a factor of 8 and those with abnormal body postures by a factor of 4. This resulted in a more balanced dataset comprising 1,580 synthetically augmented images.
 
-The third run was extended by an additional 300 images, which were augmented using body landmark overlays generated with the Google MediaPipe Pose framework to incorporate explicit skeletal structure information, which lead to a total of 1880 images.
+The third run was extended by an additional 300 images, which were augmented using body landmark overlays, which lead to a total of 1880 images.
 
 ### Training 1
 
@@ -424,19 +442,23 @@ The third run was extended by an additional 300 images, which were augmented usi
 
 [Model evaluate() loss/accuracy on dataset_obj:]{.underline} 0.546806/0.733333
 
-**Confusion matrix (rows=true, cols=pred)**
+**Confusion matrix (rows=`True class`, cols=`Predicted class`)**
 
-| True predicted | non-normal | normal |
-|---------------:|-----------:|-------:|
-|     non-normal |         16 |      8 |
-|         normal |          4 |      2 |
+| True $\backslash$ Predicted | non-normal | normal |
+|----------------------------:|-----------:|-------:|
+|                  non-normal |         16 |      8 |
+|                      normal |          4 |      2 |
+
+: @tab-training-2class-1: Confusion matrix for 2-class training 1 showing class imbalance and preference for `non-normal posture`.
 
 **Row-normalized confusion matrix (recall by class)**
 
-| True predicted | non-normal | normal |
-|---------------:|-----------:|-------:|
-|     non-normal |     0.6667 | 0.3333 |
-|         normal |     0.6667 | 0.3333 |
+| True $\backslash$ Predicted | non-normal | normal |
+|----------------------------:|-----------:|-------:|
+|                  non-normal |     0.6667 | 0.3333 |
+|                      normal |     0.6667 | 0.3333 |
+
+: @tab-training-row-2class-1: Row-normalized confusion matrix for 2-class training 1 showing class imbalance and preference for `non-normal posture`.
 
 [Per-class support:]{.underline}
 
@@ -455,7 +477,9 @@ The third run was extended by an additional 300 images, which were augmented usi
 | **macro avg.**     |    0.5000 | **0.5000** |   0.4886 |      30 |
 | **weighted avg.**  |    0.6800 |     0.6000 |   0.6318 |      30 |
 
-![2-Class - Training 1 confusion matrix showing low amount of test images and preference for category \`non-normal posture\`.](literature/Results/Training_2-class_1.png){#fig-training-2class-1}
+: @tab-report-training-2class-1: Classification results for 2-class training 1 showing an accuracy of 60%, but on a highly imbalanced class distribution.
+
+![@fig-training-2class-1: Confusion matrix showing low amount of test images and preference for category \`non-normal posture\`.](literature/Results/Training_2-class_1.png){#fig-training-2class-1}
 
 ### Training 2
 
@@ -463,19 +487,23 @@ The third run was extended by an additional 300 images, which were augmented usi
 
 [Model evaluate() loss/accuracy on dataset_obj:]{.underline} 0.421809/0.854430
 
-**Confusion matrix (rows=true, cols=pred)**
+**Confusion matrix (rows=`True class`, cols=`Predicted class`)**
 
-| True predicted | non-normal | normal |
-|---------------:|-----------:|-------:|
-|     non-normal |         35 |     47 |
-|         normal |         27 |     49 |
+| True $\backslash$ Predicted | non-normal | normal |
+|----------------------------:|-----------:|-------:|
+|                  non-normal |         35 |     47 |
+|                      normal |         27 |     49 |
+
+: @tab-training-2class-2: Confusion matrix for 2-class training 2 showing class imbalance and preference for `normal posture`.
 
 **Row-normalized confusion matrix (recall by class)**
 
-| True predicted | non-normal | normal |
-|---------------:|-----------:|-------:|
-|     non-normal |     0.4268 | 0.5732 |
-|         normal |     0.3553 | 0.6447 |
+| True $\backslash$ Predicted | non-normal | normal |
+|----------------------------:|-----------:|-------:|
+|                  non-normal |     0.4268 | 0.5732 |
+|                      normal |     0.3553 | 0.6447 |
+
+: @tab-training-row-2class-2: Row-normalized confusion matrix for 2-class training 2 showing class imbalance and preference for `normal posture`.
 
 [Per-class support:]{.underline}
 
@@ -494,7 +522,9 @@ The third run was extended by an additional 300 images, which were augmented usi
 | **macro avg.**     |    0.5375 | **0.5358** |   0.5279 |     158 |
 | **weighted avg.**  |    0.5385 |     0.5316 |   0.5264 |     158 |
 
-![2-Class - Training 2 confusion matrix showing \`normal posture\` class preference.](literature/Results/Training_2-class_2.png){#fig-training-2class-2}
+: @tab-report-training-2class-2: Classification results for 2-class training 2 showing an accuracy of 53.16%.
+
+![@fig-training-2class-2: Confusion matrix showing \`normal posture\` class preference.](literature/Results/Training_2-class_2.png){#fig-training-2class-2}
 
 ### Training 3 (extra body landmark overlay)
 
@@ -502,19 +532,23 @@ The third run was extended by an additional 300 images, which were augmented usi
 
 [Model evaluate() loss/accuracy on dataset_obj:]{.underline} 0.454466/0.840426
 
-**Confusion matrix (rows=true, cols=pred)**
+**Confusion matrix (rows=`True class`, cols=`Predicted class`)**
 
-| True predicted | non-normal | normal |
-|---------------:|-----------:|-------:|
-|     non-normal |         44 |     47 |
-|         normal |         36 |     61 |
+| True $\backslash$ Predicted | non-normal | normal |
+|----------------------------:|-----------:|-------:|
+|                  non-normal |         44 |     47 |
+|                      normal |         36 |     61 |
+
+: @tab-training-2class-3: Confusion matrix for 2-class training 3 showing class imbalance and preference for `normal posture`.
 
 **Row-normalized confusion matrix (recall by class)**
 
-| True predicted | non-normal | normal |
-|---------------:|-----------:|-------:|
-|     non-normal |     0.4835 | 0.5165 |
-|         normal |     0.3711 | 0.6289 |
+| True $\backslash$ Predicted | non-normal | normal |
+|----------------------------:|-----------:|-------:|
+|                  non-normal |     0.4835 | 0.5165 |
+|                      normal |     0.3711 | 0.6289 |
+
+: @tab-training-row-2class-3: Row-normalized confusion matrix for 2-class training 3 showing class imbalance and preference for `normal posture`.
 
 [Per-class support:]{.underline}
 
@@ -533,7 +567,9 @@ The third run was extended by an additional 300 images, which were augmented usi
 | **macro avg.**     |    0.5574 | **0.5562** |   0.5549 |     188 |
 | **weighted avg.**  |    0.5576 |     0.5585 |   0.5562 |     188 |
 
-![2-Class - Training 3 confusion matrix again showing \`normal posture\` class preference.](literature/Results/Training_2-class_3.png){#fig-training-2class-3}
+: @tab-report-training-2class-3: Classification results for 2-class training 3 showing an accuracy of 55.85%.
+
+![@fig-training-2class-3: Confusion matrix again showing \`normal posture\` class preference.](literature/Results/Training_2-class_3.png){#fig-training-2class-3}
 
 ### Error analysis
 
@@ -561,14 +597,7 @@ Overall, both ladder models still perform only marginally above the 50% chance l
 
 ## 3-Class Training Model performance
 
-For the 3-class problem, in total four training runs were performed using all four available base architectures (from light to heavy computational wise):
-
-- \`MobileNet-V2\`
-- \`EfficientNet-Lite0\`
-- \`EfficientNet-Lite2\`
-- \`EfficientNet-Lite4\`
-
-For each run the reported metrics below are derived from evaluation on the same held-out on the test split.
+For the 3-class problem, in total four training runs were performed using all four available base architectures (from light to heavy computational wise). Each run reports their metrics derived from evaluation on the same held-out on the test split.
 
 ### Training 1 (MobileNet-V2 architecture)
 
@@ -576,21 +605,25 @@ For each run the reported metrics below are derived from evaluation on the same 
 
 [Model evaluate(internal performance metric) loss/accuracy on dataset_obj:]{.underline} 0.736599/0.748744
 
-**Confusion matrix**
+**Confusion matrix (rows=`True class`, cols=`Predicted class`)**
 
-| True predicted | normal | slumped | tensed |
-|----------------|-------:|--------:|-------:|
-| normal         |     24 |      21 |     18 |
-| slumped        |     26 |      20 |     16 |
-| tensed         |     23 |      34 |     17 |
+| True $\backslash$ Predicted | normal | slumped | tensed |
+|----------------------------:|-------:|--------:|-------:|
+|                      normal |     24 |      21 |     18 |
+|                     slumped |     26 |      20 |     16 |
+|                      tensed |     23 |      34 |     17 |
+
+: @tab-training-3class-1: Confusion matrix for 3-class training 1 showing slight over-prediction of `slumped` class.
 
 **Row-normalized confusion matrix (recall by class)**
 
-| True predicted | normal | slumped | tensed |
-|----------------|-------:|--------:|-------:|
-| normal         | 0.3810 |  0.3333 | 0.2857 |
-| slumped        | 0.4194 |  0.3226 | 0.2581 |
-| tensed         | 0.3108 |  0.4595 | 0.2297 |
+| True $\backslash$ Predicted | normal | slumped | tensed |
+|----------------------------:|-------:|--------:|-------:|
+|                      normal | 0.3810 |  0.3333 | 0.2857 |
+|                     slumped | 0.4194 |  0.3226 | 0.2581 |
+|                      tensed | 0.3108 |  0.4595 | 0.2297 |
+
+: @tab-training-row-3class-1: Row-normalized confusion matrix for 3-class training 1 showing slight over-prediction of `slumped` class.
 
 [Per-class support:]{.underline}
 
@@ -611,7 +644,9 @@ For each run the reported metrics below are derived from evaluation on the same 
 | **Macro avg.**    |    0.3096 | **0.3111** |   0.3056 |     199 |
 | **Weighted avg.** |    0.3111 |     0.3065 |   0.3038 |     199 |
 
-![3-Class - Training 1 confusion matrix showing under-representation of \`tensed posture\` class.](literature/Results/Training_3-class_1.png){#fig-training-3class-1}
+: @tab-report-training-3class-1: Classification results for 3-class training 1 showing an accuracy of 30.65% and a balanced accuracy of 31.11%.
+
+![@fig-training-3class-1: Confusion matrix showing under-representation of \`tensed posture\` class.](literature/Results/Training_3-class_1.png){#fig-training-3class-1}
 
 ### Training 2 (EfficientNet-Lite0 architecture)
 
@@ -619,21 +654,25 @@ For each run the reported metrics below are derived from evaluation on the same 
 
 [Model evaluate(internal performance metric) loss/accuracy on dataset_obj:]{.underline} 0.638240/0.824121
 
-**Confusion matrix**
+**Confusion matrix (rows=`True class`, cols=`Predicted class`)**
 
-| True predicted | normal | slumped | tensed |
-|----------------|-------:|--------:|-------:|
-| normal         |      4 |      38 |     21 |
-| slumped        |      2 |      40 |     20 |
-| tensed         |      3 |      51 |     20 |
+| True $\backslash$ Predicted | normal | slumped | tensed |
+|----------------------------:|-------:|--------:|-------:|
+|                      normal |      4 |      38 |     21 |
+|                     slumped |      2 |      40 |     20 |
+|                      tensed |      3 |      51 |     20 |
+
+: @tab-training-3class-2: Confusion matrix for 3-class training 2 showing under-representation of `normal posture` class and a preference for `slumped posture`.
 
 **Row-normalized confusion matrix (recall by class)**
 
-| True predicted | normal | slumped | tensed |
-|----------------|-------:|--------:|-------:|
-| normal         | 0.0635 |  0.6032 | 0.3333 |
-| slumped        | 0.0323 |  0.6452 | 0.3226 |
-| tensed         | 0.0405 |  0.6892 | 0.2703 |
+| True $\backslash$ Predicted | normal | slumped | tensed |
+|----------------------------:|-------:|--------:|-------:|
+|                      normal | 0.0635 |  0.6032 | 0.3333 |
+|                     slumped | 0.0323 |  0.6452 | 0.3226 |
+|                      tensed | 0.0405 |  0.6892 | 0.2703 |
+
+: @tab-training-row-3class-2: Row-normalized confusion matrix for 3-class training 2 showing under-representation of `normal posture` class and a preference for `slumped posture`.
 
 [Per-class support:]{.underline}
 
@@ -654,7 +693,9 @@ For each run the reported metrics below are derived from evaluation on the same 
 | **Macro avg.**    |    0.3608 | **0.3263** |   0.2754 |     199 |
 | **Weighted avg.** |    0.3592 |     0.3216 |   0.2759 |     199 |
 
-![3-Class - Training 2 confusion matrix showing under-representation of \`normal posture\` class and a preference for \`slumped posture\`.](literature/Results/Training_3-class_2.png){#fig-training-3class-2}
+: @tab-report-training-3class-2: Classification results for 3-class training 2 showing an accuracy of 32.16% and a balanced accuracy of 32.63%.
+
+![@fig-training-3class-2: Confusion matrix showing under-representation of \`normal posture\` class and a preference for \`slumped posture\`.](literature/Results/Training_3-class_2.png){#fig-training-3class-2}
 
 ### Training 3 (EfficientNet-Lite2 architecture)
 
@@ -662,21 +703,25 @@ For each run the reported metrics below are derived from evaluation on the same 
 
 [Model evaluate(internal performance metric) loss/accuracy on dataset_obj:]{.underline} 0.645087/0.849246
 
-**Confusion matrix**
+**Confusion matrix (rows=`True class`, cols=`Predicted class`)**
 
-| True predicted | normal | slumped | tensed |
-|----------------|-------:|--------:|-------:|
-| normal         |     16 |      36 |     11 |
-| slumped        |     10 |      39 |     13 |
-| tensed         |     12 |      39 |     23 |
+| True $\backslash$ Predicted | normal | slumped | tensed |
+|----------------------------:|-------:|--------:|-------:|
+|                      normal |     16 |      36 |     11 |
+|                     slumped |     10 |      39 |     13 |
+|                      tensed |     12 |      39 |     23 |
+
+: @tab-training-3class-3: Confusion matrix for 3-class training 3 showing preference for `slumped posture` class.
 
 **Row-normalized confusion matrix (recall by class)**
 
-| True predicted | normal | slumped | tensed |
-|----------------|-------:|--------:|-------:|
-| normal         | 0.2540 |  0.5714 | 0.1746 |
-| slumped        | 0.1613 |  0.6290 | 0.2097 |
-| tensed         | 0.1622 |  0.5270 | 0.3108 |
+| True $\backslash$ Predicted | normal | slumped | tensed |
+|----------------------------:|-------:|--------:|-------:|
+|                      normal | 0.2540 |  0.5714 | 0.1746 |
+|                     slumped | 0.1613 |  0.6290 | 0.2097 |
+|                      tensed | 0.1622 |  0.5270 | 0.3108 |
+
+: @tab-training-row-3class-3: Row-normalized confusion matrix for 3-class training 3 showing preference for `slumped posture` class.
 
 [Per-class support:]{.underline}
 
@@ -697,7 +742,9 @@ For each run the reported metrics below are derived from evaluation on the same 
 | **Macro avg.**    |    0.4175 | **0.3979** |   0.3801 |     199 |
 | **Weighted avg.** |    0.4219 |     0.3920 |   0.3797 |     199 |
 
-![3-Class - Training 3 confusion matrix showing preference of \`slumped posture\` class.](literature/Results/Training_3-class_3.png){#fig-training-3class-3}
+: @tab-report-training-3class-3: Classification results for 3-class training 3 showing an accuracy of 39.20% and a balanced accuracy of 39.79%.
+
+![@fig-training-3class-3: Confusion matrix showing preference of \`slumped posture\` class.](literature/Results/Training_3-class_3.png){#fig-training-3class-3}
 
 ### **Training 4 (EfficientNet-Lite4 architecture)**
 
@@ -705,21 +752,25 @@ For each run the reported metrics below are derived from evaluation on the same 
 
 [Model evaluate(internal performance metric) loss/accuracy on dataset_obj:]{.underline} 0.703537/0.758794
 
-**Confusion matrix**
+**Confusion matrix (rows=`True class`, cols=`Predicted class`)**
 
-| True predicted | normal | slumped | tensed |
-|----------------|-------:|--------:|-------:|
-| normal         |     18 |      33 |     12 |
-| slumped        |     12 |      38 |     12 |
-| tensed         |     15 |      33 |     26 |
+| True $\backslash$ Predicted | normal | slumped | tensed |
+|----------------------------:|-------:|--------:|-------:|
+|                      normal |     18 |      33 |     12 |
+|                     slumped |     12 |      38 |     12 |
+|                      tensed |     15 |      33 |     26 |
+
+: @tab-training-3class-4: Confusion matrix for 3-class training 4 showing preference for `slumped posture` class.
 
 **Row-normalized confusion matrix (recall by class)**
 
-| True predicted | normal | slumped | tensed |
-|----------------|-------:|--------:|-------:|
-| normal         | 0.2857 |  0.5238 | 0.1905 |
-| slumped        | 0.1935 |  0.6129 | 0.1935 |
-| tensed         | 0.2027 |  0.4459 | 0.3514 |
+| True $\backslash$ Predicted | normal | slumped | tensed |
+|----------------------------:|-------:|--------:|-------:|
+|                      normal | 0.2857 |  0.5238 | 0.1905 |
+|                     slumped | 0.1935 |  0.6129 | 0.1935 |
+|                      tensed | 0.2027 |  0.4459 | 0.3514 |
+
+: @tab-training-row-3class-4: Row-normalized confusion matrix for 3-class training 4 showing preference for `slumped posture` class.
 
 [Per-class support:]{.underline}
 
@@ -740,7 +791,9 @@ For each run the reported metrics below are derived from evaluation on the same 
 | **Macro avg.**    |    0.4285 | **0.4167** |   0.4035 |     199 |
 | **Weighted avg.** |    0.4338 |     0.4121 |   0.4041 |     199 |
 
-![3-Class - Training 4 confusion matrix showing again preference of \`slumped posture\` class.](literature/Results/Training_3-class_4.png){#fig-training-3class-4}
+: @tab-report-training-3class-4: Classification results for 3-class training 4 showing an accuracy of 41.21% and a balanced accuracy of 41.67%.
+
+![@fig-training-3class-4: Confusion matrix showing again preference of \`slumped posture\` class.](literature/Results/Training_3-class_4.png){#fig-training-3class-4}
 
 ### Error analysis
 
