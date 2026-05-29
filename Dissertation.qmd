@@ -162,7 +162,7 @@ Modern video analysis with the purpose of detecting pose, movement, and specific
 
 ![Move AI advertising accurate markerless motion capturing on their website.](literature/Media/Move%20AI.png){#fig-move-ai fig-align="right"}
 
-The overarching advantage of these commercial approaches lies in their ability to translate complex, high-frequency spatial-temporal data into actionable clinical diagnostics. They reduce inter-rater variability, the differences between multiple assessors, and enable objective longitudinal tracking. Such standardization of classification, may improve the reliability of qualitative (and quantitative) movement assessments in evidence-based rehabilitation settings. Conversely, the disadvantages often involve high capital expenditure, the requirement for controlled capture environments, and often a reliance on proprietary pipelines that can be difficult to consistently integrate into existing clinical (analytical) workflows.
+The overarching advantage of these commercial approaches lies in their ability to translate complex, high-frequency spatial data into actionable clinical diagnostics. They reduce inter-rater variability, the differences between multiple assessors, and enable objective longitudinal tracking. Such standardization of classification, may improve the reliability of qualitative (and quantitative) movement assessments in evidence-based rehabilitation settings. Conversely, the disadvantages often involve high capital expenditure, the requirement for controlled capture environments, and often a reliance on proprietary pipelines that can be difficult to consistently integrate into existing clinical (analytical) workflows.
 
 When evaluated against image classification models, the advantages of the latter become apparent: low-cost, low-latency identification of specific postural states and movement patterns, albeit at the expense of the quantitative kinematic precision provided by advanced motion-capture and biomechanical analysis systems.
 
@@ -318,8 +318,8 @@ Environment manifest files used for local development and containerization.
 
 All scripts, notebooks and the web app can also be run locally; to do this, a Conda environment needs to be created:
 
-::: {#lst-dockerfiles}
-```bash
+::: {#lst-conda-environment-setup}
+``` bash
 # MediaPipe Model Maker environment
 conda env create -f code/environment_model-maker.yml
 conda activate dissertation-3.10
@@ -329,7 +329,7 @@ conda env create -f code/environment.yml
 conda activate dissertation-3.13
 ```
 
-Dockerfiles for containerization of the training environment.
+Creation of Conda environment for local experimantation.
 :::
 
 ### Streamlit Web App Interface
@@ -374,7 +374,7 @@ Inference research client scripts live in code `code/scripts/` (for example `cus
 python code/scripts/custom_tflite_image_classifier.py --model data/models/<run>/model.tflite --image data/images/example.jpg
 ```
 
-Example usage of the custom TFLite image classifier script for testing a trained model on an example image. 
+Example usage of the custom TFLite image classifier script for testing a trained model on an example image.
 :::
 
 ::: {#lst-human-posture-analysis-example}
@@ -492,10 +492,8 @@ Confusion matrix for 2-class training 1 showing class imbalance and preference f
 | **macro avg.**     |    0.5000 | **0.5000** |   0.4886 |      30 |
 | **weighted avg.**  |    0.6800 |     0.6000 |   0.6318 |      30 |
 
-Classification results for 2-class training 1 showing an accuracy of 60%, but on a highly imbalanced class distribution. 
+Classification results for 2-class training 1 showing an accuracy of 60%, but on a highly imbalanced class distribution.
 :::
-
-![Confusion matrix showing low amount of test images and preference for category \`non-normal posture\`.](literature/Results/Training_2-class_1.png){#fig-training-2class-1}
 
 ### Training 2
 
@@ -546,8 +544,6 @@ Row-normalized confusion matrix for 2-class training 2 showing class imbalance a
 Classification results for 2-class training 2 showing an accuracy of 53.16%.
 :::
 
-![Confusion matrix showing \`normal posture\` class preference.](literature/Results/Training_2-class_2.png){#fig-training-2class-2}
-
 ### Training 3 (extra body landmark overlay)
 
 [Prediction-derived overall accuracy:]{.underline} 0.5585
@@ -597,13 +593,13 @@ Row-normalized confusion matrix for 2-class training 3 showing class imbalance a
 Classification results for 2-class training 3 showing an accuracy of 55.85%.
 :::
 
-![Confusion matrix again showing \`normal posture\` class preference.](literature/Results/Training_2-class_3.png){#fig-training-2class-3}
-
 ### Error analysis
 
-**Training run 1** achieves the highest accuracy of 0.6000. The confusion matrix using the test-image subset shows that performance is uneven across classes: out of 24 non-normal posture cases, 16 are correctly classified and 8 are misclassified as normal, resulting in a recall of 0.6667. In contrast, only 2 out of 6 normal posture cases are correctly identified, while 4 are misclassified as non-normal, yielding a recall of 0.3333. This indicates a clear bias towards correctly predicting non-normal posture while under-detecting normal posture.
+@tbl-report-training-2class-1 achieves the highest accuracy of 0.60. The confusion matrix using the test-image subset shows that performance is uneven across classes: out of 24 non-normal posture cases, 16 are correctly classified and 8 are misclassified as normal, resulting in a recall of 0.6667. In contrast, only 2 out of 6 normal posture cases are correctly identified, while 4 are misclassified as non-normal, yielding a recall of 0.3333. This indicates a clear bias towards correctly predicting non-normal posture while under-detecting normal posture.
 
-As the normal posture class contains only 6 test images, the recall estimate for this class is highly sensitive to single misclassifications and therefore unstable. Consequently, using accuracy as the primary performance indicator is misleading due to both the small sample size and the strong class-wise imbalance. Therefore, **balanced accuracy (macro recall)** is introduced as the primary evaluation metric, which is **0.5000**, as it assigns equal weight to each class and directly reflects class-wise sensitivity (recall), providing a more reliable assessment of model performance across posture categories. Secondly two annotation strategies to increase the total number of images are used for following runs:
+As the normal posture class contains only 6 test images, the recall estimate for this class is highly sensitive to single misclassifications and therefore unstable. Consequently, using accuracy as the primary performance indicator is misleading due to both the small sample size and the strong class-wise imbalance. Therefore, **balanced accuracy (macro recall)** is introduced as the primary evaluation metric, as it assigns equal weight to each class and directly reflects class-wise sensitivity (recall). This strategy will provide a more reliable assessment of model performance across posture categories.
+
+Secondly two annotation strategies to increase the total number of images are used for following runs:
 
 - **noise:** Several OpenCV image processing routines where applied to multiply the original 300 images to changed duplicates. Techniques used are:
 
@@ -617,9 +613,9 @@ As the normal posture class contains only 6 test images, the recall estimate for
 
 - **overlay:** With a pre-trained Google MediaPipe Pose model, which estimates 33 body landmarks to create a skeletal pose representation, the original 300 images were processed into augmented copies with landmark overlays and color coding (white/red) to indicate posture angles and quality (see Fig. A1).
 
-**Training run 2** with no overlays but total 1500 images after annotation, achieves an accuracy of 0.5316 and a balanced accuracy of **0.5358**, slightly higher than the first Training run with only 300. The confusion matrix shows an uneven class-wise performance: out of 82 **non-normal posture** cases, 35 are correctly classified as non-normal, while 47 are misclassified as normal, resulting in a recall of 0.4268. In contrast, out of 76 **normal posture** cases, 49 are correctly identified, while 27 are misclassified as non-normal, yielding a recall of 0.6447.
+@tbl-report-training-2class-2 with no overlays but total 1500 images after annotation, achieves an accuracy of 0.5316 and a balanced accuracy of **0.5358**, slightly higher than the first Training run with only 300. The confusion matrix shows an uneven class-wise performance: out of 82 **non-normal posture** cases, 35 are correctly classified as non-normal, while 47 are misclassified as normal, resulting in a recall of 0.4268. In contrast, out of 76 **normal posture** cases, 49 are correctly identified, while 27 are misclassified as non-normal, yielding a recall of 0.6447.
 
-**Training run 3** with additional landmark overlay images (\>1800 images) achieves an accuracy of 0.5585 and a balanced accuracy of **0.5562**. Compared to run 2, class-wise performance becomes more balanced: recall for non-normal cases decreases slightly, while recall for normal cases increases, reducing the class imbalance in sensitivity. This indicates that landmark overlays shift the decision boundary towards improved representation of the minority class, resulting in a more even distribution of classification errors across classes.
+@tbl-report-training-2class-3 with additional landmark overlay images (\>1800 images) achieves an accuracy of 0.5585 and a balanced accuracy of **0.5562**. Compared to run 2, class-wise performance becomes more balanced: recall for non-normal cases decreases slightly, while recall for normal cases increases, reducing the class imbalance in sensitivity. This indicates that landmark overlays shift the decision boundary towards improved representation of the minority class, resulting in a more even distribution of classification errors across classes.
 
 Overall, both ladder models still perform only marginally above the 50% chance level, but the overlay-based model provides a measurable improvement in class-balanced performance rather than accuracy alone.
 
@@ -680,8 +676,6 @@ Row-normalized confusion matrix for 3-class training 1 showing slight over-predi
 Classification results for 3-class training 1 showing an accuracy of 30.65% and a balanced accuracy of 31.11%.
 :::
 
-![Confusion matrix showing under-representation of \`tensed posture\` class.](literature/Results/Training_3-class_1.png){#fig-training-3class-1}
-
 ### Training 2 (EfficientNet-Lite0 architecture)
 
 [Prediction-derived overall accuracy:]{.underline} 0.3216
@@ -734,8 +728,6 @@ Row-normalized confusion matrix for 3-class training 2 showing under-representat
 
 Classification results for 3-class training 2 showing an accuracy of 32.16% and a balanced accuracy of 32.63%.
 :::
-
-![Confusion matrix showing under-representation of \`normal posture\` class and a preference for \`slumped posture\`.](literature/Results/Training_3-class_2.png){#fig-training-3class-2}
 
 ### Training 3 (EfficientNet-Lite2 architecture)
 
@@ -790,8 +782,6 @@ Row-normalized confusion matrix for 3-class training 3 showing preference for `s
 Classification results for 3-class training 3 showing an accuracy of 39.20% and a balanced accuracy of 39.79%.
 :::
 
-![Confusion matrix showing preference of \`slumped posture\` class.](literature/Results/Training_3-class_3.png){#fig-training-3class-3}
-
 ### **Training 4 (EfficientNet-Lite4 architecture)**
 
 [Prediction-derived overall accuracy:]{.underline} 0.4121
@@ -812,7 +802,7 @@ Confusion matrix for 3-class training 4 showing preference for `slumped posture`
 
 **Row-normalized confusion matrix (recall by class)**
 
-:::{#tbl-training-row-3class-4}
+::: {#tbl-training-row-3class-4}
 | True $\backslash$ Predicted | normal | slumped | tensed |
 |----------------------------:|-------:|--------:|-------:|
 |                      normal | 0.2857 |  0.5238 | 0.1905 |
@@ -845,15 +835,13 @@ Row-normalized confusion matrix for 3-class training 4 showing preference for `s
 Classification results for 3-class training 4 showing an accuracy of 41.21% and a balanced accuracy of 41.67%.
 :::
 
-![Confusion matrix showing again preference of \`slumped posture\` class.](literature/Results/Training_3-class_4.png){#fig-training-3class-4}
-
 ### Error analysis
 
 Across all experiments a consistent pattern of misclassification is apparent. The models show relatively high recall for the `slumped posture` class but lower precision, indicating a tendency to predict `slumped` for a wide range of inputs exemplified visible in @fig-training-3class-3. `Normal posture` is frequently misclassified (low recall in several runs), and `tensed posture` predictions vary by architecture: deeper Lite variants tended to improve overall discrimination.
 
-- Best overall accuracy and balanced recall were achieved by EfficientNet-Lite4 (accuracy 0.4121, balanced accuracy **0.4167**).
-- EfficientNet-Lite2 performed second best (accuracy 0.3920, balanced accuracy **0.3979**).
-- EfficientNet-Lite0 and MobileNet-V2 produced lower overall accuracy (0.3216 and **0.3065** respectively) and lower balanced accuracy.
+- Best overall accuracy and balanced recall were achieved by EfficientNet-Lite4 (accuracy 0.4121, balanced accuracy **0.4167**) - @tbl-training-3class-4.
+- EfficientNet-Lite2 performed second best (accuracy 0.3920, balanced accuracy **0.3979**) - @tbl-training-3class-3.
+- EfficientNet-Lite0 and MobileNet-V2 produced lower overall accuracy (0.3216 and **0.3065** respectively) and lower balanced accuracy - @tbl-training-3class-1 and @tbl-training-3class-2.
 
 #### Common failure modes observed in confusion matrices
 
@@ -949,20 +937,6 @@ Last but not least, a dedicated iOS application should be developed to deploy th
 @fig-streamlit-app
 
 @fig-CNN-workflow
-
-@fig-training-2class-1
-
-@fig-training-2class-2
-
-@fig-training-2class-3
-
-@fig-training-3class-1
-
-@fig-training-3class-2
-
-@fig-training-3class-3
-
-@fig-training-3class-4
 
 @fig-overlay-mediapipe: Google MediaPipe Pose overlay to show angles of head/neck and torso.
 
