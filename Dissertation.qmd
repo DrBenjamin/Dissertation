@@ -287,7 +287,7 @@ For editing the Quarto dissertation project file a RStudio Server was utilized. 
 
 ::: {#tbl-software-framework-service-stack}
 | Category | Technologies / Services |
-|----|----|
+|------------------------------------|------------------------------------|
 | Conda programming environments | Python 3.10 (Model Maker), Python 3.13 (Inference) |
 | Core deep learning frameworks | MediaPipe Pose 0.10.20, MediaPipe Model Maker 0.2.1.3, TensorFlow (+Lite, bundled) 2.19.1, Keras 3.12.1 |
 | Supporting Python libraries | OpenCV, NumPy, Pandas, Matplotlib, FastAPI |
@@ -797,7 +797,19 @@ The strongest three‑class model (EfficientNet‑Lite4) reached 41.2% accuracy 
 
 ## Strengths and limitations
 
-The strongest three‑class model (@tbl-report-training-3class-4 - EfficientNet‑Lite4) reached 41.2% accuracy (41.7% balanced accuracy). Reformulating the task as binary improved raw accuracy to 55.9% (55.6% balanced) with landmark overlays, indicating that explicit skeletal cues modestly aid detection. However, because the binary chance level is higher (1/2 vs 1/3), these gains largely reflect problem simplification; after accounting for chance, both formulations perform only slightly above baseline. Persistent confusions—especially “normal” misclassified as “slumped”—suggest real class overlap, subtle posture cues, and probable label noise. Given the small dataset and static imagery, these findings point to feasibility rather than readiness for clinical deployment. Priorities for improvement include targeted data growth at class boundaries, refined and possibly multi‑rater labels, posture‑aware augmentation and sampling, and post‑hoc calibration or thresholds to balance sensitivity and specificity for clinically meaningful use.
+This study demonstrates that transfer learning on compact CNN architectures within the MediaPipe/TFLite stack is applicable to clinically oriented posture classification. The highest-performing three-class model (\@tbl-report-training-3class-4 – EfficientNet-Lite4) achieved an accuracy of 41.2% (41.7% balanced accuracy), whilst the binary formulation achieved an accuracy of 55.9% (55.6% balanced accuracy) when landmark overlays were incorporated. The improved performance with overlays suggests that explicit skeletal features can modestly enhance the discrimination of postures.
+
+A further strength lies in the practical and scalable implementation approach. The use of lightweight TensorFlow Lite models enables low-latency inference on off-the-shelf consumer hardware and mobile devices, thereby supporting potential future deployment in the fields of digital health and rehabilitation. Furthermore, the study established a reproducible CI/CD and containerised research pipeline that supports systematic experimentation, reproducibility and deployment readiness.
+
+Another strength is the clinically grounded framework for posture classification, which is based on Klein-Vogelbach. Rather than focusing exclusively on generic pose estimation, the study sought to align the results of machine learning with clinically meaningful posture categories, thereby increasing interpretability and practical relevance.
+
+Despite these strengths, the models performed only marginally above chance when the task complexity was taken into account. As the binary chance level is inherently higher (1/2 versus 1/3), part of the observed performance gain reflects a simplification of the classification problem rather than a substantially improved discriminatory power.
+
+Persistent misclassifications – in particular the frequent misclassification of the ‘normal’ posture as ‘bent’ – point to significant class overlaps and probable label noise within the dataset. The relatively small size of the dataset and in addition, to ensure that the images can be clearly classified regarding the Klein-Vogelbach method, subjetcs shown in non-standing or full body (feet to head) focus, lowered training success. As this dataset only partially met these criteria, for example, many images showed people in different sitting positions or only the upper body, which may have introduced additional variability and compromised the reliability of the classification. These factors increased the risk of subjective bias and inconsistent class boundaries.
+
+The dataset may also lack demographic diversity, which could limit fairness and external validity across different populations. Furthermore, whilst the use of synthetically augmented images is necessary to increase the sample size, it may not fully reflect the variability of posture in the real world. Consequently, the results support the feasibility of a proof-of-concept rather than readiness for clinical use.
+
+Future improvements should focus on targeted data collection at class boundaries, multi-rater annotation protocols, posture-aware augmentation strategies, probability calibration and threshold optimisation to achieve clinically meaningful sensitivity and specificity.Translated with DeepL.com (free version)
 
 ## Clinical and practical implications
 
@@ -831,17 +843,15 @@ In addition, interpretable posture-derived features extracted from landmarks (e.
 
 Future work should include external validation on a held-out site or device to assess generalisability beyond the current data source test data-set. In addition, model performance should be reported across relevant subgroups (e.g., sex, age bands, and skin tone), including an analysis of confusion patterns to identify systematic biases or failure modes. Learning-curve analyses should further be conducted to quantify data requirements and inform targeted data collection for improving model robustness and fairness.
 
-## Deployment readiness
+## Example Milestones
 
-For deployment readiness, inference should be performed on-device to ensure low latency and preserve user privacy within the authors E-Health SaaS service *Serious Ben Entertainment* for the German health market, where posture detection is embedded in a digital serious back school game. To enhance reliability in this preventive context, the system should implement confidence gating, allowing the model to abstain or flag cases as “needs review” when prediction certainty is low. In addition, datasets and model versions should be systematically tracked to ensure reproducibility and regulatory transparency. Post-deployment, continuous monitoring for data drift is required, with periodic recalibration to maintain performance as usage conditions, devices, and user populations evolve.
+To define a concrete milestone, like a on-site pilot study, a small-scale feasibility study to extend the current work, primarily to assess data quality and pipeline robustness under clinical conditions, could be conducted. If so, it should try to create approximately 1,000 newly class-balanced clinical images with the earlier mentioned criteria (standing, full-body-view, side-view). Model performance should be evaluated on an external test split to test for clinically meaningful classification performance.
 
-## Milestones
+Further future work could also prioritize the transition to a structured four-body-block pose detection approach aligned with Klein-Vogelbach’s framework. This involves training models to estimate the relative position and orientation of the head, thorax, pelvis, and lower extremities, enabling direct modelling of inter-segment relationships rather than relying on high-dimensional joint inputs. Such an approach may improve robustness and interpretability. Model development should be accompanied by clinically informed annotation protocols and validated against expert-labelled reference data to ensure alignment with functional movement assessment standards.
 
-As a concrete milestone, a on-site pilot study should be conducted creating approximately 1,000 newly class-balanced clinical images. Model performance should be evaluated on an external test split, with a target balanced accuracy (three-class, macro recall) in the range of **0.60–0.65** to demonstrate improved generalisability and clinically meaningful classification performance.
+For deployment readiness, inference could be performed on-device to preserve user privacy within the authors E-Health SaaS service *Serious Ben Entertainment* for the German health market, where posture detection is embedded in a digital serious back school game. To enhance reliability in this preventive context, the system could implement confidence gating, allowing the model to abstain or flag cases as “needs review” when prediction certainty is low. In addition, datasets and model versions should be systematically tracked to ensure reproducibility and regulatory transparency. Post-deployment, continuous monitoring for data drift would be required, with periodic recalibration to maintain performance as usage conditions, devices, and user populations evolve.
 
-Further future work should prioritize the transition to a structured four-body-block pose detection approach aligned with Klein-Vogelbach’s framework. This involves training models to estimate the relative position and orientation of the head, thorax, pelvis, and lower extremities, enabling direct modelling of inter-segment relationships rather than relying on high-dimensional joint inputs. Such an approach may improve robustness and interpretability. Model development should be accompanied by clinically informed annotation protocols and validated against expert-labelled reference data to ensure alignment with functional movement assessment standards.
-
-Last but not least, a dedicated iOS application should be developed to deploy the trained models on Apple’s A-series chip architecture, leveraging the integrated Neural Engine for efficient on-device inference. This would enable real-time posture analysis with low latency, reduced energy consumption, and enhanced privacy through local processing, while also supporting scalable deployment within mobile E-Health and serious gaming applications.
+Last but not least, a dedicated iOS application could be developed to deploy the trained models on Apple’s A-series chip architecture, leveraging the integrated Neural Engine for efficient on-device inference. This would enable real-time posture analysis with low latency, reduced energy consumption, and enhanced privacy through local processing, while also supporting scalable deployment within mobile E-Health and serious gaming applications.
 
 \clearpage
 
