@@ -48,6 +48,7 @@ format:
     number-sections: true
     lof: false
     lot: false
+fig-cap-location: top
 link-citations: true
 csl: "./literature/apa.csl"
 bibliography: "./literature/bibliography.bib"
@@ -160,7 +161,13 @@ Consequently, while MediaPipe Pose serves as a robust foundation for pose detect
 
 Modern video analysis with the purpose of detecting pose, movement, and specific markers in sports activities has undergone a paradigm shift, moving from subjective clinical intuition to high-fidelity, data-driven kinematic quantification. Commercial ecosystems like @MAR-Systems-Ltd2026 leverage dual-camera 3D reconstruction to analyze over 40 biomechanical metrics without intrusive markers, targeting retail efficiency and rapid, evidence-based footwear recommendations. Similarly, @RunDNA2026 employs advanced motion capture to track kinetic and kinematic variables from foot strike to toe-off, providing practitioners with a granular, 3D anatomical breakdown of movement asymmetries. For integrated clinical environments, the @Medical-XPRT2026 combines 3D camera technology with a sensorized, load-cell-equipped treadmill to provide real-time biofeedback and synchronized gait analysis. Supplementing these laboratory-grade tools, @Running-Reborn-20262026 utilizes wearable inertial measurement units (IMUs) to provide continuous, longitudinal monitoring of temporal outcomes like ground contact time and cadence, albeit with sensitivity to speed-dependent discrepancies. At the vanguard of performance capture, @Move-AI-Ltd2026 offers sophisticated, markerless motion capture solutions that utilize computer vision to extract high-fidelity skeletal data from multi-camera footage, facilitating biomechanical analysis outside of traditional studio settings as shown in @fig-move-ai.
 
-![Move AI advertising accurate markerless motion capturing on their website.](literature/Media/Move%20AI.png){#fig-move-ai fig-align="right"}
+::: {#fig-move-ai}
+![Move AI](literature/Media/Move%20AI.png){fig-align="right"}
+
+**Legend:** *Participant* (left) • *1st virtual avatar* (middle) • *2nd virtual avatar* (right)
+
+Move AI advertising accurate markerless motion capturing on their website.
+:::
 
 The overarching advantage of these commercial approaches lies in their ability to translate complex, high-frequency spatial data into actionable clinical diagnostics. They reduce inter-rater variability, the differences between multiple assessors, and enable objective longitudinal tracking. Such standardization of classification, may improve the reliability of qualitative (and quantitative) movement assessments in evidence-based rehabilitation settings. Conversely, the disadvantages often involve high capital expenditure, the requirement for controlled capture environments, and often a reliance on proprietary pipelines that can be difficult to consistently integrate into existing clinical (analytical) workflows.
 
@@ -180,7 +187,9 @@ The study will be conducted remotely using a secondary dataset. All data analysi
 
 ## Data source, preprocessing and class definition
 
-The training image dataset contained 300 original images distributed across two or three classes, which was done manually through expert-informed visual posture classification by the author. For all but the first 2-class training, the number from 300 original images were synthetically expanded to between 1500 up to 1800 images, depending on whether extra annotated images with body landmark overlay were used or not. The overlays were generated with the Google MediaPipe Pose framework to incorporate explicit skeletal structure information. As this study uses secondary image data of an openly available "Posture Keypoints Detection – Photos & Labels" dataset on Kaggle only, there was no possibility to increase the amount of samples other than augmenting the existing image data. The original dataset consists of 300 images in static side view in different positions with image resolutions of up to around 1.6 MP and an overall high quality look.
+The training image dataset contained 300 original images distributed across training and test images. These two folders were unified, as a later Extract Transform Load (ETL) - pipeline is splitting dynamically by configured settings. The photographs of the individuals were taken from the side, although their postures and the parts of the body shown (full-body shots, partial shots such as the upper body) varied considerably.
+
+For the experiments, two and three class transfer learning, the images were manually classified through expert-informed visual posture analysis by the author. For all, but the first 2-class training, the number from 300 original images were synthetically expanded to between 1500 up to 1800 images, depending on whether extra annotated images with body landmark overlay were used or not. The overlays were generated with the Google MediaPipe Pose framework to incorporate explicit skeletal structure information. As this study uses secondary image data of an openly available "Posture Keypoints Detection – Photos & Labels" dataset on Kaggle only, there was no possibility to increase the amount of samples other than augmenting the existing image data. The original dataset consists of 300 images in static side view in different positions with image resolutions of up to around 1.6 MP and an overall high quality look.
 
 Unlike large-scale, general-purpose image datasets, this Kaggle dataset is specifically curated for posture analysis. It focuses on side-view images suitable for assessing sagittal-plane alignment and often only upper-body posture, missing the limbs and feet. The relatively small dataset size and potential demographic limitations may constrain generalizability and fairness.
 
@@ -213,7 +222,13 @@ This three-class formulation enables the CNN to distinguish between physiologica
 
 The posture classification follows 3 types of poses regarding posture classifications by @Klein-Vogelbach1990 as illustrated in @fig-klein-vogelbach-posture.
 
-![3 types of posture types defined by Klein-Vogelbach, the underlying functional movement concept was developed between 1955-1975.](literature/Media/3_posture_types.png){#fig-klein-vogelbach-posture}
+::: {#fig-klein-vogelbach-posture}
+![3 types of posture](literature/Media/3_posture_types.png)
+
+**Legend:** *tensed* (left) • *slumped* (middle) • *normal* (right)
+
+3 types of posture types defined by Klein-Vogelbach, the underlying functional movement concept was developed between 1955-1975.
+:::
 
 ### The classes
 
@@ -233,20 +248,14 @@ The author manually annotated and assigned the 300 images to one of these classe
 #### Exposures/independent variables
 
 - **Image category/context:** Static posture images in standardized side view.
-- **Camera/view angle:** Minor variation in pose estimation accuracy depending on exact lateral positioning.
+- **Camera/view angle:** Minor variation in pose estimation accuracy depending on exact lateral positioning as well as various close-ups of individuals.
 
 #### Covariates/control features
 
 - **Image characteristics:** Resolution, background, and lighting, which may influence model performance.
 - **Posture variation:** Degree of anterior head translation, kyphosis, and other sagittal-plane deviations.
 
-#### Extracted features
-
-- **Skeletal keypoints:** Annotated landmarks in YOLO pose format and MediaPipe Pose outputs.
-- **Kinematic proxies:** Angular relationships between key joints and segments.
-- **Postural imbalance markers:** Anterior head translation, sagittal imbalance, and deviations from expected alignment patterns.
-
-All selected images from the Kaggle dataset undergo data augmentation (e.g., small rotations, cropping, brightness adjustments) to increase sample size and improve generalization while preserving clinically meaningful posture characteristics.
+All selected images from the Kaggle dataset undergo data augmentation (e.g., small rotations, cropping, brightness adjustments) before transfer learning is applied to increase sample size and improve generalization while preserving clinically meaningful posture characteristics.
 
 ## Model development and transfer learning
 
@@ -256,12 +265,22 @@ Deploying the resulting model as a quantized TensorFlow Lite artifact supports r
 
 ## Analysis and performance evaluation
 
-The analysis will proceed in two phases:
+The analysis was undertaken in two phases:
 
 1.  Descriptive analysis of dataset composition, annotation completeness, and posture-related metrics.
-2.  AI-based classification and pattern recognition using transfer learning and supervised deep learning methods.
+2.  Classification and pattern recognition using transfer learning on a deep learning network.
 
-Model performance will be evaluated using accuracy as the primary metric and, where feasible, precision, recall, F1-score, and confusion matrices. Robustness and generalization will be explored through limited distribution-shift experiments (e.g., withheld images with slight background or lighting variation). All hyperparameters, data splits, and preprocessing steps will be documented to ensure reproducibility.
+Model performance was assessed on the basis of
+
+- **Accuracy**: The proportion of correctly classified examples out of all predictions
+
+- **Precision**: The proportion of correctly predicted positive examples out of all examples predicted as positive
+
+- **Recall**: The proportion of correctly identified positive examples out of all actual positive examples
+
+- **F1 score**: The harmonic mean of precision and recall, which balances both metrics.
+
+Therefore confusion matrices were used to investigate class-specific error patterns. All hyperparameters, data splits and pre-processing steps were documented to ensure reproducibility.
 
 \clearpage
 
@@ -338,7 +357,13 @@ To utilize the existing MediaPipe Pose model to create images with the YOLO 33 b
 
 Streamlit is widely used in the data science sphere, to build interactive data apps. The same Interface was used to test the build classification models, as you can see in @fig-streamlit-app.
 
-![Streamlit Web App with classification of postures using the build quantized model from Training 4 (@tbl-training-row-3class-4).](docs/Streamlit_WebApp.png){#fig-streamlit-app}
+::: {#fig-streamlit-app}
+![Streamlit Web App](docs/Streamlit_WebApp.png)
+
+**Legend:** *Sidebar settings* (left) • *Inference Results* (right)
+
+Streamlit Web App with classification of postures using the build quantized model from Training 4 (@tbl-training-3class-4).
+:::
 
 The app can digest images from the Browser as User upload and from the self-hosted MinIO server. As later described, a n8n automation was processing images automatically from a MinIO bucket (and saved it back to a second bucket), the App uses the same API to classify or annotate images (when a pose model is chosen). This lead to a more efficient development, as only on source of truth for the image detection/processing code was needed.
 
@@ -430,9 +455,15 @@ Github Actions of a Github Pages repository is trigged to render the Quarto arti
 - MediaPipe API (container two) for inference calls.
 - MinIO file storage to persist augmented images.
 
-The @fig-CNN-workflow illustration shows the whole implementation setup and dependencies.
+@fig-CNN-workflow visualizes the complex implementation setup and the dependencies.
 
-![Implementation map illustrates the pipelines, automation and containerization.](docs/CNN%20Workflow.drawio.png){#fig-CNN-workflow}
+::: {#fig-CNN-workflow}
+![Illustration](docs/CNN%20Workflow.drawio.png)
+
+**Legend:** *Creation layer* (blue) • *Computation layer* (orange) • *Infrastructure layer* (green) • *Build layer* (purple) • *Consume layer* (red)
+
+Implementation map illustrates the pipelines, automation and containerization.
+:::
 
 \clearpage
 
@@ -801,15 +832,13 @@ This study demonstrates that transfer learning on compact CNN architectures with
 
 A further strength lies in the practical and scalable implementation approach. The use of lightweight TensorFlow Lite models enables low-latency inference on off-the-shelf consumer hardware and mobile devices, thereby supporting potential future deployment in the fields of digital health and rehabilitation. Furthermore, the study established a reproducible CI/CD and containerised research pipeline that supports systematic experimentation, reproducibility and deployment readiness.
 
-Another strength is the clinically grounded framework for posture classification, which is based on Klein-Vogelbach. Rather than focusing exclusively on generic pose estimation, the study sought to align the results of machine learning with clinically meaningful posture categories, thereby increasing interpretability and practical relevance.
+Another strength is the clinically grounded framework for posture classification, which is based on Klein-Vogelbach. Rather than focusing exclusively on generic pose estimation, the study sought to align the results of deep learning with clinically meaningful posture categories, thereby increasing interpretability and practical relevance.
 
 Despite these strengths, the models performed only marginally above chance when the task complexity was taken into account. As the binary chance level is inherently higher (1/2 versus 1/3), part of the observed performance gain reflects a simplification of the classification problem rather than a substantially improved discriminatory power.
 
 Persistent misclassifications – in particular the frequent misclassification of the ‘normal’ posture as ‘bent’ – point to significant class overlaps and probable label noise within the dataset. The relatively small size of the dataset and in addition, to ensure that the images can be clearly classified regarding the Klein-Vogelbach method, subjetcs shown in non-standing or full body (feet to head) focus, lowered training success. As this dataset only partially met these criteria, for example, many images showed people in different sitting positions or only the upper body, which may have introduced additional variability and compromised the reliability of the classification. These factors increased the risk of subjective bias and inconsistent class boundaries.
 
 The dataset may also lack demographic diversity, which could limit fairness and external validity across different populations. Furthermore, whilst the use of synthetically augmented images is necessary to increase the sample size, it may not fully reflect the variability of posture in the real world. Consequently, the results support the feasibility of a proof-of-concept rather than readiness for clinical use.
-
-Future improvements should focus on targeted data collection at class boundaries, multi-rater annotation protocols, posture-aware augmentation strategies, probability calibration and threshold optimisation to achieve clinically meaningful sensitivity and specificity.Translated with DeepL.com (free version)
 
 ## Clinical and practical implications
 
@@ -825,7 +854,9 @@ Priorities for future work will center on prospective clinical image collection,
 
 ## Clinical data collection
 
-To acquire a larger, prospectively collected side-view image dataset in real clinical settings, a strictly standardized acquisition protocol should be implemented, including fixed camera height at approximately shoulder level, constant camera-to-subject distance, standardized lateral stance, neutral footwear, uncluttered background, and controlled, even lighting conditions. Demographic representativeness across relevant population groups should be ensured as well informed consent and ethics approvals should be obtained. In addition, metadata such as device type, viewing angle, and lighting conditions could be systematically recorded to enable reproducibility and avoid bias assessment and ensuring robust model validation.
+To acquire a larger, prospectively collected side-view image dataset in real clinical settings, a strictly standardized acquisition protocol should be implemented, including fixed camera height at approximately shoulder level, constant camera-to-subject distance, standardized lateral stance, neutral footwear, uncluttered background, and controlled, even lighting conditions. A fixed full-body and standing-position capturing should achieve clinically meaningful sensitivity and specificity.
+
+Demographic representativeness across relevant population groups should be ensured as well informed consent and ethics approvals should be obtained. In addition, metadata such as device type, viewing angle, and lighting conditions could be systematically recorded to enable reproducibility and avoid bias assessment and ensuring robust model validation.
 
 ## Expert annotation
 
@@ -881,6 +912,7 @@ Last but not least, a dedicated iOS application could be developed to deploy the
 | API         | Advanced Programming Interface                  |
 | CI/CD       | Continuous Integration / Continuous Development |
 | CNN         | Convolutional Neural Network                    |
+| ETL         | Extract Transform Load                          |
 | PEM         | Pose Estimation Model                           |
 
 Abbreviations used in this dissertation.
