@@ -338,7 +338,7 @@ To utilize the existing MediaPipe Pose model to create images with the YOLO 33 b
 
 Streamlit is widely used in the data science sphere, to build interactive data apps. The same Interface was used to test the build classification models, as you can see in @fig-streamlit-app.
 
-![Streamlit Web App with classification of postures using the build quantized model from Training 4 (3-class) @fig-training-3class-4.](docs/Streamlit_WebApp.png){#fig-streamlit-app}
+![Streamlit Web App with classification of postures using the build quantized model from Training 4 (@tbl-training-row-3class-4).](docs/Streamlit_WebApp.png){#fig-streamlit-app}
 
 The app can digest images from the Browser as User upload and from the self-hosted MinIO server. As later described, a n8n automation was processing images automatically from a MinIO bucket (and saved it back to a second bucket), the App uses the same API to classify or annotate images (when a pose model is chosen). This lead to a more efficient development, as only on source of truth for the image detection/processing code was needed.
 
@@ -463,17 +463,6 @@ The third run was extended by an additional 300 images, which were augmented usi
 Confusion matrix for 2-class training 1 showing class imbalance and preference for `non-normal posture`.
 :::
 
-**Row-normalized confusion matrix (recall by class)**
-
-::: {#tbl-training-row-2class-1}
-| True $\backslash$ Predicted | non-normal | normal |
-|----------------------------:|-----------:|-------:|
-|                  non-normal |     0.6667 | 0.3333 |
-|                      normal |     0.6667 | 0.3333 |
-
-: Row-normalized confusion matrix for 2-class training 1 showing class imbalance and preference for `non-normal posture`.
-:::
-
 [Per-class support:]{.underline}
 
 - non-normal posture: 24
@@ -512,17 +501,6 @@ Classification results for 2-class training 1 showing an accuracy of 60%, but on
 Confusion matrix for 2-class training 2 showing class imbalance and preference for `normal posture`.
 :::
 
-**Row-normalized confusion matrix (recall by class)**
-
-::: {#tbl-training-row-2class-2}
-| True $\backslash$ Predicted | non-normal | normal |
-|----------------------------:|-----------:|-------:|
-|                  non-normal |     0.4268 | 0.5732 |
-|                      normal |     0.3553 | 0.6447 |
-
-Row-normalized confusion matrix for 2-class training 2 showing class imbalance and preference for `normal posture`.
-:::
-
 [Per-class support:]{.underline}
 
 - non-normal posture: 82
@@ -559,17 +537,6 @@ Classification results for 2-class training 2 showing an accuracy of 53.16%.
 |                      normal |         36 |     61 |
 
 Confusion matrix for 2-class training 3 showing class imbalance and preference for `normal posture`.
-:::
-
-**Row-normalized confusion matrix (recall by class)**
-
-::: {#tbl-training-row-2class-3}
-| True $\backslash$ Predicted | non-normal | normal |
-|----------------------------:|-----------:|-------:|
-|                  non-normal |     0.4835 | 0.5165 |
-|                      normal |     0.3711 | 0.6289 |
-
-Row-normalized confusion matrix for 2-class training 3 showing class imbalance and preference for `normal posture`.
 :::
 
 [Per-class support:]{.underline}
@@ -641,18 +608,6 @@ For the 3-class problem, in total four training runs were performed using all fo
 Confusion matrix for 3-class training 1 showing slight over-prediction of `slumped` class.
 :::
 
-**Row-normalized confusion matrix (recall by class)**
-
-::: {#tbl-training-row-3class-1}
-| True $\backslash$ Predicted | normal | slumped | tensed |
-|----------------------------:|-------:|--------:|-------:|
-|                      normal | 0.3810 |  0.3333 | 0.2857 |
-|                     slumped | 0.4194 |  0.3226 | 0.2581 |
-|                      tensed | 0.3108 |  0.4595 | 0.2297 |
-
-Row-normalized confusion matrix for 3-class training 1 showing slight over-prediction of `slumped` class.
-:::
-
 [Per-class support:]{.underline}
 
 - normal posture: 63
@@ -692,18 +647,6 @@ Classification results for 3-class training 1 showing an accuracy of 30.65% and 
 |                      tensed |      3 |      51 |     20 |
 
 Confusion matrix for 3-class training 2 showing under-representation of `normal posture` class and a preference for `slumped posture`.
-:::
-
-**Row-normalized confusion matrix (recall by class)**
-
-::: {#tbl-training-row-3class-2}
-| True $\backslash$ Predicted | normal | slumped | tensed |
-|----------------------------:|-------:|--------:|-------:|
-|                      normal | 0.0635 |  0.6032 | 0.3333 |
-|                     slumped | 0.0323 |  0.6452 | 0.3226 |
-|                      tensed | 0.0405 |  0.6892 | 0.2703 |
-
-Row-normalized confusion matrix for 3-class training 2 showing under-representation of `normal posture` class and a preference for `slumped posture`.
 :::
 
 [Per-class support:]{.underline}
@@ -747,18 +690,6 @@ Classification results for 3-class training 2 showing an accuracy of 32.16% and 
 Confusion matrix for 3-class training 3 showing preference for `slumped posture` class.
 :::
 
-**Row-normalized confusion matrix (recall by class)**
-
-::: {#tbl-training-row-3class-3}
-| True $\backslash$ Predicted | normal | slumped | tensed |
-|----------------------------:|-------:|--------:|-------:|
-|                      normal | 0.2540 |  0.5714 | 0.1746 |
-|                     slumped | 0.1613 |  0.6290 | 0.2097 |
-|                      tensed | 0.1622 |  0.5270 | 0.3108 |
-
-Row-normalized confusion matrix for 3-class training 3 showing preference for `slumped posture` class.
-:::
-
 [Per-class support:]{.underline}
 
 - normal posture: 63
@@ -800,18 +731,6 @@ Classification results for 3-class training 3 showing an accuracy of 39.20% and 
 Confusion matrix for 3-class training 4 showing preference for `slumped posture` class.
 :::
 
-**Row-normalized confusion matrix (recall by class)**
-
-::: {#tbl-training-row-3class-4}
-| True $\backslash$ Predicted | normal | slumped | tensed |
-|----------------------------:|-------:|--------:|-------:|
-|                      normal | 0.2857 |  0.5238 | 0.1905 |
-|                     slumped | 0.1935 |  0.6129 | 0.1935 |
-|                      tensed | 0.2027 |  0.4459 | 0.3514 |
-
-Row-normalized confusion matrix for 3-class training 4 showing preference for `slumped posture` class.
-:::
-
 [Per-class support:]{.underline}
 
 - normal posture: 63
@@ -837,7 +756,7 @@ Classification results for 3-class training 4 showing an accuracy of 41.21% and 
 
 ### Error analysis
 
-Across all experiments a consistent pattern of misclassification is apparent. The models show relatively high recall for the `slumped posture` class but lower precision, indicating a tendency to predict `slumped` for a wide range of inputs exemplified visible in @fig-training-3class-3. `Normal posture` is frequently misclassified (low recall in several runs), and `tensed posture` predictions vary by architecture: deeper Lite variants tended to improve overall discrimination.
+Across all experiments a consistent pattern of misclassification is apparent. The models show relatively high recall for the `slumped posture` class but lower precision, indicating a tendency to predict `slumped` for a wide range of inputs exemplified visible in @tbl-training-3class-3. `Normal posture` is frequently misclassified (low recall in several runs), and `tensed posture` predictions vary by architecture: deeper Lite variants tended to improve overall discrimination.
 
 - Best overall accuracy and balanced recall were achieved by EfficientNet-Lite4 (accuracy 0.4121, balanced accuracy **0.4167**) - @tbl-training-3class-4.
 - EfficientNet-Lite2 performed second best (accuracy 0.3920, balanced accuracy **0.3979**) - @tbl-training-3class-3.
@@ -878,11 +797,11 @@ The strongest three‑class model (EfficientNet‑Lite4) reached 41.2% accuracy 
 
 ## Strengths and limitations
 
-The strongest three‑class model (EfficientNet‑Lite4) reached 41.2% accuracy (41.7% balanced accuracy). Reformulating the task as binary improved raw accuracy to 55.9% (55.6% balanced) with landmark overlays, indicating that explicit skeletal cues modestly aid detection. However, because the binary chance level is higher (1/2 vs 1/3), these gains largely reflect problem simplification; after accounting for chance, both formulations perform only slightly above baseline. Persistent confusions—especially “normal” misclassified as “slumped”—suggest real class overlap, subtle posture cues, and probable label noise. Given the small dataset and static imagery, these findings point to feasibility rather than readiness for clinical deployment. Priorities for improvement include targeted data growth at class boundaries, refined and possibly multi‑rater labels, posture‑aware augmentation and sampling, and post‑hoc calibration or thresholds to balance sensitivity and specificity for clinically meaningful use.
+The strongest three‑class model (@tbl-report-training-3class-4 - EfficientNet‑Lite4) reached 41.2% accuracy (41.7% balanced accuracy). Reformulating the task as binary improved raw accuracy to 55.9% (55.6% balanced) with landmark overlays, indicating that explicit skeletal cues modestly aid detection. However, because the binary chance level is higher (1/2 vs 1/3), these gains largely reflect problem simplification; after accounting for chance, both formulations perform only slightly above baseline. Persistent confusions—especially “normal” misclassified as “slumped”—suggest real class overlap, subtle posture cues, and probable label noise. Given the small dataset and static imagery, these findings point to feasibility rather than readiness for clinical deployment. Priorities for improvement include targeted data growth at class boundaries, refined and possibly multi‑rater labels, posture‑aware augmentation and sampling, and post‑hoc calibration or thresholds to balance sensitivity and specificity for clinically meaningful use.
 
 ## Clinical and practical implications
 
-Given current performance (balanced accuracy ≈41% for three‑class), the model’s most appropriate near‑term role is as a clinician‑in‑the‑loop decision support tool rather than a standalone diagnostic. Keeping in mind that n=300, further annotation and data expansion are needed to train the model to a better overall performance. In practice, the system can assist screening by flagging potentially “non‑normal” cases for closer review, standardize documentation via landmark/angle overlays, and track an individual’s progress over time under consistent capture conditions. Safe deployment requires confidence calibration with an “abstain/needs review” state, threshold tuning to the intended use (e.g., sensitivity‑oriented screening), and clear presentation of uncertainty. To enhance reliability and equity, future work should expand and re‑balance labelled data—particularly at class boundaries—adopt multi‑rater labelling, incorporate interpretable posture‑aware features (e.g., craniovertebral angle), and validate externally across sites, devices, and demographic subgroups. On‑device TFLite inference supports privacy and low latency, but any clinical use should be governed by explicit intended‑use documentation, bias and robustness monitoring.
+Given current performance (balanced accuracy ≈41% for three‑class), the model’s most appropriate near‑term role is as a clinician‑in‑the‑loop decision support tool rather than a standalone diagnostic. Keeping in mind that n=300, further annotation and data expansion are needed to train the model to a better overall performance. In practice, the system can assist screening by flagging potentially “non‑normal” cases for closer review, standardize documentation via landmark/angle overlays, and track an individual’s progress over time under consistent capture conditions. To ensure reliable use, the probabilities predicted by the model must be compared with the actual correctness. An “abstain/needs review” state, would prevent false classification. In the @fig-streamlit-app threshold tuning for confidence of classification is one way, also a clear presentation of uncertainty and a request for a user in the loop. To enhance reliability and equity, future work should expand and re‑balance labelled data—particularly at class boundaries—adopt multi‑rater labelling, incorporate interpretable posture‑aware features (e.g., craniovertebral angle), and validate externally across sites, devices, and demographic subgroups. On‑device TFLite inference supports privacy and low latency, but any clinical use should be governed by explicit intended‑use documentation, bias and robustness monitoring.
 
 \clearpage
 
