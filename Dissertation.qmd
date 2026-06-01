@@ -129,19 +129,17 @@ Finetuning and evaluation of a deep learning model for posture and movement qual
 
 The present work is structured as follows:
 
-The "Literature Review" chapter provides a comprehensive literature review of the current state of the art posture and movement analysis. A focus on the capabilities and limitations of existing pose estimation frameworks such as Google MediaPipe will be given as well a comparison to commercial products.
+The "[Literature Review]" chapter provides a comprehensive literature review of the current state of the art posture and movement analysis. A focus on the capabilities and limitations of existing pose estimation frameworks such as Google MediaPipe will be given as well a comparison to commercial products.
 
-The "Methodology" chapter outlines the methods used, including the study design, data sources, variable definitions, model development approach, and performance evaluation strategies.
+The "[Methodology]" chapter outlines the methods used, including the study design, data sources, variable definitions, model development approach, and performance evaluation strategies.
 
-The "Implementation" chapter details the implementation of the training and inference pipelines with a complex continuous development and integration setup.
+The "[Implementation]" chapter details the implementation of the training and inference pipelines with a complex continuous development and integration setup.
 
-The "Result" chapter presents the results of model performance and error analysis and shows the challenges of training a custom CNN model.
+The "[Results]" chapter presents the results of model performance and error analysis and shows the challenges of training a custom CNN model.
 
-The "Discussion" chapter addresses the findings in relation to existing literature, strengths and limitations, and clinical implications.
+The "[Discussion]" chapter addresses the findings in relation to existing literature, strengths and limitations, and clinical implications.
 
-The "Conclusion" chapter outlines the expected impact and dissemination plans, while
-
-Whereby the final chapter concludes with a summary of contributions and future work directions.
+The "[Conclusion and Future Work]" chapter outlines the expected impact and dissemination plans, with a summary of contributions and future work directions.
 
 \clearpage
 
@@ -197,7 +195,7 @@ To increase the number of images, various augmentation techniques were applied:
 
 - First, the images were duplicated several times and processed via random image editing utilizing the OpenCV framework. For instance, the color-theme or background color were changed, images were cropped or tilted. For each augmented image, 2 changes were applied.
 
-- Second, a subset of duplicated 300 images with body landmarks as overlay were added to specific runs. This was achieved by an existing MediaPipe Pose model which was adding these annotations.
+- Second, a subset of duplicated 300 images with body landmarks as overlay were added to specific runs. This was achieved by an existing MediaPipe Pose model which was adding these annotations. As this process was automated (described in [Automation orchestration (n8n)](#automation-orchestration-n8n)), also partially misaligned overlay could be found in these images (see @fig-overlay-mediapipe2).
 
 Preprocessing was applied consistently for all runs (same processed image data set) to maintain comparability between two and three class runs and the different base architectures:
 
@@ -449,7 +447,7 @@ Github Actions of a Github Pages repository is trigged to render the Quarto arti
 - Checkout repository - Installs Quarto and LaTeX (for PDF rendering).
 - Deploys the dissertation project as HTML on <https://drbenjamin.github.io/dissertation.html>
 
-### Automation orchestration (n8n)
+### Automation orchestration (n8n) {#automation-orchestration-n8n}
 
 `A n8n` server run as a containerized service (two container) to hosts the augmentation workflows. Responsibilities:
 
@@ -457,7 +455,9 @@ Github Actions of a Github Pages repository is trigged to render the Quarto arti
 - MediaPipe API (container two) for inference calls.
 - MinIO file storage to store the original images as well to persist the augmented images.
 
-The n8n automation processes these images, digesting them from a MinIO bucket. The App uses the same MediaPipe API as the Web App, to annotate images with the pose model as the example shows in @fig-overlay-mediapipe. Reusing the API for all inferences lead to a more efficient development, as only on source of truth for the image classfication and detection/processing code was needed. After the inference, the overlay images are saved back to a second bucket.
+The n8n automation processes these images, digesting them from a MinIO bucket. The App uses the same MediaPipe API as the Web App, to annotate images with the pose model as the example shows in @fig-overlay-mediapipe. Some of the annotated images
+
+Reusing the API for all inferences lead to a more efficient development, as only on source of truth for the image classfication and detection/processing code was needed. After the inference, the overlay images are saved back to a second bucket.
 
 @fig-CNN-workflow visualizes the complex implementation setup and the dependencies.
 
@@ -909,6 +909,10 @@ Last but not least, a dedicated iOS application could be developed to deploy the
 @fig-overlay-mediapipe: Example of Google MediaPipe Pose landmarker model overlay whichs show angles of head/neck and torso.
 
 ![Google MediaPipe Pose landmarker model overlay.](literature/Media/Overlay_annotation.jpg){#fig-overlay-mediapipe}
+
+@fig-overlay-mediapipe2: Another example of Google MediaPipe Pose landmarker model overlay showing annotation errors.
+
+![Google MediaPipe Pose landmarker model overlay 2.](literature/Media/Overlay_annotation_2.jpg){#fig-overlay-mediapipe2}
 
 \clearpage
 
