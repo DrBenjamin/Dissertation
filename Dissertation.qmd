@@ -348,14 +348,16 @@ conda env create -f code/environment.yml
 conda activate dissertation-3.13
 ```
 
-Creation of Conda environment for local experimantation.
+Creation of Conda environment for local experimentation.
 :::
 
 ### Streamlit Web App Interface
 
-To utilize the existing MediaPipe Pose model to create images with the YOLO 33 body landmarker overlay, for testing purposes an Interface was developed. Therefore Streamlit, an open-source Python framework was chosen to build a graphical user interface at `code/mediapipe_pose.py`.
+Streamlit is an open-source Python framework that was used to build a graphical user interface (`code/mediapipe_pose.py)`. Streamlit is widely used in the data science sphere, to build interactive data apps. As a low-code framework, it was used to build an interface for testing pre-existing models and the classification models build within the project and allowed quick implementation of needed features. Streamlit has a client-server architecture allowing Python code to act like a classical backend and the graphical user interface shown in the browser as the frontend layer.
 
-Streamlit is widely used in the data science sphere, to build interactive data apps. The same Interface was used to test the build classification models, as you can see in @fig-streamlit-app.
+The Streamlit Web App can utilize two different kind of CNN models. The first supported type of models are the existing MediaPipe Pose landmarker models to create images with 33 3-dimensional pose mapping as an overlay on the images (as shown in @fig-pose_landmarks_index) . These come in three different bundle variants (Lite, Full, Heavy), which differ in model complexity, computational requirements, and performance (accuracy). As inference is performed directly in the browser on the user computer or mobile device, these web application can be shipped without a backend server with high computational resources.
+
+The same Interface was used to test the build classification models, as you can see in @fig-streamlit-app. The model(s) can be bundled statically within the deployed container or dynamically provided via Browser user upload. The loaded model is then invoked via the MediaPipe API (as the former inference for pose models) and performs the inferences, sending the prediction results back to the frontend.
 
 ::: {#fig-streamlit-app}
 ![Streamlit Web App](docs/Streamlit_WebApp.png)
@@ -365,7 +367,7 @@ Streamlit is widely used in the data science sphere, to build interactive data a
 Streamlit Web App with classification of postures using the build quantized model from Training 4 (@tbl-training-3class-4).
 :::
 
-The app can digest images from the Browser as User upload and from the self-hosted MinIO server. As later described, a n8n automation was processing images automatically from a MinIO bucket (and saved it back to a second bucket), the App uses the same API to classify or annotate images (when a pose model is chosen). This lead to a more efficient development, as only on source of truth for the image detection/processing code was needed.
+The web app can digest images from the Browser as user uploads or from the self-hosted MinIO server - ladder one can be configured in Streamlit's secrets, to use self-hosted or public MinIO instances.
 
 ## Training pipeline and data engineering
 
@@ -453,7 +455,9 @@ Github Actions of a Github Pages repository is trigged to render the Quarto arti
 
 - n8n Canvas for editing the workflows (container one)
 - MediaPipe API (container two) for inference calls.
-- MinIO file storage to persist augmented images.
+- MinIO file storage to store the original images as well to persist the augmented images.
+
+The n8n automation processes these images, digesting them from a MinIO bucket. The App uses the same MediaPipe API as the Web App, to annotate images with the pose model. Reusing the API for all inferences lead to a more efficient development, as only on source of truth for the image classfication and detection/processing code was needed. After the inference, the overlay images are saved back to a second bucket.
 
 @fig-CNN-workflow visualizes the complex implementation setup and the dependencies.
 
@@ -898,9 +902,13 @@ Last but not least, a dedicated iOS application could be developed to deploy the
 
 @fig-CNN-workflow
 
-@fig-overlay-mediapipe: Google MediaPipe Pose overlay to show angles of head/neck and torso.
+@fig-overlay-mediapipe: Google MediaPipe Pose landmark model with 33 3-dimensional pose mapping.
 
-![Overlay annotation by Google MediaPipe Pose.](literature/Media/Overlay_annotation.jpg){#fig-overlay-mediapipe}
+![Google MediaPipe Pose landmark mapping.](literature/Media/pose_landmarks_index.png){#fig-pose_landmarks_index}
+
+@fig-overlay-mediapipe: Example of Google MediaPipe Pose landmarker model overlay whichs show angles of head/neck and torso.
+
+![Google MediaPipe Pose landmarker model overlay.](literature/Media/Overlay_annotation.jpg){#fig-overlay-mediapipe}
 
 \clearpage
 
