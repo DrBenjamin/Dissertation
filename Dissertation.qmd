@@ -48,6 +48,7 @@ format:
     number-sections: true
     lof: false
     lot: false
+keep-tex: false
 fig-cap-location: top
 link-citations: true
 csl: "./literature/apa.csl"
@@ -129,17 +130,19 @@ Finetuning and evaluation of a deep learning model for posture and movement qual
 
 The present work is structured as follows:
 
-The "[Literature Review]" chapter provides a comprehensive literature review of the current state of the art posture and movement analysis. A focus on the capabilities and limitations of existing pose estimation frameworks such as Google MediaPipe will be given as well a comparison to commercial products.
+The "Literature Review" chapter provides a comprehensive literature review of the current state of the art posture and movement analysis. A focus on the capabilities and limitations of existing pose estimation frameworks such as Google MediaPipe will be given as well a comparison to commercial products.
 
-The "[Methodology]" chapter outlines the methods used, including the study design, data sources, variable definitions, model development approach, and performance evaluation strategies.
+The "Methodology" chapter outlines the methods used, including the study design, data sources, variable definitions, model development approach, and performance evaluation strategies.
 
-The "[Implementation]" chapter details the implementation of the training and inference pipelines with a complex continuous development and integration setup.
+The "Implementation" chapter details the implementation of the training and inference pipelines with a complex continuous development and integration setup.
 
-The "[Results]" chapter presents the results of model performance and error analysis and shows the challenges of training a custom CNN model.
+The "Result" chapter presents the results of model performance and error analysis and shows the challenges of training a custom CNN model.
 
-The "[Discussion]" chapter addresses the findings in relation to existing literature, strengths and limitations, and clinical implications.
+The "Discussion" chapter addresses the findings in relation to existing literature, strengths and limitations, and clinical implications.
 
-The "[Conclusion and Future Work]" chapter outlines the expected impact and dissemination plans, with a summary of contributions and future work directions.
+The "Conclusion" chapter outlines the expected impact and dissemination plans, while
+
+Whereby the final chapter concludes with a summary of contributions and future work directions.
 
 \clearpage
 
@@ -159,8 +162,8 @@ Consequently, while MediaPipe Pose serves as a robust foundation for pose detect
 
 Modern video analysis with the purpose of detecting pose, movement, and specific markers in sports activities has undergone a paradigm shift, moving from subjective clinical intuition to high-fidelity, data-driven kinematic quantification. Commercial ecosystems like @MAR-Systems-Ltd2026 leverage dual-camera 3D reconstruction to analyze over 40 biomechanical metrics without intrusive markers, targeting retail efficiency and rapid, evidence-based footwear recommendations. Similarly, @RunDNA2026 employs advanced motion capture to track kinetic and kinematic variables from foot strike to toe-off, providing practitioners with a granular, 3D anatomical breakdown of movement asymmetries. For integrated clinical environments, the @Medical-XPRT2026 combines 3D camera technology with a sensorized, load-cell-equipped treadmill to provide real-time biofeedback and synchronized gait analysis. Supplementing these laboratory-grade tools, @Running-Reborn-20262026 utilizes wearable inertial measurement units (IMUs) to provide continuous, longitudinal monitoring of temporal outcomes like ground contact time and cadence, albeit with sensitivity to speed-dependent discrepancies. At the vanguard of performance capture, @Move-AI-Ltd2026 offers sophisticated, markerless motion capture solutions that utilize computer vision to extract high-fidelity skeletal data from multi-camera footage, facilitating biomechanical analysis outside of traditional studio settings as shown in @fig-move-ai.
 
-::: {#fig-move-ai}
-![Move AI](literature/Media/Move%20AI.png){fig-align="right"}
+::: {#fig-move-ai style="text-align: left; .column-margin;"}
+![](literature/Media/Move_AI.png)
 
 **Legend:** *Participant* (left) • *1st virtual avatar* (middle) • *2nd virtual avatar* (right)
 
@@ -195,7 +198,7 @@ To increase the number of images, various augmentation techniques were applied:
 
 - First, the images were duplicated several times and processed via random image editing utilizing the OpenCV framework. For instance, the color-theme or background color were changed, images were cropped or tilted. For each augmented image, 2 changes were applied.
 
-- Second, a subset of duplicated 300 images with body landmarks as overlay were added to specific runs. This was achieved by an existing MediaPipe Pose model which was adding these annotations. As this process was automated (described in [Automation orchestration (n8n)](#automation-orchestration-n8n)), also partially misaligned overlay could be found in these images (see @fig-overlay-mediapipe2).
+- Second, a subset of duplicated 300 images with body landmarks as overlay were added to specific runs. This was achieved by an existing MediaPipe Pose model which was adding these annotations. As this process was automated (described in [Automation orchestration (n8n)]), also partially misaligned overlay could be found in these images (see @fig-overlay-mediapipe2).
 
 Preprocessing was applied consistently for all runs (same processed image data set) to maintain comparability between two and three class runs and the different base architectures:
 
@@ -221,7 +224,7 @@ This three-class formulation enables the CNN to distinguish between physiologica
 The posture classification follows 3 types of poses regarding posture classifications by @Klein-Vogelbach1990 as illustrated in @fig-klein-vogelbach-posture.
 
 ::: {#fig-klein-vogelbach-posture}
-![3 types of posture](literature/Media/3_posture_types.png)
+![](literature/Media/3_posture_types.png)
 
 **Legend:** *tensed* (left) • *slumped* (middle) • *normal* (right)
 
@@ -312,6 +315,8 @@ For editing the Quarto dissertation project file a RStudio Server was utilized. 
 | Deployment and containerized services | Docker, Streamlit WebApp, MediaPipe API |
 | CI/CD and automation | Jenkins, GitHub Actions, n8n |
 
+**Legend:** *Category* (left) • *Technologies / Services* (right)
+
 Software, Framework and Service Stack used for the development, training, deployment, and automation of the system.
 :::
 
@@ -358,7 +363,7 @@ The Streamlit Web App can utilize two different kind of CNN models. The first su
 The same Interface was used to test the build classification models, as you can see in @fig-streamlit-app. The model(s) can be bundled statically within the deployed container or dynamically provided via Browser user upload. The loaded model is then invoked via the MediaPipe API (as the former inference for pose models) and performs the inferences, sending the prediction results back to the frontend.
 
 ::: {#fig-streamlit-app}
-![Streamlit Web App](docs/Streamlit_WebApp.png)
+![](docs/Streamlit_WebApp.png)
 
 **Legend:** *Sidebar settings* (left) • *Inference Results* (right)
 
@@ -447,7 +452,7 @@ Github Actions of a Github Pages repository is trigged to render the Quarto arti
 - Checkout repository - Installs Quarto and LaTeX (for PDF rendering).
 - Deploys the dissertation project as HTML on <https://drbenjamin.github.io/dissertation.html>
 
-### Automation orchestration (n8n) {#automation-orchestration-n8n}
+### Automation orchestration (n8n)
 
 `A n8n` server run as a containerized service (two container) to hosts the augmentation workflows. Responsibilities:
 
@@ -462,7 +467,7 @@ Reusing the API for all inferences lead to a more efficient development, as only
 @fig-CNN-workflow visualizes the complex implementation setup and the dependencies.
 
 ::: {#fig-CNN-workflow}
-![Illustration](docs/CNN%20Workflow.drawio.png)
+![](docs/CNN%20Workflow.drawio.png)
 
 **Legend:** *Creation layer* (blue) • *Computation layer* (orange) • *Infrastructure layer* (green) • *Build layer* (purple) • *Consume layer* (red)
 
@@ -495,6 +500,8 @@ The third run was extended by an additional 300 images, which were augmented usi
 |                  non-normal |         16 |      8 |
 |                      normal |          4 |      2 |
 
+**Legend:** True positives per class *non-normal posture* 16 (66,6%) • *normal posture* 2 (33,3%)
+
 Confusion matrix for 2-class training 1 showing class imbalance and preference for `non-normal posture`.
 :::
 
@@ -516,7 +523,9 @@ Confusion matrix for 2-class training 1 showing class imbalance and preference f
 | **macro avg.**     |    0.5000 | **0.5000** |   0.4886 |      30 |
 | **weighted avg.**  |    0.6800 |     0.6000 |   0.6318 |      30 |
 
-Classification results for 2-class training 1 showing an accuracy of 60%, but on a highly imbalanced class distribution.
+**Legend:** *Accuracy of* 60% • *balanced accuracy of* 50%
+
+Classification results for 2-class training 1 showing on a highly imbalanced class distribution.
 :::
 
 ### Training 2
@@ -532,6 +541,8 @@ Classification results for 2-class training 1 showing an accuracy of 60%, but on
 |----------------------------:|-----------:|-------:|
 |                  non-normal |         35 |     47 |
 |                      normal |         27 |     49 |
+
+**Legend:** True positives per class *non-normal posture* 35 (42,68%) • *normal posture* 49 (64,47%)
 
 Confusion matrix for 2-class training 2 showing class imbalance and preference for `normal posture`.
 :::
@@ -554,7 +565,9 @@ Confusion matrix for 2-class training 2 showing class imbalance and preference f
 | **macro avg.**     |    0.5375 | **0.5358** |   0.5279 |     158 |
 | **weighted avg.**  |    0.5385 |     0.5316 |   0.5264 |     158 |
 
-Classification results for 2-class training 2 showing an accuracy of 53.16%.
+**Legend:** *Accuracy of* 53.16% • *balanced accuracy of* 53.58%
+
+Classification results for 2-class training 2 showing on a more balanced class distribution, but still with a preference for `normal posture`.
 :::
 
 ### Training 3 (extra body landmark overlay)
@@ -570,6 +583,8 @@ Classification results for 2-class training 2 showing an accuracy of 53.16%.
 |----------------------------:|-----------:|-------:|
 |                  non-normal |         44 |     47 |
 |                      normal |         36 |     61 |
+
+**Legend:** True positives per class *non-normal posture* 44 (48,35%) • *normal posture* 61 (62,89%)
 
 Confusion matrix for 2-class training 3 showing class imbalance and preference for `normal posture`.
 :::
@@ -592,7 +607,9 @@ Confusion matrix for 2-class training 3 showing class imbalance and preference f
 | **macro avg.**     |    0.5574 | **0.5562** |   0.5549 |     188 |
 | **weighted avg.**  |    0.5576 |     0.5585 |   0.5562 |     188 |
 
-Classification results for 2-class training 3 showing an accuracy of 55.85%.
+**Legend:** *Accuracy of* 55.85% • *balanced accuracy of* 55.62%
+
+Classification results for 2-class training 3 showing on a more balanced class distribution, but still with a preference for `normal posture` and a slight improvement in balanced accuracy compared to @tbl-report-training-2class-3.
 :::
 
 ### Error analysis
@@ -640,7 +657,9 @@ For the 3-class problem, in total four training runs were performed using all fo
 |                     slumped |     26 |      20 |     16 |
 |                      tensed |     23 |      34 |     17 |
 
-Confusion matrix for 3-class training 1 showing slight over-prediction of `slumped` class.
+**Legend:** True positives per class *normal posture* 24 (38,10%) • *slumped posture* 61 (32,25%) • *tensed posture* 17 (22,97%)
+
+Confusion matrix for 3-class training 1 showing slight under-representation of `tensed posture` class.
 :::
 
 [Per-class support:]{.underline}
@@ -663,7 +682,9 @@ Confusion matrix for 3-class training 1 showing slight over-prediction of `slump
 | **Macro avg.**    |    0.3096 | **0.3111** |   0.3056 |     199 |
 | **Weighted avg.** |    0.3111 |     0.3065 |   0.3038 |     199 |
 
-Classification results for 3-class training 1 showing an accuracy of 30.65% and a balanced accuracy of 31.11%.
+**Legend:** *Accuracy of* 30.65% • *balanced accuracy of* 31.11%
+
+Classification results for 3-class training 1 showing a under-representation of `tensed posture`.
 :::
 
 ### Training 2 (EfficientNet-Lite0 architecture)
@@ -680,6 +701,8 @@ Classification results for 3-class training 1 showing an accuracy of 30.65% and 
 |                      normal |      4 |      38 |     21 |
 |                     slumped |      2 |      40 |     20 |
 |                      tensed |      3 |      51 |     20 |
+
+**Legend:** True positives per class *normal posture* 4 (6,35%) • *slumped posture* 40 (64,52%) • *tensed posture* 20 (27,03%)
 
 Confusion matrix for 3-class training 2 showing under-representation of `normal posture` class and a preference for `slumped posture`.
 :::
@@ -704,7 +727,9 @@ Confusion matrix for 3-class training 2 showing under-representation of `normal 
 | **Macro avg.**    |    0.3608 | **0.3263** |   0.2754 |     199 |
 | **Weighted avg.** |    0.3592 |     0.3216 |   0.2759 |     199 |
 
-Classification results for 3-class training 2 showing an accuracy of 32.16% and a balanced accuracy of 32.63%.
+**Legend:** *Accuracy of* 32.16% • *balanced accuracy of* 32.63%
+
+Classification results for 3-class training 2 showing a strong under-representation of `normal posture` class and a preference for `slumped posture`.
 :::
 
 ### Training 3 (EfficientNet-Lite2 architecture)
@@ -721,6 +746,8 @@ Classification results for 3-class training 2 showing an accuracy of 32.16% and 
 |                      normal |     16 |      36 |     11 |
 |                     slumped |     10 |      39 |     13 |
 |                      tensed |     12 |      39 |     23 |
+
+**Legend:** True positives per class *normal posture* 16 (25,40%) • *slumped posture* 39 (62,90%) • *tensed posture* 23 (31,08%)
 
 Confusion matrix for 3-class training 3 showing preference for `slumped posture` class.
 :::
@@ -745,7 +772,9 @@ Confusion matrix for 3-class training 3 showing preference for `slumped posture`
 | **Macro avg.**    |    0.4175 | **0.3979** |   0.3801 |     199 |
 | **Weighted avg.** |    0.4219 |     0.3920 |   0.3797 |     199 |
 
-Classification results for 3-class training 3 showing an accuracy of 39.20% and a balanced accuracy of 39.79%.
+**Legend:** *Accuracy of* 39.20% • *balanced accuracy of* 39.79%
+
+Classification results for 3-class training 3 showing a preference for `slumped posture` class and a slight improvement in balanced accuracy compared to @tbl-report-training-3class-2.
 :::
 
 ### **Training 4 (EfficientNet-Lite4 architecture)**
@@ -762,6 +791,8 @@ Classification results for 3-class training 3 showing an accuracy of 39.20% and 
 |                      normal |     18 |      33 |     12 |
 |                     slumped |     12 |      38 |     12 |
 |                      tensed |     15 |      33 |     26 |
+
+**Legend:** True positives per class *normal posture* 18 (28,57%) • *slumped posture* 38 (61,29%) • *tensed posture* 26 (35,14%)
 
 Confusion matrix for 3-class training 4 showing preference for `slumped posture` class.
 :::
@@ -786,7 +817,9 @@ Confusion matrix for 3-class training 4 showing preference for `slumped posture`
 | **Macro avg.**    |    0.4285 | **0.4167** |   0.4035 |     199 |
 | **Weighted avg.** |    0.4338 |     0.4121 |   0.4041 |     199 |
 
-Classification results for 3-class training 4 showing an accuracy of 41.21% and a balanced accuracy of 41.67%.
+**Legend:** *Accuracy of* 41.21% • *balanced accuracy of* 41.67%
+
+Classification results for 3-class training 4 showing a preference for `slumped posture` class and a slight improvement in balanced accuracy compared to @tbl-report-training-3class-3.
 :::
 
 ### Error analysis
