@@ -457,7 +457,7 @@ Github Actions of a Github Pages repository is trigged to render the Quarto arti
 - MediaPipe API (container two) for inference calls.
 - MinIO file storage to store the original images as well to persist the augmented images.
 
-The n8n automation processes these images, digesting them from a MinIO bucket. The App uses the same MediaPipe API as the Web App, to annotate images with the pose model. Reusing the API for all inferences lead to a more efficient development, as only on source of truth for the image classfication and detection/processing code was needed. After the inference, the overlay images are saved back to a second bucket.
+The n8n automation processes these images, digesting them from a MinIO bucket. The App uses the same MediaPipe API as the Web App, to annotate images with the pose model as the example shows in @fig-overlay-mediapipe. Reusing the API for all inferences lead to a more efficient development, as only on source of truth for the image classfication and detection/processing code was needed. After the inference, the overlay images are saved back to a second bucket.
 
 @fig-CNN-workflow visualizes the complex implementation setup and the dependencies.
 
@@ -902,7 +902,7 @@ Last but not least, a dedicated iOS application could be developed to deploy the
 
 @fig-CNN-workflow
 
-@fig-overlay-mediapipe: Google MediaPipe Pose landmark model with 33 3-dimensional pose mapping.
+@fig-pose_landmarks_index: Google MediaPipe Pose landmark model with 33 3-dimensional pose mapping.
 
 ![Google MediaPipe Pose landmark mapping.](literature/Media/pose_landmarks_index.png){#fig-pose_landmarks_index}
 
