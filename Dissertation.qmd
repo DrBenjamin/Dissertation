@@ -62,11 +62,11 @@ execute:
 
 # Contribution {.unnumbered}
 
-The development of this dissertation incorporated the selective use of generative artificial intelligence (AI) tools as supportive research and technical assistance instruments. Github Copilot and Posit Assistant were utilized to assist in troubleshooting Python dependency conflicts, resolving / Continuous Development configuration issues involving Jenkins and Docker, and supporting administrative setup tasks related to RStudio Server. In addition, Perplexity was used for targeted literature discovery and contextual identification of relevant academic sources and references. DeepL was selectively used as language support tool to translate particular technical terminology from German into English, in cases the the author was not readily knowing it.
+The development of this dissertation incorporated the selective use of generative artificial intelligence (AI) tools as supportive research and technical assistance instruments. Github Copilot and Posit Assistant were utilized to assist in troubleshooting Python dependency conflicts, resolving Continuous Integration / Continuous Development configuration issues involving Jenkins and Docker, and supporting administrative setup tasks related to RStudio Server. In addition, Perplexity was used for targeted literature discovery and contextual identification of relevant academic sources and references. DeepL was selectively used as language support tool to translate particular technical terminology from German into English, in cases the the author was not readily knowing it.
 
 All critical analysis, interpretation, methodological decisions, and written academic content were independently evaluated, verified, and finalized by the author. This was achieved through systematic inspection of model outputs, including accuracy, loss trajectories, precision/recall metrics, and confusion matrices across training runs, as well as consistency checks between expected and observed model behaviour.
 
-Also, I received guidance and support from my two supervisor, Dr. Syed Ahmar Shah and John Wilson, who gave me many recommendations during the whole process to conduct the project as well reviewed the draft of the paper once and gave me valuable feedback.
+Also, I received valuable guidance and support from my two supervisor, Dr. Syed Ahmar Shah and John Wilson, who gave me many recommendations during the whole process to conduct the project as well reviewed the draft of the paper once and gave me meaningful feedback.
 
 \clearpage
 
@@ -131,17 +131,17 @@ Finetuning and evaluation of a deep learning model for posture and movement qual
 
 The present work is structured as follows:
 
-The "Literature Review" chapter provides a comprehensive literature review of the current state of the art posture and movement analysis. A focus on the capabilities and limitations of existing pose estimation frameworks such as Google MediaPipe will be given as well a comparison to commercial products.
+The "[Literature Review]" chapter provides a comprehensive literature review of the current state of the art posture and movement analysis. A focus on the capabilities and limitations of existing pose estimation frameworks such as Google MediaPipe will be given as well a comparison to commercial products.
 
-The "Methodology" chapter outlines the methods used, including the study design, data sources, variable definitions, model development approach, and performance evaluation strategies.
+The "[Methodology]" chapter outlines the methods used, including the study design, data sources, variable definitions, model development approach, and performance evaluation strategies.
 
-The "Implementation" chapter details the implementation of the training and inference pipelines with a complex continuous development and integration setup.
+The "[Implementation]" chapter details the implementation of the training and inference pipelines with a complex continuous development and integration setup.
 
-The "Result" chapter presents the results of model performance and error analysis and shows the challenges of training a custom CNN model.
+The "[Results]" chapter presents the results of model performance and error analysis and shows the challenges of training a custom CNN model.
 
-The "Discussion" chapter addresses the findings in relation to existing literature, strengths and limitations, and clinical implications.
+The "[Discussion]" chapter addresses the findings in relation to existing literature, strengths and limitations, and clinical implications.
 
-The "Conclusion" chapter outlines the expected impact and dissemination plans, while
+The "[Conclusion]" chapter outlines the expected impact and dissemination plans, while
 
 Whereby the final chapter concludes with a summary of contributions and future work directions.
 
@@ -155,7 +155,9 @@ This chapter reviews the scientific and technological foundations relevant to de
 
 @Cao2024 describe the detection of human postures undertaken by artificial intelligence as a process in which machines mimic the human visual system and learning behaviour by extracting distinctive features from sensor or image data and subsequently using these features to classify or track postures over time. Furthermore they divide into static and dynamic posture recognition, whereas the static posture recognition treats each input (image or single frame) as a standalone instance. Models for these purposes are trained and perform inference on individual frames, using image-based classifiers such as such as scale-invariant feature transform, histogram of oriented gradients, support vector machine (SVM), Gaussian mixture model, dynamic time warping, hidden Markov model (HMM), lightweight network and convolutional neural networks [@Jiang2023]. @Cao2024 describe the dynamic pose detection as processing a continuous image sequence (video), with models capturing temporal evolution via recurrent structures such as BiGRUs or similar time-aware networks. As they explain, CNNs perform this capturing or, more precisely, feature extraction through the use of a deep convolutional neural network that locates skeletal keypoints and derives a multidimensional set of pose features, much like the human eye recognises edges, shapes and joints. The extracted pose features are then learned as spatial features (body configuration in each individual frame) and temporal features (how the pose changes across successive frames), allowing these PEMs to capture both instantaneous postural configurations and movement dynamics over time. A widely used open-source example of a PEM is Google’s MediaPipe framework for real-time pose estimation [@Lugaresi2019].
 
-Recent validation studies comparing MediaPipe with gold-standard motion capture systems reveal measurable discrepancies in landmark accuracy, particularly for subtle postural features, highlighting the need for domain-specific refinement for clinical use [@Kakuta2022]. Here, "subtle" means inappropriate muscular tension with small or no movement of (the) body(-parts). More broadly, current PEMs remain limited by sensitivity to noise and 2D–3D estimation gaps, reducing their reliability for detecting the named tensions and asymmetries critical to movement and pose imbalance analysis [@Kakuta2022; @Lachance2023]. Fairness and representativeness in pose estimation systems are also important concerns: current PEMs exhibit performance disparities across demographic groups, with reduced accuracy for under-represented populations in training datasets [@Lachance2023]. Available datasets frequently focus on male and predominantly white participants between the ages of 19 and 50, while under-representing females, older adults, and individuals with darker skin tones, thereby increasing the risk of systematic bias and reduced generalizability in movement and posture analysis.”
+Machine learning and deep learning studies are typically defined as retrospective observational studies [@Wei2025; @Barash2024]. @CLRN2025 describes them futther as a research methodology that leverages pre-existing data to investigate potential relationships between variables. This reuse of existing data is classified as secondary data analysis [@Baek2025]. Therefore, these studies analyze existing data to identify patterns and relationships, without assigning a specific interventions to collect the information itself [@CLRN2025]. This increases opportunities for medical research, as it eliminates the need for costly data collection, the preparation and administration of clinical assessments and the recruitment and evaluation of participants.
+
+Recent validation of such studies, comparing the introduced MediaPipe technology with gold-standard motion capture systems, reveal measurable discrepancies in landmark accuracy, particularly for subtle postural features, highlighting the need for domain-specific refinement for clinical use [@Kakuta2022]. Here, "subtle" means inappropriate muscular tension with small or no movement of (the) body(-parts). More broadly, current PEMs remain limited by sensitivity to noise and 2D–3D estimation gaps, reducing their reliability for detecting the named tensions and asymmetries critical to movement and pose imbalance analysis [@Kakuta2022; @Lachance2023]. Fairness and representativeness in pose estimation systems are also important concerns: current PEMs exhibit performance disparities across demographic groups, with reduced accuracy for under-represented populations in training datasets [@Lachance2023]. Available datasets frequently focus on male and predominantly white participants between the ages of 19 and 50, while under-representing females, older adults, and individuals with darker skin tones, thereby increasing the risk of systematic bias and reduced generalizability in movement and posture analysis.”
 
 Consequently, while MediaPipe Pose serves as a robust foundation for pose detection, in its standard configuration of training it does not inherently capture the fine-grained symmetry metrics, sagittal and coronal balance indicators, or compensatory movement patterns that rely on hyper- and hypo-tension that are essential for clinical postural and even more for movement analysis. Computer-vision-based deep learning markerless systems nonetheless represent an important step towards closing the gap between theoretical research, that can be even a century old like the principle of primary control of human movement by @AlexanderFM2017, and practical implementation in remote clinical assessment [@Wagh2024; @UltralyticsInc2025].
 
@@ -183,7 +185,7 @@ In this work, deep learning techniques are applied through transfer learning on 
 
 ## Study design and setting
 
-This study is a secondary data analysis exploring postural and movement imbalance detection using deep learning algorithms. The project applies a quantitative, observational design, analyzing existing image data through supervised deep learning, specifically CNNs implemented via TensorFlow Lite within the Google MediaPipe framework. The aim is to evaluate whether lightweight AI models can detect subtle patterns of imbalance in posture and coordination and to adapt them for potential clinical use through transfer learning on a posture-specific dataset.
+This study is a retrospective observational secondary data analysis exploring postural and movement imbalance detection using deep learning algorithms. The project applies a quantitative, observational design, analyzing existing image data through supervised deep learning, specifically CNNs implemented via TensorFlow Lite within the Google MediaPipe framework. The aim is to evaluate whether lightweight AI models can detect subtle patterns of imbalance in posture and coordination and to adapt them for potential clinical use through transfer learning on a posture-specific dataset.
 
 The study will be conducted remotely using a secondary dataset. All data analysis will be performed on secured infrastructure provided by the author (see Implementation). No new data collection or participant interaction is planned.
 
@@ -322,7 +324,7 @@ For editing the Quarto dissertation project file a RStudio Server was utilized. 
 
 ::: {#tbl-software-framework-service-stack}
 | Category | Technologies / Services |
-|----|----|
+|------------------------------------|------------------------------------|
 | Conda programming environments | Python 3.10 (Model Maker), Python 3.13 (Inference) |
 | Core deep learning frameworks | MediaPipe Pose 0.10.20, MediaPipe Model Maker 0.2.1.3, TensorFlow (+Lite, bundled) 2.19.1, Keras 3.12.1 |
 | Supporting Python libraries | OpenCV, NumPy, Pandas, Matplotlib, FastAPI |
@@ -985,13 +987,13 @@ Abbreviations used in this dissertation.
 
 ## C. Ethics Approval {.unnumbered}
 
-![](docs/Ethics/UMREG_Ethics_Certification_Benjamin_Gross.png){width=100%}
+![](docs/Ethics/UMREG_Ethics_Certification_Benjamin_Gross.png){width="100%"}
 
 \clearpage
 
 ## D. Declaration of Originality {.unnumbered}
 
-![](docs/Declaration_of_Originality.png){width=100%}
+![](docs/Declaration_of_Originality.png){width="100%"}
 
 \clearpage
 
