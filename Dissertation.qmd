@@ -198,7 +198,29 @@ To increase the number of images, various augmentation techniques were applied:
 
 - First, the images were duplicated several times and processed via random image editing utilizing the OpenCV framework. For instance, the color-theme or background color were changed, images were cropped or tilted. For each augmented image, 2 changes were applied.
 
-- Second, a subset of duplicated 300 images with body landmarks as overlay were added to specific runs. This was achieved by an existing MediaPipe Pose model which was adding these annotations. As this process was automated (described in [Automation orchestration (n8n)](#automation-orchestration-n8n)), also partially misaligned overlay could be found in these images (see @fig-overlay-mediapipe2).
+- Second, a subset of duplicated 300 images with body landmarks as overlay were added to specific runs as it can be seen in @fig-overlay-mediapipe. This was achieved by an existing MediaPipe Pose model which was adding these annotations. As this process was automated (described in [Automation orchestration (n8n)](#automation-orchestration-n8n)), also partially misaligned overlay could be found in these images (see @fig-overlay-mediapipe2). On the existing image dataset with only side-view images, the visible landmarks from are listed in @tbl-pose-landmarks-side-view:
+
+::: {#tbl-pose-landmarks-side-view}
+| Body part    | Left view  | Right view |
+|--------------|------------|------------|
+| Nose         | 0          | 0          |
+| Eye          | 1–3        | 4–6        |
+| Ear          | 7          | 8          |
+| Mouth corner | 9          | 10         |
+| Shoulder     | 11         | 12         |
+| Elbow        | 13         | 14         |
+| Wrist        | 15         | 16         |
+| Hand         | 17, 19, 21 | 18, 20, 22 |
+| Hip          | 23         | 24         |
+| Knee         | 25         | 26         |
+| Ankle        | 27         | 28         |
+| Heel         | 29         | 30         |
+| Foot index   | 31         | 32         |
+
+**Legend:** *Body part* (left) • *Left view* (middle) • *Right view* (right)
+
+MediaPipe body landmarks visible from a side view, by contrast to fully available landmarks in the front view @fig-pose_landmarks_index.
+:::
 
 Preprocessing was applied consistently for all runs (same processed image data set) to maintain comparability between two and three class runs and the different base architectures:
 
@@ -208,18 +230,6 @@ Preprocessing was applied consistently for all runs (same processed image data s
 - `EfficientNet-Lite4`
 
 The objective is to reach an accuracy of approximately 80–90%, which is generally considered strong performance for practical detection tasks in applied deep learning settings and for the Google MediaPipe model architecture. Therefore, the images will be annotated into normal and non-normal to define 2 classes. As the first training run consisted of only 300 images in total, which were further divided into training, validation and testing subsets, the largest available architecture class, **EfficientNet-Lite4,** was selected to maximize feature extraction capacity despite limited dataset size. EfficientNet-Lite4 was also retained for training run 2 and 3, although dataset sizes increased substantially. This was done to maintain comparability across experiments.
-
-To achieve the pose detection defined by Klein-Vogelbach, 3 classes have to be defined:
-
-- normal posture
-- slumped posture
-- tensed posture
-
-These classes represent distinct qualitative posture states used in clinical movement analysis. The **normal posture** class represents an aligned and functionally efficient baseline posture. The **slumped posture** class captures flexed, collapsed, or reduced postural tone patterns, typically associated with decreased axial extension. The **tensed posture** class represents increased muscular tone and excessive postural rigidity, often reflected in elevated shoulder girdle and reduced movement fluidity in the spine and hips.
-
-This three-class formulation enables the CNN to distinguish between physiologically neutral, hypoactive (slumped), and hyperactive (tensed) postural states, aligning the computational labels with clinically meaningful categories from the Klein-Vogelbach framework.
-
-## Variables, features, and preprocessing
 
 The posture classification follows 3 types of poses regarding posture classifications by @Klein-Vogelbach1990 as illustrated in @fig-klein-vogelbach-posture.
 
@@ -231,13 +241,17 @@ The posture classification follows 3 types of poses regarding posture classifica
 3 types of posture types defined by Klein-Vogelbach, the underlying functional movement concept was developed between 1955-1975.
 :::
 
-### The classes
+The author manually annotated and assigned the 300 images to one of these classes according to his clinical experience in the field of orthopaedics and functional movement therapy. In the initial annotation round, the dataset was artificially balanced by assigning 100 images to each class (normal, slumped, and tensed posture). While this ensured equal class distribution for training, it also introduced ambiguous and potentially misclassified samples near class boundaries. Therefore, a second annotation and training run was conducted using a slightly imbalanced but clinically more consistent class distribution, resulting in improved class separation and overall classification performance. Therefore, to achieve pose detection defined by Klein-Vogelbach, 3 classes were defined:
 
-- "tensed posture" (left)
-- "slumped posture" (middle)
-- "normal posture" (right)
+- normal posture
+- slumped posture
+- tensed posture
 
-The author manually annotated and assigned the 300 images to one of these classes according to his clinical experience in the field of orthopaedics and functional movement therapy. In the initial annotation round, the dataset was artificially balanced by assigning 100 images to each class (normal, slumped, and tensed posture). While this ensured equal class distribution for training, it also introduced ambiguous and potentially misclassified samples near class boundaries. Therefore, a second annotation and training run was conducted using a slightly imbalanced but clinically more consistent class distribution, resulting in improved class separation and overall classification performance.
+These classes represent distinct qualitative posture states used in clinical movement analysis. The **normal posture** class represents an aligned and functionally efficient baseline posture. The **slumped posture** class captures flexed, collapsed, or reduced postural normal tone patterns, typically associated with decreased axial extension. The **tensed posture** class represents increased muscular tone and excessive postural rigidity and overly extended postures. This can be for instance the declined neck (slight extension to the back), or elevated shoulder girdle, and in general the impression of reduced movement fluidity in the spine and hips.
+
+This three-class formulation enables the CNN to distinguish between physiologically neutral, hypoactive (slumped), and hyperactive (tensed) postural states, aligning the computational labels with clinically meaningful categories from the Klein-Vogelbach framework.
+
+## Variables, features, and preprocessing
 
 ### Primary outcome
 
@@ -301,7 +315,7 @@ The research setup is describing the four components for realizing this research
 
 The development was mostly performed on a remote virtual machine with Ubuntu Linux and specs of 8GB RAM and 4 available CPU Cores. For editing Python scripts and notebooks, the Jupyter Notebook was used. The transfer learning script was usually run for training a custom model locally on a MacBook Pro due to its superior performance.
 
-For editing the Quarto dissertation project file a RStudio Server was utilized. Next to this, a Streamlit WebApp was developed and used to test re-trained models manually. Both the Jupyter notebook and the Streamlit WebApp were deployed via a Docker container on the remote server to manage heavy Python library dependencies of MediaPipe Model Maker (Python 3.10) respective of MediaPipe / TensorFlow Lite (Python 3.13) for the Streamlit app.
+For editing the Quarto dissertation project file a RStudio Server was utilized. Next to this, a `Streamlit` WebApp was developed and used to test re-trained models manually, working as a graphical user interface. Both the Jupyter notebook and the WebApp were deployed via a Docker container on the remote server to manage heavy Python library dependencies of MediaPipe Model Maker (Python 3.10) respective of MediaPipe / TensorFlow Lite (Python 3.13) for the interface app.
 
 ### Software/framework/service stack
 
@@ -356,21 +370,21 @@ Creation of Conda environment for local experimentation.
 
 ### Streamlit Web App Interface
 
-Streamlit is an open-source Python framework that was used to build a graphical user interface (`code/mediapipe_pose.py)`. Streamlit is widely used in the data science sphere, to build interactive data apps. As a low-code framework, it was used to build an interface for testing pre-existing models and the classification models build within the project and allowed quick implementation of needed features. Streamlit has a client-server architecture allowing Python code to act like a classical backend and the graphical user interface shown in the browser as the frontend layer.
+`Streamlit` is an open-source Python framework that was used to build a graphical user interface (`code/mediapipe_pose.py)`. The framework is widely used in the data science sphere, to build interactive data apps, often with AI-centred purposes [@Rajput2025]. As a low-code approach, it was used to build an interface for testing pre-existing models and the classification models build within the project and allowed quick implementation of needed features. `Streamlit` has a client-server architecture allowing Python code to act like a classical backend and the graphical user interface shown in the browser as the frontend layer.
 
-The Streamlit Web App can utilize two different kind of CNN models. The first supported type of models are the existing MediaPipe Pose landmarker models to create images with 33 3-dimensional pose mapping as an overlay on the images (as shown in @fig-pose_landmarks_index) . These come in three different bundle variants (Lite, Full, Heavy), which differ in model complexity, computational requirements, and performance (accuracy). As inference is not performed directly in the browser on the user computer or mobile device, this web application can be shipped to any device, even older devices without high computational resources.
+The Web App can utilize two different kind of CNN models. The first supported type of models are the existing MediaPipe Pose landmarker models, which is a open source PEM, to create the 33 3-dimensional pose mapping overlay. The pretrained models come in three different bundle variants (Lite, Full, Heavy), which differ in model complexity, computational requirements, and performance (accuracy) [@Google2026]. They can be chosen from the sidebar under 'Model complexity'. As inference is not performed directly in the browser on the user computer or mobile device, this web application could be used on any device, even devices like older smartphones without high computational resources.
 
-The same Interface was used to test the build classification models, as you can see in @fig-streamlit-app. The model(s) can be bundled statically within the deployed container or dynamically provided via Browser user upload. The loaded model is then invoked via the MediaPipe API (as the former inference for pose models) and performs the inferences, sending the prediction results back to the frontend.
+Second, the Interface was used to test the build classification models, as you can see with some example images in @fig-streamlit-app. The model(s) can be bundled statically within the deployed container or dynamically provided via Browser user upload. The loaded model is then invoked via the MediaPipe API (as the former inference for pose models) and performs the inferences, sending the prediction results back to the frontend.
 
 ::: {#fig-streamlit-app}
 ![](docs/Streamlit_WebApp.png)
 
 **Legend:** *Sidebar settings* (left) • *Inference Results* (right)
 
-Streamlit Web App with classification of postures using the build quantized model from Training 4 (@tbl-training-3class-4).
+`Streamlit` Web App with classification of postures using the build quantized model from Training 4 (@tbl-training-3class-4).
 :::
 
-The web app can digest images from the Browser as user uploads or from the self-hosted MinIO server - ladder one can be configured in Streamlit's secrets, to use self-hosted or public MinIO instances.
+The web app can digest images from the Browser as user uploads or from the self-hosted MinIO server - ladder one can be configured via the inbuild secrets management, to use self-hosted or public MinIO instances.
 
 ## Training pipeline and data engineering
 
@@ -394,26 +408,29 @@ Augmentations used brightness/contrast jitter, cropping, tilting. small rotation
 
 Artifacts and model storage - Model artifacts (.h5 and .tflite), logs and run figures are stored under `data/models/` and `runs/`. Each run directory includes metadata.
 
-## Research clients, Inference pipeline, containerization and CI/CD
+## Research client scripts, Inference pipeline, containerization and CI/CD
 
-Inference research client scripts live in code `code/scripts/` (for example `custom_tflite_image_classifier.py` and `custom_tflite_pose.py`) and operate against quantized `.tflite` models exported to `data/models/`.
+Inference research client scripts live in code `code/scripts/` (for example `custom_tflite_image_classifier.py` and `human_posture_analysis.py`) and operate against quantized `.tflite` models exported to `data/models/`.
 
 ::: {#lst-local-research-client-example}
 ``` bash
 # Example usage of the custom TFLite image classifier script
-python code/scripts/custom_tflite_image_classifier.py --model data/models/<run>/model.tflite --image data/images/example.jpg
+python code/scripts/custom_tflite_image_classifier.py \
+--model data/models/model.tflite --image data/images/test.png
 ```
 
-Example usage of the custom TFLite image classifier script for testing a trained model on an example image.
+Example usage of the custom TFLite image classifier script for testing a trained model locally on an example image.
 :::
 
 ::: {#lst-human-posture-analysis-example}
 ``` bash
 # Example usage of the human posture analysis script in image mode
-python code/scripts/human_posture_analysis.py --mode image --api-base-url http://seriousbenentertainment.org:8000 --input-video ./data/images/input.png --output-video ./data/images/output.png
+python code/scripts/human_posture_analysis.py --mode image \
+--api-base-url http://seriousbenentertainment.org:8000 \
+--input-image ./data/images/test.png --output-image ./data/images/output.png
 ```
 
-As a counterpart to the Streamlit Web App there is also a command line tool for testing (also utilizing the API).
+As a counterpart to the `Streamlit` Web App there is also a command line tool for testing, utilizing the API.
 :::
 
 ### Containerization and compose
@@ -436,7 +453,8 @@ To start development services docker compose was used:
 
 ::: {#lst-docker-compose}
 ``` bash
-# Development environment with Docker Compose, building the necessary images and running the defined services (e.g., MediaPipe API, Streamlit Web App).
+# Development environment with Docker Compose, building the necessary docker
+# images and running the defined services (e.g., MediaPipe API)
 docker compose -f code/docker-compose.yml up --build
 ```
 
@@ -454,15 +472,14 @@ Github Actions of a Github Pages repository is trigged to render the Quarto arti
 
 ### Automation orchestration (n8n) {#automation-orchestration-n8n}
 
-`A n8n` server run as a containerized service (two container) to hosts the augmentation workflows. Responsibilities:
+A `n8n` server, run as a containerized service (two container), was used to hosts the augmentation workflows. `n8n`is a visual, node-based workflow automation tool that allows for the orchestration of complex data processing pipelines without extensive coding. In this project, `n8n` was configured to automate the augmentation of the original image dataset by integrating with the MediaPipe API for pose estimation and leveraging MinIO for file storage. The responsibilities and functionality include:
 
-- n8n Canvas for editing the workflows (container one)
+- n8n Canvas for editing the workflows (container one).
 - MediaPipe API (container two) for inference calls.
-- MinIO file storage to store the original images as well to persist the augmented images.
+- MinIO file storage file retrieval (original images).
+- MinIO file storage file writing (augmented images).
 
-The n8n automation processes these images, digesting them from a MinIO bucket. The App uses the same MediaPipe API as the Web App, to annotate images with the pose model as the example shows in @fig-overlay-mediapipe. Some of the annotated images
-
-Reusing the API for all inferences lead to a more efficient development, as only on source of truth for the image classfication and detection/processing code was needed. After the inference, the overlay images are saved back to a second bucket.
+The `n8n` automation processes these images, digesting them from a MinIO bucket. The App uses the same MediaPipe API as the Web App, to annotate images with the Google PEM. Reusing the API for all inferences lead to a more efficient development, as only on source of truth for the image classification and detection/processing code was needed. After the inference, the overlay images are saved back to a second bucket.
 
 @fig-CNN-workflow visualizes the complex implementation setup and the dependencies.
 
@@ -931,7 +948,7 @@ Last but not least, a dedicated iOS application could be developed to deploy the
 
 @fig-klein-vogelbach-posture: 3 types of posture types defined by Klein-Vogelbach, the underlying functional movement concept was developed between 1955-1975.
 
-@fig-streamlit-app: Streamlit Web App with classification of postures using the build quantized model from Training 4.
+@fig-streamlit-app: `Streamlit` Web App with classification of postures using the build quantized model from Training 4.
 
 @fig-CNN-workflow: Implementation map illustrates the pipelines, automation and containerization.
 
@@ -939,19 +956,13 @@ Last but not least, a dedicated iOS application could be developed to deploy the
 
 ![Google MediaPipe Pose landmark mapping.](literature/Media/pose_landmarks_index.png){#fig-pose_landmarks_index}
 
-**Legend**:** The red dots show the 33 3-dimensional pose mapping (numbered 0-32) of the Google MediaPipe Pose landmarker model, while the black lines indicate the extremities.
-
 @fig-overlay-mediapipe: Example of Google MediaPipe Pose landmarker model overlay whichs show angles of head/neck and torso.
 
 ![Google MediaPipe Pose landmarker model overlay #1.](literature/Media/Overlay_annotation.jpg){#fig-overlay-mediapipe}
 
-**Legend:** This image shows a correct annotation of an image taken from the `normal posture` class.
-
 @fig-overlay-mediapipe2: Another example of Google MediaPipe Pose landmarker model overlay showing annotation errors.
 
 ![Google MediaPipe Pose landmarker model overlay #2.](literature/Media/Overlay_annotation_2.jpg){#fig-overlay-mediapipe2}
-
-**Legend:** This image shows an incorrect annotation of an image of the `slumped posture` class, where the pelvis and shoulder angles are misclassified.
 
 \clearpage
 

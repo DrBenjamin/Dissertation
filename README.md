@@ -246,7 +246,7 @@ To run the Python script:
 
 ``` bash
 # for images
-python code/scripts/human_posture_analysis.py --mode image --api-base-url http://seriousbenentertainment.org:8000 --input-video ./data/images/input.png --output-video ./data/images/output.png
+python code/scripts/human_posture_analysis.py --mode image --api-base-url http://seriousbenentertainment.org:8000 --input-image ./data/images/test.png --output-image ./data/images/output.png
 
 # for videos
 python code/scripts/human_posture_analysis.py --mode video --api-base-url http://seriousbenentertainment.org:8000 --input-video ./data/video/input.mp4 --output-video ./data/video/output.mp4

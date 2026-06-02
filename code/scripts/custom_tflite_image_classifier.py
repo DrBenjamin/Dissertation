@@ -61,7 +61,7 @@ class CustomTFLiteImageClassifier:
     This class provides an interface to use custom TensorFlow Lite image
     classification models, adapted from the MediaPipe image classification notebook.
     """
-    
+
     def __init__(self, config: CustomTFLiteImageClassifierConfig):
         """Initializing custom TensorFlow Lite image classifier.
         
@@ -70,19 +70,19 @@ class CustomTFLiteImageClassifier:
         """
         self.config = config
         self.classifier = None
-        
+
         self._load_model()
-    
+
     def _load_model(self):
         """Loading the custom TensorFlow Lite image classification model."""
         if not MP_AVAILABLE:
             logger.error("MediaPipe Tasks runtime not available")
             return
-        
+
         if not os.path.exists(self.config.model_path):
             logger.error(f"Model file not found: {self.config.model_path}")
             return
-        
+
         try:
             base_options = mp_python.BaseOptions(model_asset_path=self.config.model_path)
             options_kwargs = {
@@ -101,10 +101,10 @@ class CustomTFLiteImageClassifier:
         except Exception as e:
             logger.error(f"Failed to load custom image classification model: {e}")
             self.classifier = None
-    
+
     def classify(self, image: np.ndarray) -> Optional[Dict]:
         """Classifying image using the custom model.
-        
+
         Args:
             image: Input image as BGR numpy array
             
@@ -114,7 +114,7 @@ class CustomTFLiteImageClassifier:
         if self.classifier is None:
             logger.error("Model not loaded properly")
             return None
-        
+
         try:
             # Preprocessing image to MediaPipe format
             rgb_image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
@@ -162,12 +162,12 @@ class CustomTFLiteImageClassifier:
                 for item in results:
                     index = item['index']
                     item['category_name'] = posture_labels.get(index, item['category_name'])
-            
+
             return {
                 'classifications': results,
                 'model_path': self.config.model_path
             }
-            
+
         except Exception as e:
             logger.error(f"Error classifying image with custom model: {e}")
             return None
@@ -175,29 +175,29 @@ class CustomTFLiteImageClassifier:
 
 def create_custom_image_classifier(model_path: str, **kwargs) -> Optional[CustomTFLiteImageClassifier]:
     """Creating a custom TensorFlow Lite image classifier.
-    
+
     Args:
         model_path: Path to the custom TensorFlow Lite model file
         **kwargs: Additional configuration parameters
-        
+
     Returns:
         CustomTFLiteImageClassifier instance or None if creation failed
     """
     if not is_custom_image_classification_model_available(model_path):
         return None
-    
+
     config = CustomTFLiteImageClassifierConfig(
         model_path=model_path,
         confidence_threshold=kwargs.get('confidence_threshold', 0.0),
         max_results=kwargs.get('max_results', 4)
     )
-    
+
     return CustomTFLiteImageClassifier(config)
 
 
 def is_custom_image_classification_model_available(model_path: str) -> bool:
     """Checking if a custom image classification model file is available and valid.
-    
+
     Args:
         model_path: Path to the model file
         
@@ -206,10 +206,10 @@ def is_custom_image_classification_model_available(model_path: str) -> bool:
     """
     if not model_path or not os.path.exists(model_path):
         return False
-    
+
     if not model_path.endswith('.tflite'):
         return False
-    
+
     if not MP_AVAILABLE:
         logger.warning("MediaPipe Tasks runtime unavailable; classification disabled.")
         return False
@@ -227,32 +227,32 @@ def is_custom_image_classification_model_available(model_path: str) -> bool:
 
 def detect_model_type(model_path: str) -> str:
     """Detecting whether a TensorFlow Lite model is for pose detection or image classification.
-    
+
     Args:
         model_path: Path to the model file
-        
+
     Returns:
         'pose' for pose detection models, 'classification' for image classification models,
         'unknown' if unable to determine
     """
     if not os.path.exists(model_path) or TFLITE_INTERPRETER_CLS is None:
         return 'unknown'
-    
+
     try:
         interpreter = TFLITE_INTERPRETER_CLS(model_path=model_path)
         interpreter.allocate_tensors()
-        
+
         output_details = interpreter.get_output_details()
-        
+
         if len(output_details) == 0:
             return 'unknown'
-        
+
         output_shape = output_details[0]['shape']
-        
+
         # Heuristic detection based on output shape
         # Pose models typically output landmark coordinates (e.g., [1, 33, 3] for 33 landmarks)
         # Classification models typically output class probabilities (e.g., [1, num_classes])
-        
+
         if len(output_shape) >= 3 and output_shape[-1] in [2, 3, 4]:
             # Likely pose model with landmark coordinates
             return 'pose'
@@ -261,7 +261,65 @@ def detect_model_type(model_path: str) -> str:
             return 'classification'
         else:
             return 'unknown'
-            
+
     except Exception as e:
         logger.warning(f"Error detecting model type: {e}")
         return 'unknown'
+
+def main():
+    """Command-line interface for the custom TensorFlow Lite image classifier."""
+    import argparse
+
+    parser = argparse.ArgumentParser(
+        description='Classify an image using a custom TensorFlow Lite model'
+    )
+    parser.add_argument('--model', required=True, help='Path to the .tflite model file')
+    parser.add_argument('--image', required=True, help='Path to the input image file')
+    parser.add_argument('--confidence-threshold', type=float, default=0.0, 
+                       help='Confidence threshold for results (default: 0.0)')
+    parser.add_argument('--max-results', type=int, default=4,
+                       help='Maximum number of results to return (default: 4)')
+
+    args = parser.parse_args()
+
+    # Validating inputs
+    if not os.path.exists(args.model):
+        print(f"Error: Model file not found: {args.model}")
+        return 1
+
+    if not os.path.exists(args.image):
+        print(f"Error: Image file not found: {args.image}")
+        return 1
+
+    # Creating classifier and classifying image
+    config = CustomTFLiteImageClassifierConfig(
+        model_path=args.model,
+        confidence_threshold=args.confidence_threshold,
+        max_results=args.max_results
+    )
+
+    classifier = CustomTFLiteImageClassifier(config)
+
+    # Loading and classifying image
+    image = cv2.imread(args.image)
+    if image is None:
+        print(f"Error: Failed to load image: {args.image}")
+        return 1
+
+    result = classifier.classify(image)
+
+    if result is None:
+        print("Error: Classification failed")
+        return 1
+
+    # Printing results
+    print(f"Classification Results ({args.model}):")
+    print("-" * 50)
+    for classification in result['classifications']:
+        print(f"  {classification['category_name']}: {classification['score']:.4f}")
+
+    return 0
+
+
+if __name__ == '__main__':
+    exit(main())
