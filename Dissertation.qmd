@@ -25,6 +25,7 @@ format:
     keep-tex: false
     include-in-header:
       text: |
+        \usepackage{pdfpages}
         \usepackage[noblocks]{authblk}
         \renewcommand*{\Authsep}{, }
         \renewcommand*{\Authand}{, }
@@ -979,6 +980,18 @@ Last but not least, a dedicated iOS application could be developed to deploy the
 
 Abbreviations used in this dissertation.
 :::
+
+\clearpage
+
+## C. Ethics Approval {.unnumbered}
+
+![](docs/Ethics/UMREG_Ethics_Certification_Benjamin_Gross.png){width=100%}
+
+\clearpage
+
+## D. Declaration of Originality {.unnumbered}
+
+![](docs/Declaration_of_Originality.png){width=100%}
 
 \clearpage
 
