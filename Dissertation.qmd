@@ -195,7 +195,7 @@ The training image dataset contained 300 original images distributed across trai
 
 For the experiments, two and three class transfer learning, the images were manually classified through expert-informed visual posture analysis by the author. For all, but the first 2-class training, the number from 300 original images were synthetically expanded to between 1500 up to 1800 images, depending on whether extra annotated images with body landmark overlay were used or not. The overlays were generated with the Google MediaPipe Pose framework to incorporate explicit skeletal structure information. As this study uses secondary image data of an openly available "Posture Keypoints Detection – Photos & Labels" dataset on Kaggle only, there was no possibility to increase the amount of samples other than augmenting the existing image data. The original dataset consists of 300 images in static side view in different positions with image resolutions of up to around 1.6 MP and an overall high quality look.
 
-Unlike large-scale, general-purpose image datasets, this Kaggle dataset is specifically curated for posture analysis. It focuses on side-view images suitable for assessing sagittal-plane alignment and often only upper-body posture, missing the limbs and feet. [@Makhmudov2025a], states his work was the final project of the Deep Learning School course at MIPT. On Kaggle he states, that images were a collection of people living a sedentary lifestyle. Furthermore, on the corresponding GitHub repository page, he explains, that an implemented `Streamlit` software was receiving user video from an side angle [@Makhmudov2025b]. The relatively small dataset size, focus on sitting positions as well as potential demographic limitations may constrain performance, generalizability and fairness of the trained models.
+Unlike large-scale, general-purpose image datasets, this Kaggle dataset is specifically curated for posture analysis. It focuses on side-view images suitable for assessing sagittal-plane alignment and often only upper-body posture, missing the limbs and feet. @Makhmudov2025a, states his work was the final project of the Deep Learning School course at MIPT. On Kaggle he states, that images were a collection of people living a sedentary lifestyle. Furthermore, on the corresponding GitHub repository page, he explains, that an implemented `Streamlit` software was receiving user video from an side angle [@Makhmudov2025b]. The relatively small dataset size, focus on sitting positions as well as potential demographic limitations may constrain performance, generalizability and fairness of the trained models.
 
 To lower the impact of the small dataset size, various augmentation techniques were applied to increase the number of images:
 
@@ -324,7 +324,7 @@ For editing the Quarto dissertation project file a RStudio Server was utilized. 
 
 ::: {#tbl-software-framework-service-stack}
 | Category | Technologies / Services |
-|------------------------------------|------------------------------------|
+|----|----|
 | Conda programming environments | Python 3.10 (Model Maker), Python 3.13 (Inference) |
 | Core deep learning frameworks | MediaPipe Pose 0.10.20, MediaPipe Model Maker 0.2.1.3, TensorFlow (+Lite, bundled) 2.19.1, Keras 3.12.1 |
 | Supporting Python libraries | OpenCV, NumPy, Pandas, Matplotlib, FastAPI |
@@ -387,7 +387,7 @@ Second, the Interface was used to test the build classification models, as you c
 `Streamlit` Web App with classification of postures using the build quantized model from Training 4 (@tbl-training-3class-4).
 :::
 
-The web app can digest images from the Browser as user uploads or from the self-hosted MinIO server - ladder one can be configured via the inbuild secrets management, to use self-hosted or public MinIO instances.
+The web app can digest images from the Browser as user uploads or from the self-hosted MinIO server - ladder one can be configured via the inbuild secrets management (`code/.streamlit/secrets.toml`), to use self-hosted or public MinIO instances.
 
 ## Training pipeline and data engineering
 
@@ -477,10 +477,10 @@ Github Actions of a Github Pages repository is trigged to render the Quarto arti
 
 A `n8n` server, run as a containerized service (two container), was used to hosts the augmentation workflows. `n8n`is a visual, node-based workflow automation tool that allows for the orchestration of complex data processing pipelines without extensive coding. In this project, `n8n` was configured to automate the augmentation of the original image dataset by integrating with the MediaPipe API for pose estimation and leveraging MinIO for file storage. The responsibilities and functionality include:
 
-- n8n Canvas for editing the workflows (container one).
-- MediaPipe API (container two) for inference calls.
+- n8n Canvas for editing the workflow (Docker container number one) as seen in @fig-n8n-automation.
+- MediaPipe API (Docker container number two) for inference calls.
 - MinIO file storage file retrieval (original images).
-- MinIO file storage file writing (augmented images).
+- MinIO file storage file writing (augmented images). which is accessed via `code/n8n/Dissertation_Posture_Analysis_Images.json`.
 
 The `n8n` automation processes these images, digesting them from a MinIO bucket. The App uses the same MediaPipe API as the Web App, to annotate images with the Google PEM. Reusing the API for all inferences lead to a more efficient development, as only on source of truth for the image classification and detection/processing code was needed. After the inference, the overlay images are saved back to a second bucket.
 
@@ -954,6 +954,10 @@ Last but not least, a dedicated iOS application could be developed to deploy the
 @fig-streamlit-app: `Streamlit` Web App with classification of postures using the build quantized model from Training 4.
 
 @fig-CNN-workflow: Implementation map illustrates the pipelines, automation and containerization.
+
+@fig-n8n-automation: Canvas for editing the automation workflow.
+
+![`n8n` automation Canvas.](literature/Media/n8n-automation.png){#fig-n8n-automation}
 
 @fig-pose_landmarks_index: Google MediaPipe Pose landmark model with 33 3-dimensional pose mapping.
 

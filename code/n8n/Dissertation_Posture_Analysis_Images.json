@@ -1,15 +1,15 @@
 {
-  "name": "Dissertation_Posture_Analysis",
+  "name": "Dissertation_Posture_Analysis_Images",
   "nodes": [
     {
       "parameters": {},
       "type": "n8n-nodes-base.manualTrigger",
       "typeVersion": 1,
       "position": [
-        2960,
-        96
+        0,
+        0
       ],
-      "id": "f5b2606e-0373-409e-9f8e-6a65dbf4bde8",
+      "id": "e02698b2-b35f-4b8b-944d-0770a47d5c36",
       "name": "When clicking ‘Execute workflow’"
     },
     {
@@ -17,9 +17,9 @@
         "resource": "object",
         "bucketName": {
           "__rl": true,
-          "value": "images",
+          "value": "tensedposture",
           "mode": "list",
-          "cachedResultName": "images"
+          "cachedResultName": "tensedposture"
         },
         "options": {
           "recursive": true
@@ -28,10 +28,10 @@
       "type": "@winth03/n8n-nodes-minio.minIo",
       "typeVersion": 1,
       "position": [
-        3168,
-        96
+        208,
+        0
       ],
-      "id": "5d4734b0-535b-49fa-86be-6e88a0f4d4a1",
+      "id": "b6c32234-f69b-4f50-b68e-757b88585382",
       "name": "List objects from images",
       "credentials": {
         "minIoApi": {
@@ -47,10 +47,10 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        3376,
-        96
+        416,
+        0
       ],
-      "id": "b440124d-a5fe-4d9d-8141-b4aff15bfb56",
+      "id": "d1fb9920-c281-4e7f-9fe2-47c10c112059",
       "name": "Expand listed objects"
     },
     {
@@ -73,10 +73,10 @@
       "type": "@winth03/n8n-nodes-minio.minIo",
       "typeVersion": 1,
       "position": [
-        3808,
-        96
+        848,
+        0
       ],
-      "id": "2e6838ec-4e5d-4b46-babd-9b54e17cde0e",
+      "id": "25c6c1f6-0a97-4da7-884c-681a03cf0879",
       "name": "Download object",
       "credentials": {
         "minIoApi": {
@@ -92,16 +92,16 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        4016,
-        96
+        1056,
+        0
       ],
-      "id": "40663dcd-ddc0-4746-a7f3-113f6ee23bb3",
+      "id": "3e4e9837-5733-433a-a972-fea0cf85152d",
       "name": "Prepare file paths"
     },
     {
       "parameters": {
         "method": "POST",
-        "url": "http://python-api:8000/posture/image",
+        "url": "={{$env.PYTHON_API_URL_IMAGE || 'http://212.227.102.172:8000/posture/image'}}",
         "sendBody": true,
         "contentType": "multipart-form-data",
         "bodyParameters": {
@@ -118,10 +118,10 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        4224,
-        96
+        1264,
+        0
       ],
-      "id": "e55be060-e3bd-45f3-8c9e-86b6afd36f73",
+      "id": "74f04bab-0d9e-445d-aacc-fa8bd5a749b6",
       "name": "Run posture http"
     },
     {
@@ -130,9 +130,9 @@
         "operation": "put",
         "bucketName": {
           "__rl": true,
-          "value": "upload",
+          "value": "tensedpostureoverlayed",
           "mode": "list",
-          "cachedResultName": "upload"
+          "cachedResultName": "tensedpostureoverlayed"
         },
         "options": {
           "objectName": "={{ $('Prepare file paths').item.json.object_name }}"
@@ -141,10 +141,10 @@
       "type": "@winth03/n8n-nodes-minio.minIo",
       "typeVersion": 1,
       "position": [
-        4432,
-        96
+        1472,
+        0
       ],
-      "id": "c8296d9a-dade-4736-b060-282015ca29d0",
+      "id": "1610c34a-cda9-479c-b7aa-b6b901ea4783",
       "name": "Upload to upload bucket",
       "credentials": {
         "minIoApi": {
@@ -160,11 +160,41 @@
       "type": "n8n-nodes-base.splitInBatches",
       "typeVersion": 3,
       "position": [
-        3584,
-        96
+        624,
+        0
       ],
-      "id": "bb11f4c2-0cc1-4a62-a674-8ceefe6d371b",
+      "id": "55c24a33-8069-40b0-8995-617a0f381b64",
       "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "content": "## Image file listing\n\nAll existing files are listed and their object names are extracted, standardized, and expanded into individual output records for further processing.",
+        "height": 320,
+        "width": 416
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        144,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "b89cac67-5360-47c1-bebc-bc74d7f1ae1d",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## Inference\nA single object will be retrieved from a MinIO bucket, run against the MediaPipe API (Inference) and be uploaded to a second MinIO bucket. The final image contains the MediaPipe Pose body landmark annotation as overlay.",
+        "height": 320,
+        "width": 832
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        800,
+        -128
+      ],
+      "typeVersion": 1,
+      "id": "8d5b489a-b6fc-4afb-b309-fc961e7e9c46",
+      "name": "Sticky Note1"
     }
   ],
   "pinData": {},
@@ -264,10 +294,10 @@
     "executionOrder": "v1",
     "binaryMode": "separate"
   },
-  "versionId": "bb4a224f-9fe5-47c4-8f78-b44c765cf338",
+  "versionId": "106a2e19-1226-4808-b194-a3635543e2fc",
   "meta": {
     "instanceId": "b832e040fbedd7101b68e90640eccba5035d956c4725d62674206e00319162cf"
   },
-  "id": "7IT5Yddbzv0eMVMq",
+  "id": "os4GD2Jvcbn5XQN1",
   "tags": []
 }
