@@ -225,26 +225,45 @@ To lower the impact of the small dataset size, various augmentation techniques w
 MediaPipe body landmarks visible from a side view, by contrast to fully available landmarks in the front view @fig-pose_landmarks_index.
 :::
 
-Preprocessing was applied consistently for all runs (same processed image data set) to maintain comparability between two and three class runs and the different base architectures:
+Preprocessing was applied consistently for all runs (same processed image data set) to maintain comparability between two and three class runs and the two different base architectures:
 
-- `MobileNet-V2`
+- `MobileNet-V2:` compactness, but at the cost of limited ability to capture complex features 
+
 - `EfficientNet-Lite0`
+
 - `EfficientNet-Lite2`
-- `EfficientNet-Lite4`
 
-The objective is to reach an accuracy of approximately 80–90%, which is generally considered strong performance for practical detection tasks in applied deep learning settings and for the Google MediaPipe model architecture. Therefore, the images will be annotated into normal and non-normal to define 2 classes. As the first training run consisted of only 300 images in total, which were further divided into training, validation and testing subsets, the largest available architecture class, **EfficientNet-Lite4,** was selected to maximize feature extraction capacity despite limited dataset size. EfficientNet-Lite4 was also retained for training run 2 and 3, although dataset sizes increased substantially. This was done to maintain comparability across experiments.
+- `EfficientNet-Lite4:` developed 2019 by GoogleAI, new method of compound scaling (scaling only one dimension of the network architecture), seen in @tbl-efficientnet-compound-scaling:
 
-The posture classification follows 3 types of poses regarding posture classifications by @Klein-Vogelbach1990 as illustrated in @fig-klein-vogelbach-posture.
+  - Deeper
+  - Wider
+  - Higher resolution
+
+::: {#tbl-efficientnet-compound-scaling}
+| **Scaling dimension** | **Meaning** | **Benefit** | **Limitation when scaled alone** |
+|------------------|------------------|------------------|------------------|
+| **Deeper** | More layers in the network. | Learns more complex and hierarchical features. | Optimization becomes more difficult, training time increases, and performance gains often diminish after a certain depth. |
+| **Wider** | More channels/filters per layer. | Captures a greater variety of features at each level. | Computational and memory costs increase substantially, while the model may still lack sufficient hierarchical feature extraction. |
+| **Higher Resolution** | Larger input images. | Preserves finer spatial details and small visual patterns. | Computational cost grows rapidly, and the network may be unable to fully exploit the additional information if depth and width remain unchanged. |
+
+**Legend:** *Scaling Dimensions* (left) • *Benefits and Limitations* (left-middle) • *Benefits* (right-middle) • *Limitations* (right)
+
+Compound scaling and how it contributes to model performance and limitations of scaling dimension independently.
+:::
+
+The objective for the transfer learning is to reach an accuracy of approximately 80–90%, which is generally considered strong performance for practical detection tasks for the Google MediaPipe model architecture. For the first experiment, the images will be annotated into normal and non-normal to define 2 classes. As the first training run consisted of only 300 images in total, which were further divided into training, validation and testing subsets, the largest available architecture class, **EfficientNet-Lite4,** was selected to maximize feature extraction capacity despite limited dataset size. EfficientNet-Lite4 was also retained for training run 2 and 3, although dataset sizes increased substantially. This was done to maintain comparability across experiments.
+
+The posture classification follows three types of poses regarding posture classifications by @Klein-Vogelbach1990 as illustrated in @fig-klein-vogelbach-posture.
 
 ::: {#fig-klein-vogelbach-posture}
 ![](literature/Media/3_posture_types.png)
 
 **Legend:** *tensed* (left) • *slumped* (middle) • *normal* (right)
 
-3 types of posture types defined by Klein-Vogelbach, the underlying functional movement concept was developed between 1955-1975.
+Three types of posture types defined by Klein-Vogelbach, the underlying functional movement concept was developed between 1955-1975.
 :::
 
-The author manually annotated and assigned the 300 images to one of these classes according to his clinical experience in the field of orthopaedics and functional movement therapy. In the initial annotation round, the dataset was artificially balanced by assigning 100 images to each class (normal, slumped, and tensed posture). While this ensured equal class distribution for training, it also introduced ambiguous and potentially misclassified samples near class boundaries. Therefore, a second annotation and training run was conducted using a slightly imbalanced but clinically more consistent class distribution, resulting in improved class separation and overall classification performance. Therefore, to achieve pose detection defined by Klein-Vogelbach, 3 classes were defined:
+The author manually annotated and assigned the 300 images to one of these classes according to his clinical experience in the field of orthopaedics and functional movement therapy. In the initial annotation round, the dataset was artificially balanced by assigning 100 images to each class (normal, slumped, and tensed posture). While this ensured equal class distribution for training, it also introduced ambiguous and potentially misclassified samples near class boundaries. Therefore, a second annotation and training run was conducted using a slightly imbalanced but clinically more consistent class distribution, resulting in improved class separation and overall classification performance. Therefore, to achieve pose detection defined by Klein-Vogelbach, three classes were defined:
 
 - normal posture
 - slumped posture
@@ -279,7 +298,9 @@ All selected images from the Kaggle dataset undergo data augmentation (e.g., sma
 
 This study employs a transfer learning approach to develop a domain-specific TensorFlow Lite model suitable for clinical posture and movement analysis. Transfer learning enables the adaptation of pre-trained CNN architectures—such as those used within MediaPipe and trained on large-scale datasets like ImageNet—to the focused task of detecting head-neck-torso imbalances. In practice, base model weights are kept frozen or partially frozen, while classification and selected high-level layers are retrained using the Kaggle posture dataset.
 
-Deploying the resulting model as a quantized TensorFlow Lite artifact supports real-time, on-device inference on mobile and edge devices, reducing latency and preserving user privacy by processing data locally.
+Deploying the resulting model as a quantized TensorFlow Lite artifact supports real-time, on-device inference on mobile and edge devices, reducing latency and preserving user privacy by processing data locally. MediaPipe Model Maker is particularly well suited for this task, as it fine-tunes lightweight CNN backbones optimized for Tensorflow FLite (e.g. EfficientNet-Lite/MobileNet) within the same ecosystem as MediaPipe Pose. With the pre-trained backbone, only the task-specific classification head is regenerated. In doing so, the family of feature extractors optimized for mobile devices that underpins MediaPipe’s vision solutions is retained; this describes the transfer learning approach.
+
+Thereby on-device efficiency, quantization compatibility and seamless export to .tflite file format is ensured. Although the Pose Landmarker are not modified, the Pose stack keeps it architectural continuity with its low-latency backbone design, and pose-aware augmentation. So they can be used as PEM and as classification models. Concluding, that adding extra images with body landmark overlay may lead to higher accuracy in the classification model training.
 
 ## Analysis and performance evaluation
 
@@ -324,7 +345,7 @@ For editing the Quarto dissertation project file a RStudio Server was utilized. 
 
 ::: {#tbl-software-framework-service-stack}
 | Category | Technologies / Services |
-|----|----|
+|------------------------------------|------------------------------------|
 | Conda programming environments | Python 3.10 (Model Maker), Python 3.13 (Inference) |
 | Core deep learning frameworks | MediaPipe Pose 0.10.20, MediaPipe Model Maker 0.2.1.3, TensorFlow (+Lite, bundled) 2.19.1, Keras 3.12.1 |
 | Supporting Python libraries | OpenCV, NumPy, Pandas, Matplotlib, FastAPI |
