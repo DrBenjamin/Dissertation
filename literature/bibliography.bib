@@ -719,5 +719,60 @@ ViMove2 features easy to use wearable motion sensors, together with a sophistica
    url = {https://github.com/melsmm/posture-keypoints-detection},
    year = {2025}
 }
-
-
+@article{Aljuaid2022,
+   abstract = {Medical image interpretation is an essential task for the correct diagnosis of many diseases. Pathologists, radiologists, physicians, and researchers rely heavily on medical images to perform diagnoses and develop new treatments. However, manual medical image analysis is tedious and time consuming, making it necessary to identify accurate automated methods. Deep learning—especially supervised deep learning—shows impressive performance in the classification, detection, and segmentation of medical images and has proven comparable in ability to humans. This survey aims to help researchers and practitioners of medical image analysis understand the key concepts and algorithms of supervised learning techniques. Specifically, this survey explains the performance metrics of supervised learning methods; summarizes the available medical datasets; studies the state-of-the-art supervised learning architectures for medical imaging processing, including convolutional neural networks (CNNs) and their corresponding algorithms, region-based CNNs and their variants, fully convolutional networks (FCN) and U-Net architecture; and discusses the trends and challenges in the application of supervised learning methods to medical image analysis. Supervised learning requires large labeled datasets to learn and achieve good performance, and data augmentation, transfer learning, and dropout techniques have widely been employed in medical image processing to overcome the lack of such datasets.},
+   author = {Abeer Aljuaid and Mohd Anwar},
+   doi = {10.1007/S42979-022-01166-1},
+   issn = {26618907},
+   issue = {4},
+   journal = {Sn Computer Science},
+   keywords = {Convolutional neural network (CNN),Deep learning,FCN,Fast R-CNN,Faster R-CNN,Mask R-CNN,Medical image processing,Supervised learning,U-Net},
+   month = {7},
+   pages = {292},
+   pmid = {35602289},
+   publisher = {Springer},
+   title = {Survey of Supervised Learning for Medical Image Processing},
+   volume = {3},
+   url = {https://pmc.ncbi.nlm.nih.gov/articles/PMC9112642/},
+   year = {2022}
+}
+@article{Ogundokun2022,
+   abstract = {With the advancement in pose estimation techniques, human posture detection recently received considerable attention in many applications, including ergonomics and healthcare. When using neural network models, overfitting and poor performance are prevalent issues. Recently, convolutional neural networks (CNNs) were successfully used for human posture recognition from human images due to their superior multiscale high-level visual representations over hand-engineering low-level characteristics. However, calculating millions of parameters in a deep CNN requires a significant number of annotated examples, which prohibits many deep CNNs such as AlexNet and VGG16 from being used on issues with minimal training data. We propose a new three-phase model for decision support that integrates CNN transfer learning, image data augmentation, and hyperparameter optimization (HPO) to address this problem. The model is used as part of a new decision support framework for the optimization of hyperparameters for AlexNet, VGG16, CNN, and multilayer perceptron (MLP) models for accomplishing optimal classification results. The AlexNet and VGG16 transfer learning algorithms with HPO are used for human posture detection, while CNN and Multilayer Perceptron (MLP) were used as standard classifiers for contrast. The HPO methods are essential for machine learning and deep learning algorithms because they directly influence the behaviors of training algorithms and have a major impact on the performance of machine learning and deep learning models. We used an image data augmentation technique to increase the number of images to be used for model training to reduce model overfitting and improve classification performance using the AlexNet, VGG16, CNN, and MLP models. The optimal combination of hyperparameters was found for the four models using a random-based search strategy. The MPII human posture datasets were used to test the proposed approach. The proposed models achieved an accuracy of 91.2% using AlexNet, 90.2% using VGG16, 87.5% using CNN, and 89.9% using MLP. The study is the first HPO study executed on the MPII human pose dataset.},
+   author = {Roseline Oluwaseun Ogundokun and Rytis Maskeliūnas and Robertas Damaševičius},
+   doi = {10.3390/APP121910156},
+   issn = {20763417},
+   issue = {19},
+   journal = {Applied Sciences (Switzerland)},
+   keywords = {CNN,data augmentation,decision support,dropout,human pose detection,hyperparameter optimization,transfer learning},
+   month = {10},
+   publisher = {MDPI},
+   title = {Human Posture Detection Using Image Augmentation and Hyperparameter-Optimized Transfer Learning Algorithms},
+   volume = {12},
+   url = {https://www.researchgate.net/publication/364489393_Human_Posture_Detection_Using_Image_Augmentation_and_Hyperparameter-Optimized_Transfer_Learning_Algorithms},
+   year = {2022}
+}
+@article{Haris2021,
+   abstract = {Crowd management has attracted serious attention under the prevailing pandemic conditions of COVID-19, emphasizing that sick persons do not become a source of virus transmission. World Health Organization (WHO) guidelines include maintaining a safe distance and wearing a mask in gatherings as part of standard operating procedures (SOP), considered thus far the most effective preventive measures to protect against COVID-19. Several methods and strategies have been used to construct various face detection and social distance detection models. In this paper, a deep learning model is presented to detect people without masks and those not keeping a safe distance to contain the virus. It also counts individuals who violate the SOP. The proposed model employs the Single Shot Multi-box Detector as a feature extractor, followed by Spatial Pyramid Pooling (SPP) to integrate the extracted features to improve the model's detecting capabilities. The MobilenetV2 architecture as a framework for the classifier makes the model highly light, fast, and computationally efficient, allowing it to be employed in embedded devices to do real-time mask and social distance detection, which is the sole objective of this research. This paper's technique yields an accuracy score of 99% and reduces the loss to 0.04%.},
+   author = {Muhammad Haris and Kaka Khel and Kushsairy Kadir and Waleed Albattah and Sheroz Khan and Mnmm Noor and Haidawati Nasir and Shabana Habib and Muhammad Islam and Akbar Khan},
+   doi = {10.28991/esj-2021-SPER-14},
+   keywords = {COVID-19,Crowd Management,Hajj Umrah,Mask Detection,Social Distancing},
+   title = {Emerging Science Journal Real-Time Monitoring of COVID-19 SOP in Public Gathering Using Deep Learning Technique},
+   url = {www.ijournalse.org},
+   year = {2021}
+}
+@article{Rivera-Guzmn2026,
+   abstract = {Neural network quantization has become established as a key strategy for transitioning medical imaging models from research environments to clinical devices and resource-constrained edge platforms; however, the available evidence remains fragmented and focused on highly heterogeneous use cases. This study presents a systematic review of 72 studies on quantization applied to medical images, following PRISMA guidelines, with the aim of characterizing the relationship among quantization technique, network architecture, imaging modality, and execution environment, as well as their impact on latency, memory footprint, and clinical deployment. Based on a structured variable matrix, we analyze—through tailored visualizations—usage patterns of Post-Training Quantization (PTQ), Quantization-Aware Training (QAT), mixed precision, and binary/low-bit schemes across frameworks such as PyTorch V 2.6.0, TensorFlow 2.19.0, and TensorFlow Lite, executed on server-class GPUs, edge/embedded devices, and specialized hardware. The results reveal a strong concentration of evidence in PyTorch/TensorFlow pipelines using INT8 or mixed precision on GPUs and edge platforms, contrasted with limited attention to PACS/RIS interoperability, model lifecycle management, energy consumption, cost, and regulatory traceability. We conclude that, although quantization can approximate real-time performance and reduce memory footprint, its clinical adoption remains constrained by integration challenges, model governance requirements, and the maturity of the hardware–software ecosystem.},
+   author = {Edgar Fabián Rivera-Guzmán and Luis Fernando Guerrero-Vásquez and Vladimir Espartaco Robles-Bykbaev},
+   doi = {10.3390/TECHNOLOGIES14010076},
+   issn = {22277080},
+   issue = {1},
+   journal = {Technologies},
+   keywords = {deep neural networks,edge computing,medical imaging,quantization},
+   month = {1},
+   pages = {76},
+   publisher = {Multidisciplinary Digital Publishing Institute (MDPI)},
+   title = {Quantization of Deep Neural Networks for Medical Image Analysis: A Systematic Review and Meta-Analysis},
+   volume = {14},
+   url = {https://pure.ups.edu.ec/en/publications/quantization-of-deep-neural-networks-for-medical-image-analysis-a/},
+   year = {2026}
+}
