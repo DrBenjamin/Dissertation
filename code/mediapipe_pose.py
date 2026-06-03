@@ -1190,7 +1190,7 @@ def main():
             Model complexity: {cfg.model_complexity} (0=lite, 1=full, 2=heavy)
             """)
     st.markdown(
-        "Future work: add video processing, CSV export of all landmarks, and comparative analytics."
+        "Future work: support segmentation for images and video via API, CSV export of all landmarks, and comparative analytics."
     )
 
 

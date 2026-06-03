@@ -289,11 +289,12 @@ python -m streamlit run code/mediapipe_pose.py
 
 Features:
 
-- Multiple image upload
-- Configurable model complexity and confidence thresholds
-- Optional segmentation mask blending
-- Display of pixel nose coordinates and sample world landmark
+- Multiple image upload via File uploader or MinIO bucket
+- Configurable model complexity for Pose model
+- Confidence thresholds for classification models
+- Optional segmentation mask blending (non-functional at current state!)
 - Download of annotated images as a zip archive
+- Download of annotated video and worst posture frame
 
 Planned enhancements (not yet implemented): video support, CSV export of all landmarks, comparative analytics view.
 
@@ -308,10 +309,6 @@ All references and resources used in the project are listed below.
 **In Colab:** [MediaPipe Model Maker Colab Example](https://colab.research.google.com/github/googlesamples/mediapipe/blob/main/examples/customization/image_classifier.ipynb#scrollTo=Nbu3mnPiSvSn)
 
 Custom TensorFlow Lite models for image classification on-device using MediaPipe Model Maker: [DeepWiki – Custom TensorFlow Lite Models](https://deepwiki.com/search/is-it-possible-to-develop-a-ml_ee90fb1b-8cfd-4e5d-ab63-22ba7a4bc499)
-
-### Human 3D models compatibility
-
-[Human Mesh Recovery Survey (arXiv 2212.14474)](https://arxiv.org/pdf/2212.14474) [PosePile Dataset](https://github.com/isarandi/PosePile) [Pose Dataset Viewer](https://github.com/isarandi/pose-dataset-viewer)
 
 **Demo:**
 
