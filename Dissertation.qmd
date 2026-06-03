@@ -60,13 +60,15 @@ execute:
   echo: false
 ---
 
+\clearpage
+
 # Contribution {.unnumbered}
 
 The development of this dissertation incorporated the selective use of generative artificial intelligence (AI) tools as supportive research and technical assistance instruments. Github Copilot and Posit Assistant were utilized to assist in troubleshooting Python dependency conflicts, resolving Continuous Integration / Continuous Development configuration issues involving Jenkins and Docker, and supporting administrative setup tasks related to RStudio Server. In addition, Perplexity was used for targeted literature discovery and contextual identification of relevant academic sources and references. DeepL was selectively used as language support tool to translate particular technical terminology from German into English, in cases the the author was not readily knowing it.
 
 All critical analysis, interpretation, methodological decisions, and written academic content were independently evaluated, verified, and finalized by the author. This was achieved through systematic inspection of model outputs, including accuracy, loss trajectories, precision/recall metrics, and confusion matrices across training runs, as well as consistency checks between expected and observed model behaviour.
 
-For deeper understanding of Convolutional Neural Network and Tensorflow two LinkedIn Learning courses were attended "Deep Learning with Python: Convolutional Neural Networks" and "Deep Learning with TensorFlow: Insights and Innovations**" .** Also, the author received valuable guidance and support from my two supervisor, Dr. Syed Ahmar Shah and John Wilson, who gave me many recommendations during the whole process to conduct the project as well reviewed the draft of the paper once and gave me meaningful feedback.
+For deeper understanding of Convolutional Neural Network and Tensorflow two LinkedIn Learning courses were attended "Deep Learning with Python: Convolutional Neural Networks" and "Deep Learning with TensorFlow: Insights and Innovations**".** Also, the author received valuable guidance and support from my two supervisor, Dr. Syed Ahmar Shah and John Wilson, who gave me many recommendations during the whole process to conduct the project as well reviewed the draft of the paper once and gave me meaningful feedback.
 
 \clearpage
 
@@ -191,7 +193,7 @@ This study is a retrospective observational secondary data analysis exploring po
 
 The aim of this supervised deep learning project is to evaluate whether lightweight AI models can detect subtle patterns of imbalance in posture and coordination and to adapt them for potential clinical use through transfer learning on a posture-specific dataset.
 
-The study will be conducted remotely using a preexisting dataset. All data analysis will be performed on secured infrastructure provided by the author (see Implementation). No new data collection or participant interaction will be conducted.
+The study will be conducted remotely using a pre-existing dataset. All data analysis will be performed on secured infrastructure provided by the author (see [Implementation]). No new data collection or participant interaction will be conducted.
 
 ## Data source, preprocessing and class definition
 
@@ -237,7 +239,7 @@ Preprocessing was applied consistently for all runs (same processed image data s
 
 - `EfficientNet-Lite2:` medium-weight architecture (see below for details)
 
-- `EfficientNet-Lite4:` heaviest-weight architecture, EffcientNet was released 2019 by GoogleAI with a new method of compound scaling (scaling all dimensions of the network architecture in a balanced way, instead of only one), which is described in @tbl-efficientnet-compound-scaling:
+- `EfficientNet-Lite4:` heaviest-weight architecture, EfficientNet was released 2019 by GoogleAI with the new method 'compound scaling' (scaling all dimensions of the network architecture in a balanced way, instead of only one), which is described in @tbl-efficientnet-compound-scaling:
 
 ::: {#tbl-efficientnet-compound-scaling}
 | **Scaling dimension** | **Meaning** | **Benefit** | **Limitation when scaled alone** |
@@ -246,7 +248,7 @@ Preprocessing was applied consistently for all runs (same processed image data s
 | **Wider** | More channels/filters (like head tilt and other assymetries) per layer. | Captures a greater variety of features at each level. | Computational and memory costs increase substantially, while the model may still lack sufficient hierarchical feature extraction. |
 | **Higher Resolution** | Larger input images (e.g. 1024×1024 resolution). | Preserves finer spatial details and small visual patterns. | Computational cost grows rapidly, and the network may be unable to fully exploit the additional information if depth and width remain unchanged. |
 
-**Legend:** *Scaling Dimensions* (left) • *Benefits and Limitations* (left-middle) • *Benefits* (right-middle) • *Limitations* (right)
+**Legend:** *Scaling Dimensions* (left) • *Meaning* (left-middle) • *Benefit* (right-middle) • *Limitation* (right)
 
 Compound scaling and how the dimensions contribute to model performance and limitations of scaling dimension independently.
 :::
@@ -307,8 +309,8 @@ Thereby on-device efficiency, quantization compatibility and seamless export to 
 
 The analysis was undertaken in two phases:
 
-1.  Descriptive analysis of dataset composition, annotation completeness, and posture-related metrics.
-2.  Classification and pattern recognition using transfer learning on a deep learning network.
+1.  Descriptive analysis of dataset composition, annotation methods, and posture-related metrics.
+2.  Classification of posture patterns using transfer learning on a deep learning network.
 
 The model performance was assessed on the basis of
 
@@ -502,7 +504,8 @@ A `n8n` server, run as a containerized service (two container), was used to host
 - n8n Canvas for editing the workflow (Docker container number one) as seen in @fig-n8n-automation.
 - MediaPipe API (Docker container number two) for inference calls.
 - MinIO file storage file retrieval (original images).
-- MinIO file storage file writing (augmented images). which is accessed via `code/n8n/Dissertation_Posture_Analysis_Images.json`.
+- MinIO file storage file writing (augmented images). 
+which can be found under `code/n8n/Dissertation_Posture_Analysis_Images.json`.
 
 The `n8n` automation processes these images, digesting them from a MinIO bucket. The App uses the same MediaPipe API as the Web App, to annotate images with the Google PEM. Reusing the API for all inferences lead to a more efficient development, as only on source of truth for the image classification and detection/processing code was needed. After the inference, the overlay images are saved back to a second bucket.
 
